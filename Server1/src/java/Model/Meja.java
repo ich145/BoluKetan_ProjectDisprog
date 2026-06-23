@@ -148,7 +148,7 @@ public class Meja extends MyModel{
 
             sql.setInt(
                     1,
-                    this.idmeja
+                    this.idMeja
             );
 
             sql.executeUpdate();
