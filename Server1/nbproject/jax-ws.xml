@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="MejaWS">
+      <implementation-class>Service.MejaWS</implementation-class>
+    </service>
+    <service name="MenuWS">
+      <implementation-class>Service.MenuWS</implementation-class>
+    </service>
+    <service name="UserWS">
+      <implementation-class>Service.UserWS</implementation-class>
+    </service>
+    <service name="ReservasiWS">
+      <implementation-class>Service.ReservasiWS</implementation-class>
+    </service>
+  </services>
+  <clients/>
+</jax-ws>

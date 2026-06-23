@@ -68,15 +68,27 @@ public class Meja extends MyModel{
     public void insertData() {
         try {
 
-            PreparedStatement sql = conn.prepareStatement(
+            PreparedStatement sql
+                    = conn.prepareStatement(
                             "INSERT INTO meja "
                             + "(nomer_meja,status,jumlah_konsumen) "
                             + "VALUES (?,?,?)"
                     );
 
-            sql.setInt(1,this.nomer_meja);
-            sql.setString(2,this.status);
-            sql.setInt(3, this.jumlah_konsumen);
+            sql.setInt(
+                    1,
+                    this.nomer_meja
+            );
+
+            sql.setString(
+                    2,
+                    this.status
+            );
+
+            sql.setInt(
+                    3,
+                    this.jumlah_konsumen
+            );
 
             sql.executeUpdate();
             sql.close();
@@ -89,7 +101,9 @@ public class Meja extends MyModel{
     @Override
     public void updateData() {
         try {
-            PreparedStatement sql = conn.prepareStatement(
+
+            PreparedStatement sql
+                    = conn.prepareStatement(
                             "UPDATE meja "
                             + "SET "
                             + "status=?,"
@@ -97,38 +111,62 @@ public class Meja extends MyModel{
                             + "WHERE idmeja=?"
                     );
 
-            sql.setString(1, this.status);
-            sql.setInt(2,this.jumlah_konsumen);
-            sql.setInt(3,this.idMeja);
+            sql.setString(
+                    1,
+                    this.status
+            );
+
+            sql.setInt(
+                    2,
+                    this.jumlah_konsumen
+            );
+
+            sql.setInt(
+                    3,
+                    this.idMeja
+            );
 
             sql.executeUpdate();
+
             sql.close();
 
         } catch (Exception e) {
+
             System.out.println(e);
+
         }
     }
 
     @Override
-    public void deleteData() {
-        try {
-            PreparedStatement sql = conn.prepareStatement(
+    public void deleteData() {try {
+
+            PreparedStatement sql
+                    = conn.prepareStatement(
                             "DELETE FROM meja "
                             + "WHERE idmeja=?"
                     );
-            sql.setInt(1,this.idMeja);
+
+            sql.setInt(
+                    1,
+                    this.idmeja
+            );
 
             sql.executeUpdate();
+
             sql.close();
 
         } catch (Exception e) {
+
             System.out.println(e);
-        }
+
+        }throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public ArrayList<Object> viewListData() {
-        ArrayList<Object> collections = new ArrayList<>();
+        ArrayList<Object> collections
+                = new ArrayList<>();
+
         try {
             statement = conn.createStatement();
             result = statement.executeQuery("SELECT * FROM meja");

@@ -175,24 +175,77 @@ public class Reservasi extends MyModel{
 
     @Override
     public ArrayList<Object> viewListData() {
-        ArrayList<Object> collections = new ArrayList<Object>();
+        ArrayList<Object> collections
+                = new ArrayList<Object>();
+
         try {
-            this.statement = conn.createStatement();
-            this.result = this.statement.executeQuery("SELECT * FROM reservasi");
+
+            this.statement
+                    = conn.createStatement();
+
+            this.result
+                    = this.statement.executeQuery(
+                            "SELECT * FROM reservasi"
+                    );
+
             while (this.result.next()) {
-                Reservasi temp = new Reservasi();
-                temp.setIdreservasi(this.result.getInt("idreservasi"));
-                temp.setTanggal_reservasi(this.result.getTimestamp("tanggal_reservasi"));
-                temp.setJumlah_tamu(this.result.getInt("jumlah_tamu"));
-                temp.setStatus_reservasi(this.result.getString("status_reservasi"));
-                temp.setUser_iduser(this.result.getInt("user_iduser"));
-                temp.setMeja_idmeja(this.result.getInt("meja_idmeja"));
-                temp.setJam_reservasi(this.result.getTimestamp("jam_reservasi"));
+
+                Reservasi temp
+                        = new Reservasi();
+
+                temp.setIdreservasi(
+                        this.result.getInt(
+                                "idreservasi"
+                        )
+                );
+
+                temp.setTanggal_reservasi(
+                        this.result.getTimestamp(
+                                "tanggal_reservasi"
+                        )
+                );
+
+                temp.setJumlah_tamu(
+                        this.result.getInt(
+                                "jumlah_tamu"
+                        )
+                );
+
+                temp.setStatus_reservasi(
+                        this.result.getString(
+                                "status_reservasi"
+                        )
+                );
+
+                temp.setUser_iduser(
+                        this.result.getInt(
+                                "user_iduser"
+                        )
+                );
+
+                temp.setMeja_idmeja(
+                        this.result.getInt(
+                                "meja_idmeja"
+                        )
+                );
+
+                temp.setJam_reservasi(
+                        this.result.getTimestamp(
+                                "jam_reservasi"
+                        )
+                );
 
                 collections.add(temp);
+
             }
+
         } catch (Exception e) {
-            System.out.println("Error viewListData " + e);
+
+            System.out.println(
+                    "Error viewListData "
+                    + e
+            );
+
         }
 
         return collections;
