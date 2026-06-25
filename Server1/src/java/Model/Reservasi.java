@@ -5,6 +5,8 @@
 package Model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -13,7 +15,15 @@ import java.util.ArrayList;
  * @author michael
  */
 public class Reservasi extends MyModel{
-
+    private int idreservasi;
+    private Timestamp tanggal_reservasi;
+    private int jumlah_tamu;
+    private String status_reservasi;
+    private int user_iduser;
+    private int meja_idmeja;
+    private Timestamp jam_reservasi;
+    private double total_harga;
+    
     public int getIdreservasi() {
         return idreservasi;
     }
@@ -69,13 +79,14 @@ public class Reservasi extends MyModel{
     public void setJam_reservasi(Timestamp jam_reservasi) {
         this.jam_reservasi = jam_reservasi;
     }
-    private int idreservasi;
-    private Timestamp tanggal_reservasi;
-    private int jumlah_tamu;
-    private String status_reservasi;
-    private int user_iduser;
-    private int meja_idmeja;
-    private Timestamp jam_reservasi;
+    
+    public double getTotal_harga() {
+        return total_harga;
+    }
+
+    public void setTotal_harga(double total_harga) {
+        this.total_harga = total_harga;
+    }
     
     public Reservasi() {
         super();
@@ -251,4 +262,26 @@ public class Reservasi extends MyModel{
         return collections;
     }
     
+    public void hitungTotalHarga() throws SQLException
+    {
+        PreparedStatement sql = conn.prepareStatement("Select Sum(m.harga * pm.jumlah) as total " +
+                "from pemesanan_makanan pm inner join Menu m on pm.Menu_idMenu = m.idMenu " +
+                "where pm.reservasi_idreservasi = ?");
+        
+        sql.setInt(1, this.idreservasi);
+        
+        ResultSet result = sql.executeQuery();
+        if(result.next())
+        {
+            this.total_harga = result.getInt("total");
+        }
+        sql.close();
+        
+        PreparedStatement updateTotal = conn.prepareStatement("update reservasi set total_harga = ? where idreservasi = ?" );
+        
+        sql.setDouble(1, this.total_harga);
+        sql.setInt(2,this.idreservasi);
+        updateTotal.executeUpdate();
+        updateTotal.close();
+    }
 }
