@@ -120,7 +120,7 @@ public class FoodOrdering extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tableKeranjang = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnCheckout = new javax.swing.JButton();
         lblTotal = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         lblNama = new javax.swing.JLabel();
@@ -142,7 +142,12 @@ public class FoodOrdering extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableKeranjang);
 
-        jButton1.setText("Checkout");
+        btnCheckout.setText("Checkout");
+        btnCheckout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckoutActionPerformed(evt);
+            }
+        });
 
         lblTotal.setText("Total : 0");
 
@@ -162,7 +167,7 @@ public class FoodOrdering extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(lblTotal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnCheckout)
                 .addGap(35, 35, 35))
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
@@ -197,7 +202,7 @@ public class FoodOrdering extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jButton1))
+                        .addComponent(btnCheckout))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(lblTotal)))
@@ -206,6 +211,49 @@ public class FoodOrdering extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model
+                = (DefaultTableModel) tableKeranjang.getModel();
+
+        if (model.getRowCount() == 0) {
+
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Keranjang masih kosong!");
+
+            return;
+
+        }
+
+        int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "Yakin ingin melakukan checkout?",
+                "Konfirmasi",
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (konfirmasi != javax.swing.JOptionPane.YES_OPTION) {
+
+            return;
+
+        }
+
+        // =============================
+        // NANTI DIGANTI INSERT DATABASE
+        // =============================
+//        int idReservasi = insertReservasi(
+//        ...);
+//        for (int i = 0; i < model.getRowCount(); i++) {
+//            String menu = model.getValueAt(i, 0).toString();
+//            int qty = Integer.parseInt(model.getValueAt(i, 2).toString());
+//            insertDetailReservasi(idReservasi, menu, qty);
+//        }
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Checkout berhasil!");
+
+        dispose();
+    }//GEN-LAST:event_btnCheckoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,7 +291,7 @@ public class FoodOrdering extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCheckout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
