@@ -23,7 +23,7 @@ public abstract class MyModel {
         conn = getConnection();
     }
 
-    public Connection getConnection(){
+    public static Connection getConnection(){
         if(conn == null){
             try{
                 Class.forName(
@@ -31,7 +31,7 @@ public abstract class MyModel {
                 );
 
                 conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/boluketan"
+                "jdbc:mysql://localhost:3306/uasdisprog"
                 + "?useSSL=false"
                 + "&allowPublicKeyRetrieval=true"
                 + "&serverTimezone=Asia/Jakarta",

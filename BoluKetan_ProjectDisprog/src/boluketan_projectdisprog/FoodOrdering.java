@@ -4,6 +4,9 @@
  */
 package boluketan_projectdisprog;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -105,6 +108,115 @@ public class FoodOrdering extends javax.swing.JFrame {
         }
 
         lblTotal.setText("Total : " + Rupiah(total));
+    }
+    private int insertReservasi() {
+
+        int idReservasi = -1;
+
+        try {
+
+            Connection conn = Koneksi.getConnection();
+
+            DefaultTableModel model
+                    = (DefaultTableModel) tableKeranjang.getModel();
+
+            int total = 0;
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+
+                String subtotal = model.getValueAt(i, 3).toString();
+
+                subtotal = subtotal.replace("Rp", "")
+                        .replace(".", "")
+                        .trim();
+
+                total += Integer.parseInt(subtotal);
+
+            }
+
+            String sql = "INSERT INTO reservasi "
+                    + "(tanggal_reservasi,jumlah_tamu,status_reservasi,"
+                    + "user_iduser,meja_idmeja,jam_reservasi,total_harga)"
+                    + " VALUES (NOW(),?,?,?, ?,NOW(),?)";
+
+            PreparedStatement ps
+                    = conn.prepareStatement(sql,
+                            PreparedStatement.RETURN_GENERATED_KEYS);
+
+            ps.setInt(1, 1);                 // jumlah tamu
+            ps.setString(2, "pending");      // status
+            ps.setInt(3, 1);                 // id user
+            ps.setInt(4, 1);                 // id meja
+            ps.setDouble(5, total);
+
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                idReservasi = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return idReservasi;
+    }
+    private void insertDetailPesanan(int idReservasi) {
+
+        try {
+
+            Connection conn = Koneksi.getConnection();
+
+            DefaultTableModel model
+                    = (DefaultTableModel) tableKeranjang.getModel();
+
+            String cariMenu
+                    = "SELECT idMenu FROM menu WHERE nama=?";
+
+            String insert
+                    = "INSERT INTO pemesanan_makanan "
+                    + "(reservasi_idreservasi,Menu_idMenu,jumlah)"
+                    + " VALUES (?,?,?)";
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+
+                String namaMenu
+                        = model.getValueAt(i, 0).toString();
+
+                int qty
+                        = Integer.parseInt(
+                                model.getValueAt(i, 2).toString());
+
+                PreparedStatement psCari
+                        = conn.prepareStatement(cariMenu);
+
+                psCari.setString(1, namaMenu);
+
+                ResultSet rs = psCari.executeQuery();
+
+                if (rs.next()) {
+
+                    int idMenu = rs.getInt("idMenu");
+
+                    PreparedStatement psInsert
+                            = conn.prepareStatement(insert);
+
+                    psInsert.setInt(1, idReservasi);
+                    psInsert.setInt(2, idMenu);
+                    psInsert.setInt(3, qty);
+
+                    psInsert.executeUpdate();
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -238,16 +350,25 @@ public class FoodOrdering extends javax.swing.JFrame {
 
         }
 
-        // =============================
-        // NANTI DIGANTI INSERT DATABASE
-        // =============================
-//        int idReservasi = insertReservasi(
-//        ...);
-//        for (int i = 0; i < model.getRowCount(); i++) {
-//            String menu = model.getValueAt(i, 0).toString();
-//            int qty = Integer.parseInt(model.getValueAt(i, 2).toString());
-//            insertDetailReservasi(idReservasi, menu, qty);
-//        }
+        int idReservasi = insertReservasi();
+
+        if (idReservasi != -1) {
+
+            insertDetailPesanan(idReservasi);
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Checkout berhasil!");
+
+            dispose();
+
+        } else {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Checkout gagal!");
+
+        }
         javax.swing.JOptionPane.showMessageDialog(
                 this,
                 "Checkout berhasil!");

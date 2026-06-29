@@ -4,6 +4,9 @@
  */
 package boluketan_projectdisprog;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,58 +43,70 @@ public class DetailHistResv extends javax.swing.JFrame {
 
     }
     private void loadDetail() {
-        // nanti diganti query database berdasarkan idReservasi
-        if (idReservasi == 1) {
 
-            lblId.setText("1");
-            lblNama.setText("Michael");
-            lblWaktu.setText("28-06-2026 18:30");
-            lblMeja.setText("A03");
-            lblStatus.setText("Finished");
+        try {
 
+            Connection conn = Koneksi.getConnection();
+
+            // Data reservasi
+            String sql
+                    = "SELECT r.idreservasi, u.nama, r.jam_reservasi, "
+                    + "m.nomer_meja, r.status_reservasi, r.total_harga "
+                    + "FROM reservasi r "
+                    + "JOIN user u ON r.user_iduser = u.iduser "
+                    + "JOIN meja m ON r.meja_idmeja = m.idmeja "
+                    + "WHERE r.idreservasi=?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, idReservasi);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                lblId.setText(rs.getString("idreservasi"));
+                lblNama.setText(rs.getString("nama"));
+                lblWaktu.setText(rs.getString("jam_reservasi"));
+                lblMeja.setText(rs.getString("nomer_meja"));
+                lblStatus.setText(rs.getString("status_reservasi"));
+                lblTotal.setText("Rp " + rs.getInt("total_harga"));
+
+            }
+
+            // Detail menu
             DefaultTableModel model
                     = (DefaultTableModel) tabelPesanan.getModel();
 
             model.setRowCount(0);
 
-            model.addRow(new Object[]{
-                "Nasi Goreng", 2, "Rp 50.000"
-            });
+            String sqlDetail
+                    = "SELECT menu.nama, pemesanan_makanan.jumlah, menu.harga "
+                    + "FROM pemesanan_makanan "
+                    + "JOIN menu ON pemesanan_makanan.Menu_idMenu = menu.idMenu "
+                    + "WHERE reservasi_idreservasi=?";
 
-            model.addRow(new Object[]{
-                "Es Teh", 1, "Rp 5.000"
-            });
+            PreparedStatement ps2 = conn.prepareStatement(sqlDetail);
+            ps2.setInt(1, idReservasi);
 
-            model.addRow(new Object[]{
-                "Kerupuk", 1, "Rp 10.000"
-            });
+            ResultSet rs2 = ps2.executeQuery();
 
-            lblTotal.setText("Rp 65.000");
+            while (rs2.next()) {
 
-        } else {
+                int qty = rs2.getInt("jumlah");
+                int harga = rs2.getInt("harga");
 
-            lblId.setText("2");
-            lblNama.setText("Michael");
-            lblWaktu.setText("29-06-2026 19:00");
-            lblMeja.setText("B02");
-            lblStatus.setText("Booked");
+                model.addRow(new Object[]{
+                    rs2.getString("nama"),
+                    qty,
+                    "Rp " + (qty * harga)
+                });
 
-            DefaultTableModel model
-                    = (DefaultTableModel) tabelPesanan.getModel();
+            }
 
-            model.setRowCount(0);
-
-            model.addRow(new Object[]{
-                "Mie Ayam", 2, "Rp 36.000"
-            });
-
-            model.addRow(new Object[]{
-                "Es Jeruk", 1, "Rp 6.000"
-            });
-
-            lblTotal.setText("Rp 42.000");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
+
     }
 
     /**

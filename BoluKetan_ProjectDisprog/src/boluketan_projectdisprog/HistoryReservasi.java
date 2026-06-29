@@ -4,6 +4,9 @@
  */
 package boluketan_projectdisprog;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -59,25 +62,47 @@ public class HistoryReservasi extends javax.swing.JFrame {
 
         model.setRowCount(0);
 
-        model.addRow(new Object[]{
-            1,
-            "28-06-2026",
-            "18:30",
-            "Michael",
-            "A03",
-            "Rp 65.000",
-            "Finished"
-        });
+        try {
 
-        model.addRow(new Object[]{
-            2,
-            "29-06-2026",
-            "19:00",
-            "Michael",
-            "B02",
-            "Rp 42.000",
-            "Booked"
-        });
+            Connection conn = Koneksi.getConnection();
+
+            String sql
+                    = "SELECT r.idreservasi, "
+                    + "DATE(r.tanggal_reservasi), "
+                    + "TIME(r.jam_reservasi), "
+                    + "u.nama, "
+                    + "m.nomor_meja, "
+                    + "r.total_harga, "
+                    + "r.status_reservasi "
+                    + "FROM reservasi r "
+                    + "JOIN user u ON r.user_iduser=u.iduser "
+                    + "JOIN meja m ON r.meja_idmeja=m.idmeja";
+
+            PreparedStatement ps
+                    = conn.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                model.addRow(new Object[]{
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getString(5),
+                    "Rp " + rs.getInt(6),
+                    rs.getString(7)
+
+                });
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
 
     }
     private void filterStatus() {
