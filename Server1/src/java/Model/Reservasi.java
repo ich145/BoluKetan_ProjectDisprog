@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -186,80 +187,29 @@ public class Reservasi extends MyModel{
 
     @Override
     public ArrayList<Object> viewListData() {
-        ArrayList<Object> collections
-                = new ArrayList<Object>();
-
+       ArrayList<Object> hasil = new ArrayList<>();
         try {
-
-            this.statement
-                    = conn.createStatement();
-
-            this.result
-                    = this.statement.executeQuery(
-                            "SELECT * FROM reservasi"
-                    );
-
-            while (this.result.next()) {
-
-                Reservasi temp
-                        = new Reservasi();
-
-                temp.setIdreservasi(
-                        this.result.getInt(
-                                "idreservasi"
-                        )
+            PreparedStatement sql = conn.prepareStatement("SELECT * FROM reservasi");
+            ResultSet rs = sql.executeQuery();
+            while (rs.next()) {
+                Reservasi r = new Reservasi(
+                    rs.getTimestamp("tanggal_reservasi"),
+                    rs.getInt("jumlah_tamu"),
+                    rs.getString("status_reservasi"),
+                    rs.getInt("user_iduser"),
+                    rs.getInt("meja_idmeja"),
+                    rs.getTimestamp("jam_reservasi")
                 );
-
-                temp.setTanggal_reservasi(
-                        this.result.getTimestamp(
-                                "tanggal_reservasi"
-                        )
-                );
-
-                temp.setJumlah_tamu(
-                        this.result.getInt(
-                                "jumlah_tamu"
-                        )
-                );
-
-                temp.setStatus_reservasi(
-                        this.result.getString(
-                                "status_reservasi"
-                        )
-                );
-
-                temp.setUser_iduser(
-                        this.result.getInt(
-                                "user_iduser"
-                        )
-                );
-
-                temp.setMeja_idmeja(
-                        this.result.getInt(
-                                "meja_idmeja"
-                        )
-                );
-
-                temp.setJam_reservasi(
-                        this.result.getTimestamp(
-                                "jam_reservasi"
-                        )
-                );
-
-                collections.add(temp);
-
+                r.setIdreservasi(rs.getInt("idreservasi"));
+                r.setTotal_harga(rs.getDouble("total_harga"));
+                hasil.add(r);
             }
-
+            sql.close();
         } catch (Exception e) {
+        System.out.println("Error getAll " + e);
+    }
+        return hasil;
 
-            System.out.println(
-                    "Error viewListData "
-                    + e
-            );
-
-        }
-
-        return collections;
     }
     
     public void hitungTotalHarga() throws SQLException
@@ -284,4 +234,81 @@ public class Reservasi extends MyModel{
         updateTotal.executeUpdate();
         updateTotal.close();
     }
+    
+    public boolean cekKetersediaan() {
+    boolean tersedia = true;
+    try {
+        PreparedStatement sql = conn.prepareStatement(
+            "SELECT COUNT(*) as jumlah FROM reservasi " +
+            "WHERE meja_idmeja = ? AND jam_reservasi = ? AND status_reservasi != 'cancel'");
+        sql.setInt(1, this.meja_idmeja);
+        sql.setTimestamp(2, this.jam_reservasi);
+
+        ResultSet rs = sql.executeQuery();
+        if (rs.next() && rs.getInt("jumlah") > 0) {
+            tersedia = false; // sudah ada reservasi lain di meja & jam yang sama
+        }
+        sql.close();
+    } catch (Exception e) {
+        System.out.println("Error cekKetersediaan " + e);
+        tersedia = false; // kalau error, anggap tidak tersedia (safer default)
+    }
+    return tersedia;
+    }
+    
+    public static Reservasi getById(int idreservasi) {
+    Reservasi r = null;
+    try {
+        PreparedStatement sql = conn.prepareStatement(
+            "SELECT * FROM reservasi WHERE idreservasi = ?");
+        sql.setInt(1, idreservasi);
+
+        ResultSet rs = sql.executeQuery();
+        if (rs.next()) {
+            r = new Reservasi(
+                rs.getTimestamp("tanggal_reservasi"),
+                rs.getInt("jumlah_tamu"),
+                rs.getString("status_reservasi"),
+                rs.getInt("user_iduser"),
+                rs.getInt("meja_idmeja"),
+                rs.getTimestamp("jam_reservasi")
+            );
+            r.setIdreservasi(idreservasi);
+        }
+        sql.close();
+    } catch (Exception e) {
+        System.out.println("Error getById " + e);
+    }
+        return r;
+    }
+    
+    public static List<Meja> cariMejaTersedia(Timestamp jamReservasi, int jumlahTamu) {
+    List<Meja> hasil = new ArrayList<>();
+    try {
+        PreparedStatement sql = conn.prepareStatement(
+            "SELECT m.* FROM meja m " +
+            "WHERE m.jumlah_konsumen >= ? " +
+            "AND m.idmeja NOT IN (" +
+            "    SELECT r.meja_idmeja FROM reservasi r " +
+            "    WHERE r.jam_reservasi = ? AND r.status_reservasi != 'cancel'" +
+            ")"
+        );
+        sql.setInt(1, jumlahTamu);
+        sql.setTimestamp(2, jamReservasi);
+
+        ResultSet rs = sql.executeQuery();
+        while (rs.next()) {
+            Meja m = new Meja();
+            m.setIdMeja(rs.getInt("idmeja"));
+            m.setNomer_meja(rs.getInt("nomer_meja"));
+            m.setJumlah_konsumen(rs.getInt("jumlah_konsumen"));
+            m.setStatus(rs.getString("status"));
+            hasil.add(m);
+        }
+        sql.close();
+    } catch (Exception e) {
+        System.out.println("Error cariMejaTersedia " + e);
+    }
+    return hasil;
 }
+}   

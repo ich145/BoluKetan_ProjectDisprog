@@ -23,18 +23,22 @@ public class Menu extends MyModel{
         super();
 
     }
-    public Menu(
-        String nama,
-        String kategori,
-        double harga,
-        String informasi
-    ) {
+    public Menu(String nama, String kategori, double harga, String informasi) {
         super();
         this.nama = nama;
         this.kategori = kategori;
         this.harga = harga;
         this.informasi = informasi;
     }
+    
+    public Menu(int id, String nama, String kategori, double harga, String informasi) {
+        super();
+        this.idMenu = id;
+        this.nama = nama;
+        this.kategori = kategori;
+        this.harga = harga;
+        this.informasi = informasi;
+}
     
     public int getIdMenu() {
     return idMenu;
@@ -100,12 +104,37 @@ public class Menu extends MyModel{
 
     @Override
     public void updateData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        try {
+            
+                PreparedStatement sql = conn.prepareStatement(
+                    "UPDATE Menu SET nama=?, katgori=?, harga=?, Informasi=? WHERE id=?");
+                sql.setString(1, this.nama);
+                sql.setString(2, this.kategori);
+                sql.setDouble(3, this.harga);
+                sql.setString(4, this.informasi);
+                sql.executeUpdate();
+                sql.close();
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @Override
     public void deleteData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            
+                PreparedStatement sql = conn.prepareStatement(
+                    "DELETE FROM Menu WHERE id=?");
+                sql.setInt(1, this.idMenu);
+                sql.executeUpdate();
+                sql.close();
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     @Override
@@ -113,7 +142,7 @@ public class Menu extends MyModel{
         ArrayList<Object> list = new ArrayList<>();
         try {
             statement = conn.createStatement();
-            result = statement.executeQuery("SELECT * FROM menus");
+            result = statement.executeQuery("SELECT * FROM menu");
 
             while(result.next()){
                 Menu m = new Menu();
