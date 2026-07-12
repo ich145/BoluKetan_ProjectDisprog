@@ -6,13 +6,24 @@ package boluketan_projectdisprog;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  *
  * @author michael
  */
 public class Koneksi {
-    private static Connection conn;
+    protected static Connection conn;
+    protected Statement statement;
+    protected ResultSet result;
+    
+    public Koneksi(){
+        this.conn = this.getConnection();
+        this.statement = null;
+        this.result = null;
+        
+    }
 
     public static Connection getConnection() {
 
