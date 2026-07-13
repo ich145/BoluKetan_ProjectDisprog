@@ -4,4 +4,8 @@
     <system systemId="http://localhost:8080/Server1/MenuWSService?xsd=1" uri="wsdl/localhost_8080/Server1/MenuWSService.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/Server1/ReservasiWSService?wsdl" uri="wsdl/localhost_8080/Server1/ReservasiWSService.wsdl"/>
     <system systemId="http://localhost:8080/Server1/ReservasiWSService?xsd=1" uri="wsdl/localhost_8080/Server1/ReservasiWSService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/Server1/UserWSService?wsdl" uri="wsdl/localhost_8080/Server1/UserWSService.wsdl"/>
+    <system systemId="http://localhost:8080/Server1/UserWSService?xsd=1" uri="wsdl/localhost_8080/Server1/UserWSService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/Server1/MejaWSService?wsdl" uri="wsdl/localhost_8080/Server1/MejaWSService.wsdl"/>
+    <system systemId="http://localhost:8080/Server1/MejaWSService?xsd=1" uri="wsdl/localhost_8080/Server1/MejaWSService.xsd_1.xsd"/>
 </catalog>

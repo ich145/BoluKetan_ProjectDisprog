@@ -21,7 +21,6 @@ public class MenuManagement extends javax.swing.JFrame {
     
     public MenuManagement() {
         initComponents();
-        lihatMenu();
         loadDataMenu();
     }
     
