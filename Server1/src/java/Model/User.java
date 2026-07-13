@@ -127,10 +127,7 @@ public class User extends MyModel{
             sql.close();
 
         } catch (Exception e) {
-            e.printStackTrace(); // ganti ini
-
-            throw new RuntimeException(e);
-            //System.out.println("Error insertData " + e);
+            System.out.println("Error insertData " + e);
         }
     }
 

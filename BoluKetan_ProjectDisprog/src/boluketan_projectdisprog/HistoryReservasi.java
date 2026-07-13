@@ -56,7 +56,7 @@ public class HistoryReservasi extends javax.swing.JFrame {
         model.setRowCount(0);
 
         try {
-            // 1. Instansiasi Service dan Port dari Web Service Reference Anda
+            // 1. Instansiasi Service dan Port dari Web Service Reference
             boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
             boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
 
@@ -78,7 +78,12 @@ public class HistoryReservasi extends javax.swing.JFrame {
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Gagal mengambil data reservasi: " + e.getMessage(),
+                    "Error Koneksi / Sistem",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
         }
     }
     private void filterStatus() {

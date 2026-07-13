@@ -137,7 +137,7 @@ public class FoodOrdering extends javax.swing.JFrame {
             if (daftar != null) {
                 for (boluketan_projectdisprog.Menu m : daftar) {
                     model.addRow(new Object[]{
-                        m.getIdMenu(), // <-- Pastikan method getIdMenu() ini ada di object Menu Anda
+                        m.getIdMenu(), 
                         m.getNama(),
                         (int) m.getHarga(),
                         m.getInformasi()
@@ -303,11 +303,10 @@ public class FoodOrdering extends javax.swing.JFrame {
             for (int i = 0; i < model.getRowCount(); i++) {
                 String menuInfo = model.getValueAt(i, 0).toString(); // Mengambil "ID | Nama Menu"
 
-                // Pecah string untuk mengambil ID-nya saja
+                //split string untuk mengambil id
                 int idMenu = Integer.parseInt(menuInfo.split(" \\| ")[0]);
                 int qty = Integer.parseInt(model.getValueAt(i, 2).toString());
 
-                // SEKARANG SUDAH SESUAI: Kirim idMenu (int) ke backend!
                 port.simpanPesananMakanan(
                         idReservasi,
                         idMenu,
@@ -320,7 +319,6 @@ public class FoodOrdering extends javax.swing.JFrame {
             dispose();
 
         } catch (Exception e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Gagal Menyimpan: " + e.getMessage());
         }
     
@@ -340,8 +338,6 @@ public class FoodOrdering extends javax.swing.JFrame {
         String namaMenu = tableKeranjang.getValueAt(rowTerpilih, 1).toString();
         int hargaMenu = Integer.parseInt(tableKeranjang.getValueAt(rowTerpilih, 2).toString());
 
-        // Gabungkan ID ke dalam nama tersembunyi atau modifikasi fungsi tambahKeranjang
-        // Di sini kita modifikasi sedikit agar namaMenu menyimpan teks "ID - Nama" agar mudah dipisah nanti
         tambahKeranjang(idMenu + " | " + namaMenu, hargaMenu);
     }//GEN-LAST:event_btnAddActionPerformed
 

@@ -98,7 +98,6 @@ public class DetailHistResv extends javax.swing.JFrame {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
             javax.swing.JOptionPane.showMessageDialog(this, "Error memuat detail: " + e.getMessage());
         }
     }

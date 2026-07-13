@@ -151,7 +151,7 @@ public class Registrasi extends javax.swing.JFrame {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Gagal koneksi server: " + e.getMessage());
 
         }
     }//GEN-LAST:event_btnRegisterActionPerformed

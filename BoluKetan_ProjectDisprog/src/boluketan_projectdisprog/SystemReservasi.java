@@ -310,7 +310,7 @@ public class SystemReservasi extends javax.swing.JFrame {
             String tanggalReservasi = tanggal + " 00:00:00";
             double totalHarga = 0;
 
-            // 2. CARI MEJA OTOMATIS DI SINI
+            // cari meja
             List<boluketan_projectdisprog.Meja> mejaCocok = cariMejaTersedia(jamReservasi, jumlahTamu);
 
             // Jika tidak ada meja yang muat/tersedia
@@ -328,7 +328,6 @@ public class SystemReservasi extends javax.swing.JFrame {
             if (idHasil > 0) {
                 JOptionPane.showMessageDialog(this, "Reservasi Berhasil di Meja " + idMejaDipilih + "! Melanjutkan ke Pemesanan Makanan...");
 
-                // --- LANGSUNG PINDAH KE FORM FOOD ORDERING ---
                 FoodOrdering foodForm = new FoodOrdering(idHasil);
                 foodForm.setVisible(true);
 

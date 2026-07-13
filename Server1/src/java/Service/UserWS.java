@@ -45,7 +45,6 @@ public class UserWS {
         } catch (Exception e) {
 
             System.out.println("ERROR REGISTER");
-            e.printStackTrace();
 
             return false;
         }
@@ -61,7 +60,6 @@ public class UserWS {
         }
         catch(Exception ex)
         {
-            ex.printStackTrace();
             throw new RuntimeException("REGISTER ERROR: " + ex.getMessage());
         }
     }

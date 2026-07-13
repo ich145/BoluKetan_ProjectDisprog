@@ -259,7 +259,7 @@ public class MenuManagement extends javax.swing.JFrame {
             return;
         }
 
-        // 2. Validasi: Pastikan field penting lainnya tidak kosong sebelum di-update
+        // 2. Validasi: Pastikan field penting lainnya tidak kosong sebelum diupdate
         if (txtNama.getText().isEmpty() || txtKategori.getText().isEmpty() || txtHarga.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nama, Kategori, dan Harga tidak boleh kosong!");
             return;
