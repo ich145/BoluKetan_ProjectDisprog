@@ -43,70 +43,64 @@ public class DetailHistResv extends javax.swing.JFrame {
 
     }
     private void loadDetail() {
-
         try {
+            // 1. Panggil port Web Service ReservasiWS
+            boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
+            boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
 
-            Connection conn = Koneksi.getConnection();
+            // 2. Ambil semua data reservasi dari Web Service
+            java.util.List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi();
 
-            // Data reservasi
-            String sql
-                    = "SELECT r.idreservasi, u.nama, r.jam_reservasi, "
-                    + "m.nomer_meja, r.status_reservasi, r.total_harga "
-                    + "FROM reservasi r "
-                    + "JOIN user u ON r.user_iduser = u.iduser "
-                    + "JOIN meja m ON r.meja_idmeja = m.idmeja "
-                    + "WHERE r.idreservasi=?";
+            boluketan_projectdisprog.Reservasi reservasiTerpilih = null;
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, idReservasi);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-
-                lblId.setText(rs.getString("idreservasi"));
-                lblNama.setText(rs.getString("nama"));
-                lblWaktu.setText(rs.getString("jam_reservasi"));
-                lblMeja.setText(rs.getString("nomer_meja"));
-                lblStatus.setText(rs.getString("status_reservasi"));
-                lblTotal.setText("Rp " + rs.getInt("total_harga"));
-
+            // 3. Cari data reservasi yang ID-nya cocok dengan idReservasi dari frame history
+            for (boluketan_projectdisprog.Reservasi r : daftarReservasi) {
+                if (r.getIdreservasi() == this.idReservasi) {
+                    reservasiTerpilih = r;
+                    break;
+                }
             }
 
-            // Detail menu
-            DefaultTableModel model
-                    = (DefaultTableModel) tabelPesanan.getModel();
+            // 4. Tampilkan data header reservasi ke Label
+            if (reservasiTerpilih != null) {
+                lblId.setText(String.valueOf(reservasiTerpilih.getIdreservasi()));
 
+                // Karena tidak pakai JOIN di server, tampilkan ID-nya terlebih dahulu
+                lblNama.setText("User ID: " + reservasiTerpilih.getUserIduser());
+
+                String waktu = (reservasiTerpilih.getJamReservasi() != null) ? reservasiTerpilih.getJamReservasi().toString() : "-";
+                lblWaktu.setText(waktu);
+
+                lblMeja.setText("Meja ID: " + reservasiTerpilih.getMejaIdmeja());
+                lblStatus.setText(reservasiTerpilih.getStatusReservasi());
+                lblTotal.setText("Rp " + String.format("%,.0f", reservasiTerpilih.getTotalHarga()));
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Data reservasi tidak ditemukan di server.");
+                return;
+            }
+
+            // 5. Load detail pesanan makanan ke tabel
+            DefaultTableModel model = (DefaultTableModel) tabelPesanan.getModel();
             model.setRowCount(0);
 
-            String sqlDetail
-                    = "SELECT menu.nama, pemesanan_makanan.jumlah, menu.harga "
-                    + "FROM pemesanan_makanan "
-                    + "JOIN menu ON pemesanan_makanan.Menu_idMenu = menu.idMenu "
-                    + "WHERE reservasi_idreservasi=?";
+            // Ambil daftar pesanan dari Web Service
+            java.util.List<boluketan_projectdisprog.PemesananMakanan> daftarPesanan
+                    = port.lihatPesanan(idReservasi);
 
-            PreparedStatement ps2 = conn.prepareStatement(sqlDetail);
-            ps2.setInt(1, idReservasi);
-
-            ResultSet rs2 = ps2.executeQuery();
-
-            while (rs2.next()) {
-
-                int qty = rs2.getInt("jumlah");
-                int harga = rs2.getInt("harga");
+            for (boluketan_projectdisprog.PemesananMakanan p : daftarPesanan) {
 
                 model.addRow(new Object[]{
-                    rs2.getString("nama"),
-                    qty,
-                    "Rp " + (qty * harga)
+                    p.getIdMenu(),
+                    p.getJumlah(),
+                    p.getStatusPemesanan()
+
                 });
 
             }
-
         } catch (Exception e) {
             e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Error memuat detail: " + e.getMessage());
         }
-
     }
 
     /**

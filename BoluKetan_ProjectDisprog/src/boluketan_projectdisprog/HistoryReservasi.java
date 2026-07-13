@@ -7,6 +7,7 @@ package boluketan_projectdisprog;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -22,88 +23,63 @@ public class HistoryReservasi extends javax.swing.JFrame {
      * Creates new form HistoryReservasi
      */
     private boolean loading = true;
+
     public HistoryReservasi() {
         initComponents();
-        
+
         DefaultTableModel model = new DefaultTableModel(
                 new Object[]{
-                    "ID", "Tanggal", "Jam", "Nama",
-                    "Meja", "Total", "Status"
-
+                    "ID", "Tanggal", "Jam", "ID User", "ID Meja", "Total", "Status"
                 }, 0
-        ) {
-
+        )
+        {
             @Override
             public boolean isCellEditable(int row, int column) {
-
                 return false;
-
             }
-
         };
         tableHistory.setModel(model);
+
+        // --- PERBAIKAN: Disamakan dengan status yang diinput dari SystemReservasi & ReservasiWS ---
         cmbStatus.removeAllItems();
-
         cmbStatus.addItem("Semua");
+        cmbStatus.addItem("Pending");
+        cmbStatus.addItem("Confirmed");
+        cmbStatus.addItem("Cancel");
 
-        cmbStatus.addItem("Booked");
-
-        cmbStatus.addItem("Finished");
-
-        cmbStatus.addItem("Cancelled");
         loadHistory();
         loading = false;
     }
     
     private void loadHistory() {
-
-        DefaultTableModel model
-                = (DefaultTableModel) tableHistory.getModel();
-
+        DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
         model.setRowCount(0);
 
         try {
+            // 1. Instansiasi Service dan Port dari Web Service Reference Anda
+            boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
+            boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
 
-            Connection conn = Koneksi.getConnection();
+            // 2. Panggil method lihatReservasi() melalui objek port
+            List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi();
 
-            String sql
-                    = "SELECT r.idreservasi, "
-                    + "DATE(r.tanggal_reservasi), "
-                    + "TIME(r.jam_reservasi), "
-                    + "u.nama, "
-                    + "m.nomor_meja, "
-                    + "r.total_harga, "
-                    + "r.status_reservasi "
-                    + "FROM reservasi r "
-                    + "JOIN user u ON r.user_iduser=u.iduser "
-                    + "JOIN meja m ON r.meja_idmeja=m.idmeja";
-
-            PreparedStatement ps
-                    = conn.prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
+            for (boluketan_projectdisprog.Reservasi r : daftarReservasi) {
+                String tanggal = (r.getTanggalReservasi() != null) ? r.getTanggalReservasi().toString() : "-";
+                String jam = (r.getJamReservasi() != null) ? r.getJamReservasi().toString() : "-";
 
                 model.addRow(new Object[]{
-                    rs.getInt(1),
-                    rs.getString(2),
-                    rs.getString(3),
-                    rs.getString(4),
-                    rs.getString(5),
-                    "Rp " + rs.getInt(6),
-                    rs.getString(7)
-
+                    r.getIdreservasi(),
+                    tanggal,
+                    jam,
+                    "User ID: " + r.getUserIduser(),
+                    "Meja ID: " + r.getMejaIdmeja(),
+                    "Rp " + String.format("%,.0f", r.getTotalHarga()),
+                    r.getStatusReservasi()
                 });
-
             }
-
         } catch (Exception e) {
-
             e.printStackTrace();
-
         }
-
     }
     private void filterStatus() {
 
@@ -233,20 +209,16 @@ public class HistoryReservasi extends javax.swing.JFrame {
         if (row == -1) {
 
             JOptionPane.showMessageDialog(this,
-                    "Pilih reservasi terlebih dahulu.");
+                    "Pilih reservasi terlebih dahulu!");
 
             return;
 
         }
 
-        row = tableHistory.convertRowIndexToModel(row);
-
         int idReservasi = Integer.parseInt(
-                tableHistory.getModel().getValueAt(row, 0).toString());
+                tableHistory.getValueAt(row, 0).toString());
 
         DetailHistResv detail = new DetailHistResv(idReservasi);
-
-        detail.setLocationRelativeTo(this);
 
         detail.setVisible(true);
     }//GEN-LAST:event_btnDetailActionPerformed

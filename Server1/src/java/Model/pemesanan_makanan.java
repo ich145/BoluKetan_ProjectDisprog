@@ -1,8 +1,11 @@
 package Model;
 
 import static Model.MyModel.conn;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -122,6 +125,42 @@ public class pemesanan_makanan extends MyModel {
 
     @Override
     public ArrayList<Object> viewListData() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    public static ArrayList<pemesanan_makanan> getByReservasi(int idReservasi) {
+
+        ArrayList<pemesanan_makanan> list = new ArrayList<>();
+
+        try {
+
+            PreparedStatement sql = conn.prepareStatement(
+                    "SELECT * FROM pemesan_makanan WHERE reservasi_idreservasi = ?");
+
+            sql.setInt(1, idReservasi);
+
+            ResultSet rs = sql.executeQuery();
+
+            while (rs.next()) {
+
+                pemesanan_makanan pm = new pemesanan_makanan();
+
+                pm.setIdReservasi(rs.getInt("reservasi_idreservasi"));
+                pm.setIdMenu(rs.getInt("Menu_idMenu"));
+                pm.setJumlah(rs.getInt("jumlah"));
+                pm.setStatus_pemesanan(rs.getString("status_pesanan"));
+
+                list.add(pm);
+            }
+
+            rs.close();
+            sql.close();
+
+        } catch (Exception e) {
+            System.out.println("Error : " + e);
+        }
+
+        return list;
+    }
+
 }

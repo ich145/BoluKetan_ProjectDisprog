@@ -211,9 +211,9 @@ public class SystemReservasi extends javax.swing.JFrame {
                     .addComponent(txtJumlahTamu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnCekKetersediaan)
-                .addGap(43, 43, 43)
+                .addGap(81, 81, 81)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(88, 88, 88)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReservasi)
                     .addComponent(btnUpdate)
@@ -290,13 +290,11 @@ public class SystemReservasi extends javax.swing.JFrame {
         int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
         String jamReservasi = tanggal + " " + jam + ":00";
 
-        List<boluketan_projectdisprog.Meja> mejaTersedia = cariMejaTersedia(jamReservasi, jumlahTamu);
-
     }//GEN-LAST:event_btnCekKetersediaanActionPerformed
 
     private void btnReservasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservasiActionPerformed
         
-        // 1. Validasi: Pastikan inputan tidak kosong
+        // 1. Validasi dasar: pastikan input teks tidak kosong
         if (txtTanggal.getText().trim().isEmpty() || txtJam.getText().trim().isEmpty() || txtJumlahTamu.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Tanggal, Jam, dan Jumlah Tamu wajib diisi!");
             return;
@@ -307,40 +305,40 @@ public class SystemReservasi extends javax.swing.JFrame {
             String jam = txtJam.getText().trim();
             int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
 
-            // 2. OTOMATIS CARI MEJA: Panggil Web Service Server untuk mencari meja yang muat
-            // Fungsi ini mengembalikan List<Meja> yang kapasitasnya >= jumlahTamu
-            List<boluketan_projectdisprog.Meja> mejaCocok = cariMejaTersedia(jam, jumlahTamu);
+            // Format waktu standar SQL
+            String jamReservasi = tanggal + " " + jam + ":00";
+            String tanggalReservasi = tanggal + " 00:00:00";
+            double totalHarga = 0;
 
-            // 3. Cek apakah ada meja yang tersedia
+            // 2. CARI MEJA OTOMATIS DI SINI
+            List<boluketan_projectdisprog.Meja> mejaCocok = cariMejaTersedia(jamReservasi, jumlahTamu);
+
+            // Jika tidak ada meja yang muat/tersedia
             if (mejaCocok.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Maaf, tidak ada meja yang kapasitasnya cukup untuk " + jumlahTamu + " orang.");
+                JOptionPane.showMessageDialog(this, "Maaf, tidak ada meja yang tersedia untuk " + jumlahTamu + " orang pada waktu tersebut.");
                 return;
             }
 
-            // 4. Pilih meja pertama yang paling pas (index 0) dari hasil list server
+            // Ambil ID meja pertama yang paling pas dari hasil pencarian
             int idMejaDipilih = mejaCocok.get(0).getIdMeja();
 
-            // 5. Siapkan data lainnya untuk dikirim ke database
-            String status = "Pending"; // Status awal reservasi baru
-            int idUser = 1; // TODO: Nanti ganti dengan ID User yang sedang login dari session
+            // 3. Panggil Web Service untuk INSERT data reservasi menggunakan meja yang didapat
+            int idHasil = tambahReservasi(tanggalReservasi, jumlahTamu, "Pending", 1, idMejaDipilih, jamReservasi, totalHarga);
 
-            // Format String penanggalan standar SQL
-            String tanggalReservasi = tanggal + " 00:00:00";
-            String jamReservasi = tanggal + " " + jam + ":00";
-            double totalHarga = 0; // Set 0 dulu atau sesuaikan logika hargamu
-
-            // 6. Panggil Web Service untuk INSERT data
-            int idHasil = tambahReservasi(tanggalReservasi, jumlahTamu, status, idUser, idMejaDipilih, jamReservasi, totalHarga);
-
-            // 7. Cek apakah berhasil (asumsi idHasil > 0 berarti sukses)
             if (idHasil > 0) {
-                JOptionPane.showMessageDialog(this, "Reservasi Berhasil! ID: " + idHasil + "\nDialokasikan ke Meja: " + idMejaDipilih);
+                JOptionPane.showMessageDialog(this, "Reservasi Berhasil di Meja " + idMejaDipilih + "! Melanjutkan ke Pemesanan Makanan...");
+
+                // --- LANGSUNG PINDAH KE FORM FOOD ORDERING ---
+                FoodOrdering foodForm = new FoodOrdering(idHasil);
+                foodForm.setVisible(true);
+
+                // Sembunyikan form reservasi utama
+                this.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(this, "Gagal melakukan reservasi.");
             }
 
-            // 8. Refresh Tabel
-            loadDataReservasi();
+            loadDataReservasi(); // Refresh data tabel belakang
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Jumlah tamu harus berupa angka!", "Error Input", JOptionPane.ERROR_MESSAGE);

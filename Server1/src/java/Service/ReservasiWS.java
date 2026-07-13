@@ -5,6 +5,7 @@
 package Service;
 import Model.Meja;
 import Model.Reservasi;
+import Model.pemesanan_makanan;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -87,6 +88,9 @@ public class ReservasiWS {
             return false;
         }
     }
-            
+    @WebMethod
+    public List<pemesanan_makanan> lihatPesanan(int idReservasi) {
+        return pemesanan_makanan.getByReservasi(idReservasi);
+    }   
        
 }

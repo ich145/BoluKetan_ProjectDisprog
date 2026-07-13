@@ -8,6 +8,10 @@
 
 <xs:element name="cariMejaTersediaResponse" type="tns:cariMejaTersediaResponse"/>
 
+<xs:element name="lihatPesanan" type="tns:lihatPesanan"/>
+
+<xs:element name="lihatPesananResponse" type="tns:lihatPesananResponse"/>
+
 <xs:element name="lihatReservasi" type="tns:lihatReservasi"/>
 
 <xs:element name="lihatReservasiResponse" type="tns:lihatReservasiResponse"/>
@@ -134,6 +138,31 @@
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="lihatPesanan">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="lihatPesananResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:pemesananMakanan" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pemesananMakanan">
+<xs:complexContent>
+<xs:extension base="tns:myModel">
+<xs:sequence>
+<xs:element name="idMenu" type="xs:int"/>
+<xs:element name="idReservasi" type="xs:int"/>
+<xs:element name="jumlah" type="xs:int"/>
+<xs:element name="status_pemesanan" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 
 <xs:complexType name="batalkanReservasi">

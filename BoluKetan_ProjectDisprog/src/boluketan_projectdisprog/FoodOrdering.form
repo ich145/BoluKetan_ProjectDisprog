@@ -29,7 +29,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lblTotal" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnCheckout" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSimpan" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -40,11 +40,11 @@
                           <Component id="jComboBoxKategori" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnSub" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSub" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="36" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
@@ -72,18 +72,18 @@
               <Component id="lblWaktu2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="jScrollPane2" min="-2" pref="147" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnSub" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblTotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnCheckout" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSimpan" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
@@ -112,12 +112,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnCheckout">
+    <Component class="javax.swing.JButton" name="btnSimpan">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Checkout"/>
+        <Property name="text" type="java.lang.String" value="Simpan"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCheckoutActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSimpanActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTotal">
