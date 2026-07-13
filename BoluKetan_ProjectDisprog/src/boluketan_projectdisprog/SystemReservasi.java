@@ -37,7 +37,7 @@ public class SystemReservasi extends javax.swing.JFrame {
         }
 
         for (boluketan_projectdisprog.Meja m : mejaTersedia) {
-            cmbPilihMeja.addItem("Meja " + m.getNomerMeja() + " (kapasitas " + m.getJumlahKonsumen() + ")");
+            cmbPilihMeja.addItem("Meja " + m.getIdMeja() + " (kapasitas " + m.getJumlahKonsumen() + ")");
             daftarIdMeja.add(m.getIdMeja());
         }
     }
@@ -340,7 +340,7 @@ public class SystemReservasi extends javax.swing.JFrame {
         String tanggalReservasi = tanggal + " 00:00:00";
         String jamReservasi = tanggal + " " + jam + ":00";
 
-        String hasil = tambahReservasi(tanggalReservasi, jumlahTamu, status, idUser, idMeja, jamReservasi);
+        String hasil = tambahReservasi(tanggalReservasi, jumlahTamu, status, idUser, idMeja, jamReservasi, 0);
         JOptionPane.showMessageDialog(this, hasil);
         loadDataReservasi();
     }//GEN-LAST:event_btnReservasiActionPerformed
@@ -419,11 +419,6 @@ public class SystemReservasi extends javax.swing.JFrame {
 
     
 
-    private static String tambahReservasi(java.lang.String arg0, int arg1, java.lang.String arg2, int arg3, int arg4, java.lang.String arg5) {
-        boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
-        boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
-        return port.tambahReservasi(arg0, arg1, arg2, arg3, arg4, arg5);
-    }
 
     private static String updateReservasi(java.lang.String arg0, int arg1, java.lang.String arg2, int arg3, int arg4, java.lang.String arg5) {
         boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
@@ -437,7 +432,9 @@ public class SystemReservasi extends javax.swing.JFrame {
         return port.lihatReservasi();
     }
 
-    
-
-    
+    private static String tambahReservasi(String arg0, int arg1, String arg2, int arg3, int arg4, String arg5, double arg6) {
+        boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
+        boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
+        return port.tambahReservasi(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+    }   
 }

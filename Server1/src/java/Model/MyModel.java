@@ -36,7 +36,7 @@ public abstract class MyModel {
                 + "&allowPublicKeyRetrieval=true"
                 + "&serverTimezone=Asia/Jakarta",
                 "root",
-                "1234567890"
+                ""
                 );
             }
 

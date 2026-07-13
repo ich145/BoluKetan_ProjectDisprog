@@ -20,15 +20,15 @@ public class Home extends javax.swing.JFrame {
         
         if(orang.getRole().equals("Admin"))
         {
-            labelNama.setText("Admin " + orang.setNama());
+            labelNama.setText("Admin " + orang.getNama());
             btnReservasi.setVisible(false);
             btnHistory.setVisible(false);
         }
         else if(orang.getRole().equals("Konsumen"))
         {
-            labelNama.setText(orang.setNama());
+            labelNama.setText(orang.getNama());
             btnTable.setVisible(false);
-            btnMeny.setVisible(false);
+            btnMenu.setVisible(false);
             
         }
     }
@@ -108,18 +108,22 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(139, 139, 139)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnMenu)
+                            .addComponent(lblNama, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnTable)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(55, 55, 55)
+                                            .addComponent(btnMenu))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelNama, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnTable)
-                            .addComponent(lblNama, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnHistory)
+                                    .addComponent(labelNama, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(btnReservasi, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addComponent(btnHistory)))
+                        .addComponent(btnReservasi, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -187,4 +191,16 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel labelNama;
     private javax.swing.JLabel lblNama;
     // End of variables declaration//GEN-END:variables
+
+    private static String getNama(java.lang.String arg0, java.lang.String arg1) {
+        boluketan_projectdisprog.UserWSService service = new boluketan_projectdisprog.UserWSService();
+        boluketan_projectdisprog.UserWS port = service.getUserWSPort();
+        return port.getNama(arg0, arg1);
+    }
+
+    private static String getRole(java.lang.String arg0, java.lang.String arg1) {
+        boluketan_projectdisprog.UserWSService service = new boluketan_projectdisprog.UserWSService();
+        boluketan_projectdisprog.UserWS port = service.getUserWSPort();
+        return port.getRole(arg0, arg1);
+    }
 }

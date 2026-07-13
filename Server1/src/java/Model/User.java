@@ -80,9 +80,6 @@ public class User extends MyModel{
         this.password = password;
     }
     
-    
-    
-
     public boolean checkLogin(String email, String password){
         boolean found = false;
         try {
@@ -111,23 +108,29 @@ public class User extends MyModel{
     @Override
     public void insertData() {
         try {
+            System.out.println("CONNECT DB: " + conn.getCatalog());
 
             PreparedStatement sql = conn.prepareStatement(
-                            "INSERT INTO user"
-                            + "(nama,role,email,password)"
-                            + " VALUES(?,?,?,?,?)"
-                    );
+                    "INSERT INTO `user` (nama, role, email, password) VALUES (?, ?, ?, ?)"
+            );
 
             sql.setString(1, this.nama);
             sql.setString(2, this.role);
             sql.setString(3, this.email);
             sql.setString(4, this.password);
             
-            sql.executeUpdate();
+            int hasil = sql.executeUpdate();
+            System.out.println("insert berhasil: " + hasil);
+            
+            
+            //sql.executeUpdate();
             sql.close();
 
         } catch (Exception e) {
-            System.out.println("Error insertData " + e);
+            e.printStackTrace(); // ganti ini
+
+            throw new RuntimeException(e);
+            //System.out.println("Error insertData " + e);
         }
     }
 
@@ -149,10 +152,10 @@ public class User extends MyModel{
             this.result = this.statement.executeQuery("Select * from user");
             while (this.result.next()){
                 User temp = new User(
-                this.result.getString("nama"),
-                this.result.getString("role"),
-                this.result.getString("email"),
-                this.result.getString("password")
+                    this.result.getString("nama"),
+                    this.result.getString("role"),
+                    this.result.getString("email"),
+                    this.result.getString("password")
                 );
                 collections.add(temp);
             }
@@ -172,7 +175,8 @@ public class User extends MyModel{
             result = sql.executeQuery();
             if(result.next())
             {
-                user = new User(this.result.getString("nama"),
+                user = new User(
+                this.result.getString("nama"),
                 this.result.getString("role"),
                 this.result.getString("email"),
                 this.result.getString("password"));

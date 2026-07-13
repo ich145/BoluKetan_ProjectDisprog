@@ -37,8 +37,26 @@
 
 <xs:complexType name="lihatMenuResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
+<xs:element name="return" type="tns:menu" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="menu">
+<xs:complexContent>
+<xs:extension base="tns:myModel">
+<xs:sequence>
+<xs:element name="harga" type="xs:double"/>
+<xs:element name="idMenu" type="xs:int"/>
+<xs:element name="informasi" type="xs:string" minOccurs="0"/>
+<xs:element name="kategori" type="xs:string" minOccurs="0"/>
+<xs:element name="nama" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="myModel" abstract="true">
+<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="updateMenu">

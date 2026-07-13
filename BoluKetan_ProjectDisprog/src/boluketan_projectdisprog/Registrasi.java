@@ -30,15 +30,13 @@ public class Registrasi extends javax.swing.JFrame {
 
         btnToLogin = new javax.swing.JButton();
         btnRegister = new javax.swing.JButton();
-        jlabel4 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JPasswordField();
-        txtTanggal = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
+        txtUsername = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,9 +48,6 @@ public class Registrasi extends javax.swing.JFrame {
                 btnRegisterActionPerformed(evt);
             }
         });
-
-        jlabel4.setText("Age (yyyy-dd-mm)");
-        jlabel4.setToolTipText("");
 
         jLabel4.setText("Email");
 
@@ -67,30 +62,32 @@ public class Registrasi extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnToLogin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
-                        .addComponent(btnRegister))
+                        .addGap(151, 151, 151)
+                        .addComponent(jLabel1)
+                        .addGap(211, 211, 211))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jlabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEmail)
-                            .addComponent(txtPassword)
-                            .addComponent(txtUsername)
-                            .addComponent(txtTanggal))))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnToLogin)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRegister))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(76, 76, 76)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtPassword)
+                                    .addComponent(txtEmail)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(75, 75, 75)
+                                .addComponent(txtUsername)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,22 +99,18 @@ public class Registrasi extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlabel4)
-                    .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnToLogin)
                     .addComponent(btnRegister))
-                .addContainerGap())
+                .addGap(51, 51, 51))
         );
 
         pack();
@@ -125,29 +118,41 @@ public class Registrasi extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         String nama = txtUsername.getText();
-        String tanggal_lahir = txtTanggal.getText().trim();
+
         String email = txtEmail.getText();
+
         String password = String.valueOf(txtPassword.getPassword());
 
-        if (nama.isEmpty() || email.isEmpty() || password.isEmpty() || tanggal_lahir.isEmpty()) {
+        if (nama.isEmpty() || email.isEmpty() || password.isEmpty()) {
+
             JOptionPane.showMessageDialog(this, "Semua field harus diisi");
+
             return;
+
         }
 
-        try{
+        try {
+
             boolean isSuccess = eregister(nama, "konsumen", email, password);
 
+            System.out.println("HASIL REGISTER: " + isSuccess);
+
             if (isSuccess) {
+
                 JOptionPane.showMessageDialog(this, "Registrasi berhasil");
+
                 Login lg = new Login();
+
                 lg.setVisible(true);
+
                 this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Registrasi gagal");
+
             }
-        } catch (Exception e){
+
+        } catch (Exception e) {
+
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Terjadi error: " + e.getMessage());
+
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
@@ -193,10 +198,8 @@ public class Registrasi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jlabel4;
-    private javax.swing.JPasswordField txtEmail;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtTanggal;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
@@ -204,6 +207,12 @@ public class Registrasi extends javax.swing.JFrame {
         boluketan_projectdisprog.UserWSService service = new boluketan_projectdisprog.UserWSService();
         boluketan_projectdisprog.UserWS port = service.getUserWSPort();
         return port.eregister(arg0, arg1, arg2, arg3);
+    }
+
+    private static boolean test() {
+        boluketan_projectdisprog.UserWSService service = new boluketan_projectdisprog.UserWSService();
+        boluketan_projectdisprog.UserWS port = service.getUserWSPort();
+        return port.test();
     }
 
 

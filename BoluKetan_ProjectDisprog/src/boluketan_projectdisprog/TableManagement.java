@@ -31,7 +31,6 @@ public class TableManagement extends javax.swing.JFrame {
         for (boluketan_projectdisprog.Meja m : daftarMeja) {
         model.addRow(new Object[]{
             m.getIdMeja(),
-            m.getNomerMeja(),
             m.getStatus(),
             m.getJumlahKonsumen(),
             });

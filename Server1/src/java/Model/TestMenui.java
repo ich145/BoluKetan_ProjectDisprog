@@ -4,6 +4,9 @@
  */
 package Model;
 
+import java.sql.Connection;
+
+import java.sql.DriverManager;
 /**
  *
  * @author michael
@@ -11,21 +14,30 @@ package Model;
 public class TestMenui {
     public static void main(String[] args) {
 
-        Menu m = new Menu(
+        try {
 
-                "Nasi Goreng",
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-                "Makanan",
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/uasdisprog"
+                    + "?useSSL=false"
+                    + "&allowPublicKeyRetrieval=true"
+                    + "&serverTimezone=Asia/Jakarta",
+                    "root",
+                    ""
+            );
 
-                25000,
+            System.out.println("Koneksi berhasil!");
 
-                "Nasi goreng spesial"
+            conn.close();
 
-        );
+        } catch (Exception e) {
 
-        m.insertData();
+            System.out.println("Koneksi gagal!");
 
-        System.out.println("Insert Success");
+            e.printStackTrace();
+
+        }
 
     }
 }

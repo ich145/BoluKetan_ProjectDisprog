@@ -12,6 +12,18 @@
 
 <xs:element name="eregisterResponse" type="tns:eregisterResponse"/>
 
+<xs:element name="getNama" type="tns:getNama"/>
+
+<xs:element name="getNamaResponse" type="tns:getNamaResponse"/>
+
+<xs:element name="getRole" type="tns:getRole"/>
+
+<xs:element name="getRoleResponse" type="tns:getRoleResponse"/>
+
+<xs:element name="test" type="tns:test"/>
+
+<xs:element name="testResponse" type="tns:testResponse"/>
+
 <xs:complexType name="elogin">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0"/>
@@ -22,6 +34,32 @@
 <xs:complexType name="eloginResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRole">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRoleResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getNama">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getNamaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -41,7 +79,13 @@
 <xs:complexType name="user">
 <xs:complexContent>
 <xs:extension base="tns:myModel">
-<xs:sequence/>
+<xs:sequence>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="idUser" type="xs:int"/>
+<xs:element name="nama" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="role" type="xs:string" minOccurs="0"/>
+</xs:sequence>
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
@@ -60,6 +104,16 @@
 </xs:complexType>
 
 <xs:complexType name="eregisterResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="test">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="testResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
 </xs:sequence>

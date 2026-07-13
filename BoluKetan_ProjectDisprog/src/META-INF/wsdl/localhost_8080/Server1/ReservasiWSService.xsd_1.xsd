@@ -22,14 +22,8 @@
 
 <xs:complexType name="cariMejaTersedia">
 <xs:sequence>
-<xs:element name="arg0" type="tns:timestamp" minOccurs="0"/>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
 <xs:element name="arg1" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="timestamp">
-<xs:sequence>
-<xs:element name="nanos" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -45,7 +39,6 @@
 <xs:sequence>
 <xs:element name="idMeja" type="xs:int"/>
 <xs:element name="jumlah_konsumen" type="xs:int"/>
-<xs:element name="nomer_meja" type="xs:int"/>
 <xs:element name="status" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:extension>
@@ -62,7 +55,30 @@
 
 <xs:complexType name="lihatReservasiResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
+<xs:element name="return" type="tns:reservasi" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reservasi">
+<xs:complexContent>
+<xs:extension base="tns:myModel">
+<xs:sequence>
+<xs:element name="idreservasi" type="xs:int"/>
+<xs:element name="jam_reservasi" type="tns:timestamp" minOccurs="0"/>
+<xs:element name="jumlah_tamu" type="xs:int"/>
+<xs:element name="meja_idmeja" type="xs:int"/>
+<xs:element name="status_reservasi" type="xs:string" minOccurs="0"/>
+<xs:element name="tanggal_reservasi" type="tns:timestamp" minOccurs="0"/>
+<xs:element name="total_harga" type="xs:double"/>
+<xs:element name="user_iduser" type="xs:int"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="timestamp">
+<xs:sequence>
+<xs:element name="nanos" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -91,6 +107,7 @@
 <xs:element name="arg3" type="xs:int"/>
 <xs:element name="arg4" type="xs:int"/>
 <xs:element name="arg5" type="xs:string" minOccurs="0"/>
+<xs:element name="arg6" type="xs:double"/>
 </xs:sequence>
 </xs:complexType>
 

@@ -20,12 +20,18 @@ import javax.jws.WebService;
 @WebService
 public class ReservasiWS {
     @WebMethod
+    public String tambahReservasi(String tanggal, int jumlah, String status, int idUser, int idMeja, String jam, double totalHarga) {
+        Reservasi r = new Reservasi(
+                Timestamp.valueOf(tanggal),
+                jumlah,
+                status,
+                idUser,
+                idMeja,
+                Timestamp.valueOf(jam));
 
-    public String tambahReservasi(String tanggal, int jumlah, String status, int idUser, int idMeja, String jam) {
-        
-        Reservasi r = new Reservasi(Timestamp.valueOf(tanggal), jumlah, status, idUser, idMeja, Timestamp.valueOf(jam));
-
+        r.setTotal_harga(totalHarga);
         r.insertData();
+
         return "Insert Success";
     }
     
@@ -40,7 +46,7 @@ public class ReservasiWS {
         return hasil;
 
     }
-    
+    @WebMethod
     public String updateReservasi(String tanggal, int jumlah, String status, int idUser, int idMeja, String jam){
         
         Reservasi r = new Reservasi(Timestamp.valueOf(tanggal), jumlah, status, idUser, idMeja, Timestamp.valueOf(jam));
@@ -48,6 +54,7 @@ public class ReservasiWS {
         return "Update Success";
     }
     
+    @WebMethod
     public String batalkanReservasi(int id){
         
         Reservasi r = Reservasi.getById(id);
@@ -59,11 +66,13 @@ public class ReservasiWS {
         return "Reservasi Dibatalkan";
     }
     
+    @WebMethod
     public List<Meja> cariMejaTersedia(String jamReservasi, int jumlahTamu){
         
         Timestamp ts = Timestamp.valueOf(jamReservasi);
         return Reservasi.cariMejaTersedia(ts, jumlahTamu);
     }
+
             
        
 }

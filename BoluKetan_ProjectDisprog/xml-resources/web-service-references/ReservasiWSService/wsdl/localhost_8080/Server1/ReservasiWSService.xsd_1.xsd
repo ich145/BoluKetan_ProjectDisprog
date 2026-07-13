@@ -39,7 +39,6 @@
 <xs:sequence>
 <xs:element name="idMeja" type="xs:int"/>
 <xs:element name="jumlah_konsumen" type="xs:int"/>
-<xs:element name="nomer_meja" type="xs:int"/>
 <xs:element name="status" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:extension>
@@ -108,6 +107,7 @@
 <xs:element name="arg3" type="xs:int"/>
 <xs:element name="arg4" type="xs:int"/>
 <xs:element name="arg5" type="xs:string" minOccurs="0"/>
+<xs:element name="arg6" type="xs:double"/>
 </xs:sequence>
 </xs:complexType>
 

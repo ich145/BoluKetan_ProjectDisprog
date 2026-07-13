@@ -22,14 +22,32 @@ public class UserWS {
     }
     
     @WebMethod
-    public boolean eregister(String nama, String role, String email, String password){
+    public boolean eregister(String nama, String role, String email, String password) {
+
+        System.out.println("=== REGISTER DIPANGGIL ===");
+
         try {
-            User u = new User(nama, role,email, password);
+
+            System.out.println("Nama : " + nama);
+            System.out.println("Email: " + email);
+            System.out.println("Pass : " + password);
+
+            User u = new User(nama, role, email, password);
+
+            System.out.println("USER DIBUAT");
+
             u.insertData();
+
+            System.out.println("INSERT SELESAI");
+
             return true;
+
         } catch (Exception e) {
+
+            System.out.println("ERROR REGISTER");
             e.printStackTrace();
-            throw new RuntimeException("REGISTER ERROR: " + e.getMessage());
+
+            return false;
         }
     }
     
@@ -39,13 +57,31 @@ public class UserWS {
         try
         {
             User u = new User();
-            u.getData(email, password);
-            return u;
+            return u.getData(email, password);
         }
         catch(Exception ex)
         {
             ex.printStackTrace();
             throw new RuntimeException("REGISTER ERROR: " + ex.getMessage());
         }
+    }
+    @WebMethod
+    public String getRole(String email, String password) {
+        User u = new User();
+        User data = u.getData(email, password);
+        return data.getRole();
+    }
+
+    @WebMethod
+    public String getNama(String email, String password) {
+        User u = new User();
+        User data = u.getData(email, password);
+        return data.getNama();
+    }
+    
+    @WebMethod
+    public boolean test() {
+        System.out.println("SERVICE HIDUP");
+        return true;
     }
 }
