@@ -134,13 +134,8 @@ public class Registrasi extends javax.swing.JFrame {
             return;
         }
 
-        if (!tanggal_lahir.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            JOptionPane.showMessageDialog(this, "Format tanggal lahir harus yyyy-MM-dd");
-            return;
-        }
-
         try{
-            boolean isSuccess = eregister(nama, "konsumen", tanggal_lahir, email, password);
+            boolean isSuccess = eregister(nama, "konsumen", email, password);
 
             if (isSuccess) {
                 JOptionPane.showMessageDialog(this, "Registrasi berhasil");
@@ -205,11 +200,13 @@ public class Registrasi extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
-    private static boolean eregister(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3, java.lang.String arg4) {
+    private static boolean eregister(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3) {
         boluketan_projectdisprog.UserWSService service = new boluketan_projectdisprog.UserWSService();
         boluketan_projectdisprog.UserWS port = service.getUserWSPort();
-        return port.eregister(arg0, arg1, arg2, arg3, arg4);
+        return port.eregister(arg0, arg1, arg2, arg3);
     }
+
+
 
 
 

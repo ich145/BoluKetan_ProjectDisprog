@@ -22,7 +22,7 @@ public class MejaWS {
     @WebMethod
 
     public String tambahMeja(int nomer_meja,  String status, int jumlah_konsumen) {
-        Meja m = new Meja(nomer_meja,status,jumlah_konsumen);
+        Meja m = new Meja(status,jumlah_konsumen);
         m.insertData();
         return "Insert Success";
     }

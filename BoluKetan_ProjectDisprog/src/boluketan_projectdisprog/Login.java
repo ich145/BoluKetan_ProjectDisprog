@@ -116,8 +116,9 @@ public class Login extends javax.swing.JFrame {
             boolean loginCheck = elogin(email, password);
             if (loginCheck) {
                 JOptionPane.showMessageDialog(this, "Account is found");
-                TableManagement rt = new TableManagement();
-                rt.setVisible(true);
+                User user = egetData(email,password);
+                Home home = new Home(user);
+                home.setVisible(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Email or Password is Invalid");
@@ -180,6 +181,12 @@ public class Login extends javax.swing.JFrame {
         boluketan_projectdisprog.UserWSService service = new boluketan_projectdisprog.UserWSService();
         boluketan_projectdisprog.UserWS port = service.getUserWSPort();
         return port.elogin(arg0, arg1);
+    }
+
+    private static User egetData(java.lang.String arg0, java.lang.String arg1) {
+        boluketan_projectdisprog.UserWSService service = new boluketan_projectdisprog.UserWSService();
+        boluketan_projectdisprog.UserWS port = service.getUserWSPort();
+        return port.egetData(arg0, arg1);
     }
 
 

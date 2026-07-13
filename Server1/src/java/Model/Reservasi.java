@@ -300,7 +300,6 @@ public class Reservasi extends MyModel{
         while (rs.next()) {
             Meja m = new Meja();
             m.setIdMeja(rs.getInt("idmeja"));
-            m.setNomer_meja(rs.getInt("nomer_meja"));
             m.setJumlah_konsumen(rs.getInt("jumlah_konsumen"));
             m.setStatus(rs.getString("status"));
             hasil.add(m);

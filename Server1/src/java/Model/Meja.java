@@ -21,14 +21,6 @@ public class Meja extends MyModel {
         this.idMeja = idMeja;
     }
 
-    public int getNomer_meja() {
-        return nomer_meja;
-    }
-
-    public void setNomer_meja(int nomer_meja) {
-        this.nomer_meja = nomer_meja;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -45,7 +37,6 @@ public class Meja extends MyModel {
         this.jumlah_konsumen = jumlah_konsumen;
     }
     private int idMeja;
-    private int nomer_meja;
     private String status;
     private int jumlah_konsumen;
 
@@ -54,12 +45,10 @@ public class Meja extends MyModel {
     }
 
     public Meja(
-            int nomer_meja,
             String status,
             int jumlah_konsumen
     ) {
         super();
-        this.nomer_meja = nomer_meja;
         this.status = status;
         this.jumlah_konsumen = jumlah_konsumen;
     }
@@ -71,13 +60,12 @@ public class Meja extends MyModel {
             PreparedStatement sql
                     = conn.prepareStatement(
                             "INSERT INTO meja "
-                            + "(nomer_meja,status,jumlah_konsumen) "
+                            + "(status,jumlah_konsumen) "
                             + "VALUES (?,?,?)"
                     );
 
-            sql.setInt(1, this.nomer_meja);
-            sql.setString(2, this.status);
-            sql.setInt(3, this.jumlah_konsumen);
+            sql.setString(1, this.status);
+            sql.setInt(2, this.jumlah_konsumen);
 
             sql.executeUpdate();
             sql.close();
@@ -149,7 +137,6 @@ public class Meja extends MyModel {
                 Meja temp = new Meja();
 
                 temp.setIdMeja(result.getInt("idmeja"));
-                temp.setNomer_meja(result.getInt("nomer_meja"));
                 temp.setStatus(result.getString("status"));
                 temp.setJumlah_konsumen(result.getInt("jumlah_konsumen"));
 

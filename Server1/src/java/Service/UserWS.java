@@ -22,15 +22,30 @@ public class UserWS {
     }
     
     @WebMethod
-    public boolean eregister(String nama, String role, String tanggal_lahir, String email, String password){
+    public boolean eregister(String nama, String role, String email, String password){
         try {
-            java.sql.Date tglLahir = java.sql.Date.valueOf(tanggal_lahir);
-            User u = new User(nama, role, tglLahir, email, password);
+            User u = new User(nama, role,email, password);
             u.insertData();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("REGISTER ERROR: " + e.getMessage());
+        }
+    }
+    
+    @WebMethod
+    public User egetData(String email, String password)
+    {
+        try
+        {
+            User u = new User();
+            u.getData(email, password);
+            return u;
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            throw new RuntimeException("REGISTER ERROR: " + ex.getMessage());
         }
     }
 }

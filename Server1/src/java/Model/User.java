@@ -6,18 +6,60 @@ package Model;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author michael
  */
 public class User extends MyModel{
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     private int idUser;
     private String nama;
     private String role;
-    private Date tanggal_lahir;
     private String email;
     private String password;
     
@@ -28,14 +70,12 @@ public class User extends MyModel{
     public User(
             String nama,
             String role,
-            Date tanggal_lahir,
             String email,
             String password
     ) {
         super();
         this.nama = nama;
         this.role = role;
-        this.tanggal_lahir = tanggal_lahir;
         this.email = email;
         this.password = password;
     }
@@ -74,15 +114,14 @@ public class User extends MyModel{
 
             PreparedStatement sql = conn.prepareStatement(
                             "INSERT INTO user"
-                            + "(nama,role,tanggal_lahir,email,password)"
+                            + "(nama,role,email,password)"
                             + " VALUES(?,?,?,?,?)"
                     );
 
             sql.setString(1, this.nama);
             sql.setString(2, this.role);
-            sql.setDate(3, this.tanggal_lahir);
-            sql.setString(4, this.email);
-            sql.setString(5, this.password);
+            sql.setString(3, this.email);
+            sql.setString(4, this.password);
             
             sql.executeUpdate();
             sql.close();
@@ -112,7 +151,6 @@ public class User extends MyModel{
                 User temp = new User(
                 this.result.getString("nama"),
                 this.result.getString("role"),
-                this.result.getDate("tanggal_lahir"),
                 this.result.getString("email"),
                 this.result.getString("password")
                 );
@@ -124,4 +162,25 @@ public class User extends MyModel{
         return collections;
     }
     
+    public User getData(String email, String password)
+    {
+        User user = new User();
+        try {
+            PreparedStatement sql = conn.prepareStatement("Select * from user where email = ? and password = ?");
+            sql.setString(1, email);
+            sql.setString(2, password);
+            result = sql.executeQuery();
+            if(result.next())
+            {
+                user = new User(this.result.getString("nama"),
+                this.result.getString("role"),
+                this.result.getString("email"),
+                this.result.getString("password"));
+            }
+        } catch (Exception ex) {
+            System.out.println("Email atau Password Salah");
+        }
+        return user;
+    }
+
 }
