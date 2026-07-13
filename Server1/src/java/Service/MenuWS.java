@@ -44,11 +44,13 @@ public class MenuWS {
     }
     
     @WebMethod
-    public String deleteMenu(int id) {
+        public String deleteMenu(int id) {
 
-    Menu m = new Menu();
-    m.setIdMenu(id);
-    m.deleteData();
-    return "Delete Success";
-}
+        Menu m = new Menu();
+        m.setIdMenu(id);
+        m.deleteData();
+        return "Delete Success";
+    }
+        
+
 }

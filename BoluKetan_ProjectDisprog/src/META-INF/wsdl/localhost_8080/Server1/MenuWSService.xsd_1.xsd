@@ -8,6 +8,10 @@
 
 <xs:element name="lihatMenuResponse" type="tns:lihatMenuResponse"/>
 
+<xs:element name="simpanPesananMakanan" type="tns:simpanPesananMakanan"/>
+
+<xs:element name="simpanPesananMakananResponse" type="tns:simpanPesananMakananResponse"/>
+
 <xs:element name="tambahMenu" type="tns:tambahMenu"/>
 
 <xs:element name="tambahMenuResponse" type="tns:tambahMenuResponse"/>
@@ -15,6 +19,21 @@
 <xs:element name="updateMenu" type="tns:updateMenu"/>
 
 <xs:element name="updateMenuResponse" type="tns:updateMenuResponse"/>
+
+<xs:complexType name="simpanPesananMakanan">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+<xs:element name="arg1" type="xs:int"/>
+<xs:element name="arg2" type="xs:int"/>
+<xs:element name="arg3" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="simpanPesananMakananResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
 
 <xs:complexType name="tambahMenu">
 <xs:sequence>

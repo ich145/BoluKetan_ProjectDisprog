@@ -24,6 +24,12 @@ public class Reservasi extends MyModel{
     private int meja_idmeja;
     private Timestamp jam_reservasi;
     private double total_harga;
+    private Timestamp tanggal;
+    private int jumlah;
+    private String status;
+    private int idUser;
+    private int idMeja;
+    private Timestamp jam;
     
     public int getIdreservasi() {
         return idreservasi;
@@ -278,32 +284,73 @@ public class Reservasi extends MyModel{
         return r;
     }
     
-    public static List<Meja> cariMejaTersedia(Timestamp jamReservasi, int jumlahTamu) {
-        List<Meja> hasil = new ArrayList<>();
+    public static ArrayList<Meja> cariMejaTersedia(Timestamp jamReservasi, int jumlahTamu) {
+
+        ArrayList<Meja> hasil = new ArrayList<>();
+
         try {
             PreparedStatement sql = conn.prepareStatement(
-                "SELECT m.* FROM meja m " +
-                "WHERE m.jumlah_konsumen >= ? " +
-                "AND m.idmeja NOT IN (" +
-                "    SELECT r.meja_idmeja FROM reservasi r " +
-                "    WHERE r.jam_reservasi = ? AND r.status_reservasi != 'cancel'" +
-                ")"
+                    "SELECT * FROM meja m "
+                    + "WHERE m.jumlah_konsumen >= ? "
+                    + "AND m.status = 'tersedia' "
+                    + "AND m.idmeja NOT IN ("
+                    + "SELECT r.idmeja "
+                    + "FROM reservasi r "
+                    + "WHERE r.jam = ? "
+                    + "AND r.status_reservasi <> 'cancel'"
+                    + ")"
             );
+
             sql.setInt(1, jumlahTamu);
             sql.setTimestamp(2, jamReservasi);
 
             ResultSet rs = sql.executeQuery();
+
             while (rs.next()) {
+
                 Meja m = new Meja();
+
                 m.setIdMeja(rs.getInt("idmeja"));
-                m.setJumlah_konsumen(rs.getInt("jumlah_konsumen"));
                 m.setStatus(rs.getString("status"));
+                m.setJumlah_konsumen(rs.getInt("jumlah_konsumen"));
+
                 hasil.add(m);
             }
+
             sql.close();
+
         } catch (Exception e) {
-            System.out.println("Error cariMejaTersedia " + e);
+            System.out.println("Error cari meja tersedia : " + e);
         }
+
         return hasil;
+    }
+    public int insertDataAndGetId() {
+        int idBaru = 0;
+        try {
+            // Sesuaikan nama kolom dengan yang ada di database kamu
+            String query = "INSERT INTO reservasi (tanggal_reservasi, jumlah_tamu, status_reservasi, user_iduser, meja_idmeja, jam_reservasi, total_harga) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement sql = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            sql.setTimestamp(1, this.tanggal_reservasi);
+            sql.setInt(2, this.jumlah_tamu);
+            sql.setString(3, this.status_reservasi);
+            sql.setInt(4, this.user_iduser);
+            sql.setInt(5, this.meja_idmeja);
+            sql.setTimestamp(6, this.jam_reservasi);
+            sql.setDouble(7, this.total_harga);
+
+            sql.executeUpdate();
+
+            ResultSet rs = sql.getGeneratedKeys();
+            if (rs.next()) {
+                idBaru = rs.getInt(1);
+            }
+
+            sql.close();
+        } catch (Exception ex) {
+            System.out.println("Error saat insert: " + ex);
+        }
+        return idBaru;
     }
 }   

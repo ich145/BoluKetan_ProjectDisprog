@@ -4,23 +4,11 @@
 <xsd:import namespace="http://Service/" schemaLocation="http://localhost:8080/Server1/MenuWSService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="deleteMenu">
-<part name="parameters" element="tns:deleteMenu"/>
+<message name="simpanPesananMakanan">
+<part name="parameters" element="tns:simpanPesananMakanan"/>
 </message>
-<message name="deleteMenuResponse">
-<part name="parameters" element="tns:deleteMenuResponse"/>
-</message>
-<message name="updateMenu">
-<part name="parameters" element="tns:updateMenu"/>
-</message>
-<message name="updateMenuResponse">
-<part name="parameters" element="tns:updateMenuResponse"/>
-</message>
-<message name="lihatMenu">
-<part name="parameters" element="tns:lihatMenu"/>
-</message>
-<message name="lihatMenuResponse">
-<part name="parameters" element="tns:lihatMenuResponse"/>
+<message name="simpanPesananMakananResponse">
+<part name="parameters" element="tns:simpanPesananMakananResponse"/>
 </message>
 <message name="tambahMenu">
 <part name="parameters" element="tns:tambahMenu"/>
@@ -28,27 +16,49 @@
 <message name="tambahMenuResponse">
 <part name="parameters" element="tns:tambahMenuResponse"/>
 </message>
+<message name="lihatMenu">
+<part name="parameters" element="tns:lihatMenu"/>
+</message>
+<message name="lihatMenuResponse">
+<part name="parameters" element="tns:lihatMenuResponse"/>
+</message>
+<message name="updateMenu">
+<part name="parameters" element="tns:updateMenu"/>
+</message>
+<message name="updateMenuResponse">
+<part name="parameters" element="tns:updateMenuResponse"/>
+</message>
+<message name="deleteMenu">
+<part name="parameters" element="tns:deleteMenu"/>
+</message>
+<message name="deleteMenuResponse">
+<part name="parameters" element="tns:deleteMenuResponse"/>
+</message>
 <portType name="MenuWS">
-<operation name="deleteMenu">
-<input wsam:Action="http://Service/MenuWS/deleteMenuRequest" message="tns:deleteMenu"/>
-<output wsam:Action="http://Service/MenuWS/deleteMenuResponse" message="tns:deleteMenuResponse"/>
-</operation>
-<operation name="updateMenu">
-<input wsam:Action="http://Service/MenuWS/updateMenuRequest" message="tns:updateMenu"/>
-<output wsam:Action="http://Service/MenuWS/updateMenuResponse" message="tns:updateMenuResponse"/>
-</operation>
-<operation name="lihatMenu">
-<input wsam:Action="http://Service/MenuWS/lihatMenuRequest" message="tns:lihatMenu"/>
-<output wsam:Action="http://Service/MenuWS/lihatMenuResponse" message="tns:lihatMenuResponse"/>
+<operation name="simpanPesananMakanan">
+<input wsam:Action="http://Service/MenuWS/simpanPesananMakananRequest" message="tns:simpanPesananMakanan"/>
+<output wsam:Action="http://Service/MenuWS/simpanPesananMakananResponse" message="tns:simpanPesananMakananResponse"/>
 </operation>
 <operation name="tambahMenu">
 <input wsam:Action="http://Service/MenuWS/tambahMenuRequest" message="tns:tambahMenu"/>
 <output wsam:Action="http://Service/MenuWS/tambahMenuResponse" message="tns:tambahMenuResponse"/>
 </operation>
+<operation name="lihatMenu">
+<input wsam:Action="http://Service/MenuWS/lihatMenuRequest" message="tns:lihatMenu"/>
+<output wsam:Action="http://Service/MenuWS/lihatMenuResponse" message="tns:lihatMenuResponse"/>
+</operation>
+<operation name="updateMenu">
+<input wsam:Action="http://Service/MenuWS/updateMenuRequest" message="tns:updateMenu"/>
+<output wsam:Action="http://Service/MenuWS/updateMenuResponse" message="tns:updateMenuResponse"/>
+</operation>
+<operation name="deleteMenu">
+<input wsam:Action="http://Service/MenuWS/deleteMenuRequest" message="tns:deleteMenu"/>
+<output wsam:Action="http://Service/MenuWS/deleteMenuResponse" message="tns:deleteMenuResponse"/>
+</operation>
 </portType>
 <binding name="MenuWSPortBinding" type="tns:MenuWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="deleteMenu">
+<operation name="simpanPesananMakanan">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -57,7 +67,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="updateMenu">
+<operation name="tambahMenu">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -75,7 +85,16 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="tambahMenu">
+<operation name="updateMenu">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="deleteMenu">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

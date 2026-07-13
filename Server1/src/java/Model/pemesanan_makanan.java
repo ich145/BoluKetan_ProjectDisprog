@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
 import static Model.MyModel.conn;
@@ -12,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author ZKFZ
  */
-public class pemesanan_makanan extends MyModel{
+public class pemesanan_makanan extends MyModel {
     private int idReservasi;
     private int idMenu;
     private int jumlah;
@@ -50,19 +46,19 @@ public class pemesanan_makanan extends MyModel{
         this.status_pemesanan = status_pemesanan;
     }
     
-    public pemesanan_makanan()
-    {
+    public pemesanan_makanan() {
         super();
     }
     
-    public pemesanan_makanan(int idReservasi, int idMenu, int jumlah)
-    {
+    public pemesanan_makanan(int idReservasi, int idMenu, int jumlah) {
+        super(); // Pastikan super() dipanggil agar koneksi ke database ter-inisialisasi
         this.setIdMenu(idMenu);
         this.setIdReservasi(idReservasi);
-        this.setJumlah(jumlah);
+        this.setJumlah(jumlah);; // Set jumlah belanjaan
     }
-    public pemesanan_makanan(int idReservasi, int idMenu, int jumlah, String status)
-    {
+    
+    public pemesanan_makanan(int idReservasi, int idMenu, int jumlah, String status) {
+        super(); // Pastikan super() dipanggil agar koneksi ke database ter-inisialisasi
         this.setIdMenu(idMenu);
         this.setIdReservasi(idReservasi);
         this.setJumlah(jumlah);
@@ -71,70 +67,61 @@ public class pemesanan_makanan extends MyModel{
 
     @Override
     public void insertData() {
-        try
-        {
+        try {
             PreparedStatement sql;
-            if(this.status_pemesanan != null)
-            {
-                sql =conn.prepareStatement("insert into pemesanan_makanan(reservasi_idreservasi, Menu_idMenu,jumlah,status_pemesanan) values ?,?,?,?");
+            // PERBAIKAN: Menambahkan tanda kurung () pada klausa VALUES
+            if (this.status_pemesanan != null) {
+                sql = conn.prepareStatement("INSERT INTO pemesan_makanan (reservasi_idreservasi, Menu_idMenu, jumlah, status_pesanan) VALUES (?, ?, ?, ?)");
                 sql.setInt(1, this.idReservasi);
                 sql.setInt(2, this.idMenu);
                 sql.setInt(3, this.jumlah);
                 sql.setString(4, this.status_pemesanan);
-            }
-            else
-            {
-                sql =conn.prepareStatement("insert into pemesanan_makanan(reservasi_idreservasi, Menu_idMenu,jumlah) values ?,?,?");
+            } else {
+                sql = conn.prepareStatement("INSERT INTO pemesan_makanan (reservasi_idreservasi, Menu_idMenu, jumlah) VALUES (?, ?, ?)");
                 sql.setInt(1, this.idReservasi);
                 sql.setInt(2, this.idMenu);
                 sql.setInt(3, this.jumlah); 
             }
             sql.executeUpdate();
             sql.close();
-        }
-        catch(Exception ex)
-        {
-            System.out.println("Error di insert" + ex);
+            System.out.println("Insert data pemesanan makanan berhasil!");
+        } catch (Exception ex) {
+            System.out.println("Error di insert: " + ex);
         }
     }
 
     @Override
     public void updateData() {
-        try
-        {
-            PreparedStatement sql = conn.prepareStatement("update pemesanan_makanan set jumlah = ?, status_pemesanan = ? " +
-                    "where reservasi_idReservasi = ? and Menu_idMenu = ?");
+        try {
+            // PERBAIKAN: Menyelaraskan nama tabel menjadi pemesan_makanan & kolom status_pesanan
+            PreparedStatement sql = conn.prepareStatement("UPDATE pemesan_makanan SET jumlah = ?, status_pesanan = ? WHERE reservasi_idreservasi = ? AND Menu_idMenu = ?");
             sql.setInt(1, this.jumlah);
-            sql.setString(2,this.status_pemesanan);
+            sql.setString(2, this.status_pemesanan);
             sql.setInt(3, this.idReservasi);
             sql.setInt(4, this.idMenu);
             sql.executeUpdate();
             sql.close();
-        }
-        catch(Exception ex)
-        {
-            System.out.println("Error di Update " + ex);
+        } catch (Exception ex) {
+            System.out.println("Error di Update: " + ex);
         }
     }
 
     @Override
     public void deleteData() {
-        try
-        {
-            PreparedStatement sql = conn.prepareStatement("Delete from pemesanan_makanan where reservasi_idReservasi = ? and Menu_idMenu = ?");
+        try {
+            // PERBAIKAN: Menyelaraskan nama tabel menjadi pemesan_makanan
+            PreparedStatement sql = conn.prepareStatement("DELETE FROM pemesan_makanan WHERE reservasi_idreservasi = ? AND Menu_idMenu = ?");
             sql.setInt(1, idReservasi);
             sql.setInt(2, idMenu);
             sql.executeUpdate();
             sql.close();
-        }
-        catch(Exception ex)
-        {
-            System.out.println("Error di delete " + ex);
+        } catch (Exception ex) {
+            System.out.println("Error di delete: " + ex);
         }
     }
 
     @Override
     public ArrayList<Object> viewListData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -94,6 +94,11 @@ public class MenuManagement extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tableMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMenuMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableMenu);
 
         jLabel1.setText("Pencarian Menu");
@@ -135,6 +140,8 @@ public class MenuManagement extends javax.swing.JFrame {
         jLabel6.setText("Informasi");
 
         jLabel7.setText("ID");
+
+        txtId.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -246,36 +253,116 @@ public class MenuManagement extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        // 1. Validasi: Pastikan user sudah memilih data dari tabel (ID tidak boleh kosong)
         if (txtId.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a row to update.");
+            JOptionPane.showMessageDialog(this, "Silahkan pilih data pada tabel terlebih dahulu sebelum mengupdate!");
             return;
         }
-        int id = Integer.parseInt(txtId.getText());
-        String nama = txtNama.getText();
-        String kategori = txtKategori.getText();
-        double harga = Double.parseDouble(txtHarga.getText());
-        String informasi = txtInformasi.getText();
 
-        updateMenu(id, nama, kategori, harga, informasi);
-        loadDataMenu();
+        // 2. Validasi: Pastikan field penting lainnya tidak kosong sebelum di-update
+        if (txtNama.getText().isEmpty() || txtKategori.getText().isEmpty() || txtHarga.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama, Kategori, dan Harga tidak boleh kosong!");
+            return;
+        }
+
+        try {
+            // 3. Ambil data dari masing-masing Textbox
+            int id = Integer.parseInt(txtId.getText());
+            String nama = txtNama.getText();
+            String kategori = txtKategori.getText();
+
+            // Konversi harga dari String ke Double
+            double harga = Double.parseDouble(txtHarga.getText());
+            String informasi = txtInformasi.getText();
+
+            // 4. Jalankan fungsi Web Service untuk update ke Database
+            String hasil = updateMenu(id, nama, kategori, harga, informasi);
+
+            // Tampilkan pesan sukses dari server (jika web service mengembalikan pesan)
+            JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
+
+            // 5. Refresh / muat ulang data tabel agar harga dan data baru langsung muncul
+            loadDataMenu();
+
+            // 6. Opsional: Kosongkan textbox setelah berhasil update agar bersih
+            txtId.setText("");
+            txtNama.setText("");
+            txtKategori.setText("");
+            txtHarga.setText("");
+            txtInformasi.setText("");
+
+        } catch (NumberFormatException e) {
+            // Mengantisipasi jika user memasukkan huruf/karakter aneh pada field Harga
+            JOptionPane.showMessageDialog(this, "Format harga tidak valid! Harap masukkan angka saja.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+        // 1. Validasi: Pastikan user sudah memilih baris data yang mau dihapus
         if (txtId.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a row to delete.");
+            JOptionPane.showMessageDialog(this, "Silahkan pilih data pada tabel terlebih dahulu sebelum menghapus!");
             return;
         }
+
+        // 2. Konfirmasi: Tampilkan pop-up yakin/tidak untuk menghapus data
         int confirm = JOptionPane.showConfirmDialog(this,
-            "Are you sure you want to delete this Menu?", "Confirm Delete",
-            JOptionPane.YES_NO_OPTION);
+                "Apakah anda yakin ingin menghapus Menu ini?", "Konfirmasi Hapus",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
         if (confirm == JOptionPane.YES_OPTION) {
-            int id = Integer.parseInt(txtId.getText());
-            deleteMenu(id);
-            loadDataMenu();
+            try {
+                // 3. Ambil ID dari textfield
+                int id = Integer.parseInt(txtId.getText());
+
+                // 4. Panggil Web Service untuk hapus data di Database
+                String hasil = deleteMenu(id);
+
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+
+                // 5. Refresh tabel agar baris yang dihapus langsung hilang dari layar
+                loadDataMenu();
+
+                // 6. Bersihkan Textbox inputan
+                txtId.setText("");
+                txtNama.setText("");
+                txtKategori.setText("");
+                txtHarga.setText("");
+                txtInformasi.setText("");
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "ID tidak valid!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
         
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tableMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMenuMouseClicked
+        // TODO add your handling code here:
+        // 1. Dapatkan index baris yang sedang diklik oleh user
+        int row = tableMenu.getSelectedRow();
+
+        // Cek jika baris valid (tidak bernilai minus)
+        if (row != -1) {
+            // 2. Ambil data dari kolom tabel dan masukkan ke textfield masing-masing
+            // Gunakan String.valueOf() untuk mengantisipasi data null agar tidak crash
+
+            String id = String.valueOf(tableMenu.getValueAt(row, 0));
+            txtId.setText(id);
+
+            String nama = String.valueOf(tableMenu.getValueAt(row, 1));
+            txtNama.setText(nama);
+
+            String kategori = String.valueOf(tableMenu.getValueAt(row, 2));
+            txtKategori.setText(kategori);
+
+            String harga = String.valueOf(tableMenu.getValueAt(row, 3));
+            txtHarga.setText(harga);
+
+            String informasi = String.valueOf(tableMenu.getValueAt(row, 4));
+            txtInformasi.setText(informasi);
+        }
+    }//GEN-LAST:event_tableMenuMouseClicked
 
     /**
      * @param args the command line arguments

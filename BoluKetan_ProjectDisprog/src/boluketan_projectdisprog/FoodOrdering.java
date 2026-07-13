@@ -40,43 +40,62 @@ public class FoodOrdering extends javax.swing.JFrame {
 
         initComponents();
 
-        lblNama.setText(namaPemesan);
-        lblWaktu.setText(waktuReservasi);
-
         loadKategoriWS();
 
-        DefaultTableModel model
-                = new DefaultTableModel(
-                        new Object[]{
-                            "Menu",
-                            "Harga",
-                            "Qty",
-                            "Subtotal"
-                        }, 0) {
-
+        // 1. Inisialisasi Struktur Kolom Tabel Menu (Tabel Atas)
+        DefaultTableModel modelMenu = new DefaultTableModel(
+                new Object[]{"Menu", "Harga", "Informasi"}, 0) {
             @Override
             public boolean isCellEditable(int row, int col) {
-                return col == 2;
+                return false;
             }
-
         };
+        tableKeranjang.setModel(modelMenu); // tableKeranjang bertindak sebagai Katalog Menu
 
-        tableKeranjang.setModel(model);
+        // 2. Inisialisasi Struktur Kolom Tabel Keranjang (Tabel Bawah)
+        DefaultTableModel modelKeranjang = new DefaultTableModel(
+                new Object[]{"Menu", "Harga", "Qty", "Subtotal"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+        tableKeranjang1.setModel(modelKeranjang); // tableKeranjang1 bertindak sebagai Keranjang Belanja
 
+        // 3. Muat Data Menu dari Web Service ke Tabel Menu
         loadMenu();
+
     }
     
-    public void tambahKeranjang(String menu,int harga,int qty){
-        DefaultTableModel model=
-                (DefaultTableModel)tableKeranjang.getModel();
+    public void tambahKeranjang(String menu, int harga) {
+        DefaultTableModel model = (DefaultTableModel) tableKeranjang1.getModel();
+        int barisDitemukan = -1;
 
-        model.addRow(new Object[]{
-            menu,
-            Rupiah(harga),
-            qty,
-            Rupiah(harga * qty)
+        // Cek apakah menu tersebut sudah pernah dimasukkan ke keranjang sebelumnya
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 0).toString().equals(menu)) {
+                barisDitemukan = i;
+                break;
+            }
+        }
 
-        });
+        if (barisDitemukan != -1) {
+            // Jika menu sudah ada di keranjang, akumulasikan Qty (+1)
+            int qtyLama = Integer.parseInt(model.getValueAt(barisDitemukan, 2).toString());
+            int qtyBaru = qtyLama + 1;
+            int subtotalBaru = harga * qtyBaru;
+
+            model.setValueAt(qtyBaru, barisDitemukan, 2);
+            model.setValueAt(Rupiah(subtotalBaru), barisDitemukan, 3);
+        } else {
+            // Jika menu belum ada di keranjang, buat baris baru (Qty awal = 1)
+            model.addRow(new Object[]{
+                menu,
+                Rupiah(harga),
+                1,
+                Rupiah(harga)
+            });
+        }
 
         hitungTotal();
     }
@@ -86,7 +105,7 @@ public class FoodOrdering extends javax.swing.JFrame {
     }
     
     private void hitungTotal() {
-        DefaultTableModel model = (DefaultTableModel) tableKeranjang.getModel();
+        DefaultTableModel model = (DefaultTableModel) tableKeranjang1.getModel();
 
         int total = 0;
         for (int i = 0; i < model.getRowCount(); i++) {
@@ -102,29 +121,26 @@ public class FoodOrdering extends javax.swing.JFrame {
     }
 
     private void loadMenu() {
-
-        DefaultTableModel model
-                = (DefaultTableModel) tableKeranjang.getModel();
-
+        DefaultTableModel model = (DefaultTableModel) tableKeranjang.getModel();
         model.setRowCount(0);
 
-        MenuWSService service = new MenuWSService();
-        MenuWS port = service.getMenuWSPort();
+        try {
+            MenuWSService service = new MenuWSService();
+            MenuWS port = service.getMenuWSPort();
+            java.util.List<boluketan_projectdisprog.Menu> daftar = port.lihatMenu();
 
-        java.util.List<Menu> daftar = port.lihatMenu();
-
-        for (Menu m : daftar) {
-
-            model.addRow(new Object[]{
-                m.getNama(),
-                Rupiah((int) m.getHarga()),
-                1,
-                Rupiah((int) m.getHarga())
-            });
-
+            if (daftar != null) {
+                for (boluketan_projectdisprog.Menu m : daftar) {
+                    model.addRow(new Object[]{
+                        m.getNama(),
+                        (int) m.getHarga(),
+                        m.getInformasi() // <-- Tambahkan ini untuk menampilkan data dari database/WS
+                    });
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat data menu: " + e.getMessage());
         }
-
-        hitungTotal();
     }
 
 
@@ -142,11 +158,13 @@ public class FoodOrdering extends javax.swing.JFrame {
         tableKeranjang = new javax.swing.JTable();
         btnCheckout = new javax.swing.JButton();
         lblTotal = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        lblNama = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         lblWaktu = new javax.swing.JLabel();
         jComboBoxKategori = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableKeranjang1 = new javax.swing.JTable();
+        lblWaktu2 = new javax.swing.JLabel();
+        btnAdd = new javax.swing.JButton();
+        btnSub = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,71 +190,92 @@ public class FoodOrdering extends javax.swing.JFrame {
 
         lblTotal.setText("Total : 0");
 
-        jLabel1.setText("Nama Pemesan:");
-
-        lblNama.setText("lblNama");
-
-        jLabel3.setText("Waktu:");
-
-        lblWaktu.setText("lblWaktu");
+        lblWaktu.setText("Menu");
 
         jComboBoxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        tableKeranjang1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tableKeranjang1);
+
+        lblWaktu2.setText("Keranjang");
+
+        btnAdd.setText("+");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        btnSub.setText("-");
+        btnSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBoxKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(lblTotal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCheckout))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(lblTotal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCheckout)))
-                        .addGap(35, 183, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(73, 73, 73)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblWaktu)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNama)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblWaktu2)
+                            .addComponent(lblWaktu)
+                            .addComponent(jComboBoxKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnSub)
+                            .addComponent(btnAdd))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(37, 37, 37))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(lblNama))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(lblWaktu))
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addComponent(jComboBoxKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblWaktu)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(btnAdd)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblWaktu2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnSub)
+                        .addGap(81, 81, 81)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTotal)
                     .addComponent(btnCheckout))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
 
         pack();
@@ -244,45 +283,132 @@ public class FoodOrdering extends javax.swing.JFrame {
 
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) tableKeranjang.getModel();
+        DefaultTableModel model
+                = (DefaultTableModel) tableKeranjang1.getModel();
 
         if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Keranjang kosong");
+
+            JOptionPane.showMessageDialog(this, "Keranjang kosong!");
+
+            return;
+
+        }
+
+        try {
+
+            // Hitung total
+            double total = 0;
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+
+                String subtotal = model.getValueAt(i, 3).toString()
+                        .replace("Rp", "")
+                        .replace(".", "")
+                        .trim();
+
+                total += Double.parseDouble(subtotal);
+
+            }
+
+            ReservasiWSService service = new ReservasiWSService();
+
+            ReservasiWS port = service.getReservasiWSPort();
+
+            // Simpan reservasi
+            int idReservasi = port.tambahReservasi(
+                    "2026-07-13 18:00:00",
+                    1,
+                    "pending",
+                    1,
+                    1,
+                    "2026-07-13 18:00:00",
+                    total
+            );
+
+            if (idReservasi <= 0) {
+
+                JOptionPane.showMessageDialog(this, "Gagal membuat reservasi!");
+
+                return;
+
+            }
+
+            // Simpan semua makanan
+            for (int i = 0; i < model.getRowCount(); i++) {
+
+                String namaMenu = model.getValueAt(i, 0).toString();
+
+                int qty = Integer.parseInt(model.getValueAt(i, 2).toString());
+
+                port.simpanPesananMakanan(
+                        idReservasi,
+                        namaMenu,
+                        qty,
+                        "pending"
+                );
+
+            }
+
+            JOptionPane.showMessageDialog(this,
+                    "Checkout berhasil!\nID Reservasi : " + idReservasi);
+
+            dispose();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            JOptionPane.showMessageDialog(this,
+                    "Checkout gagal : " + e.getMessage());
+
+        }
+    }//GEN-LAST:event_btnCheckoutActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        int rowTerpilih = tableKeranjang.getSelectedRow();
+
+        if (rowTerpilih == -1) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih menu dari tabel atas terlebih dahulu!");
             return;
         }
 
-        double total = 0;
-        for (int i = 0; i < model.getRowCount(); i++) {
-            String subtotal = model.getValueAt(i, 3).toString();
-            subtotal = subtotal.replace("Rp", "")
-                    .replace(".", "")
-                    .trim();
-            total += Double.parseDouble(subtotal);
+        // Indeks 0 = Menu, Indeks 1 = Harga, Indeks 2 = Informasi
+        String namaMenu = tableKeranjang.getValueAt(rowTerpilih, 0).toString();
+        int hargaMenu = Integer.parseInt(tableKeranjang.getValueAt(rowTerpilih, 1).toString());
+
+        tambahKeranjang(namaMenu, hargaMenu);
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubActionPerformed
+        // TODO add your handling code here:
+        int rowTerpilih = tableKeranjang1.getSelectedRow();
+
+        if (rowTerpilih == -1) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih item di keranjang (tabel bawah) yang ingin dikurangi!");
+            return;
         }
 
-        ReservasiWSService service = new ReservasiWSService();
-        ReservasiWS port = service.getReservasiWSPort();
-        String hasil = port.tambahReservasi(
-                "2026-07-13 18:00:00", // tanggal
+        DefaultTableModel model = (DefaultTableModel) tableKeranjang1.getModel();
+        int qtyLama = Integer.parseInt(model.getValueAt(rowTerpilih, 2).toString());
 
-                1, // jumlah tamu
+        // Ambil nilai harga mentah dengan membersihkan format Rupiah
+        String hargaStr = model.getValueAt(rowTerpilih, 1).toString()
+                .replace("Rp", "").replace(".", "").trim();
+        int harga = Integer.parseInt(hargaStr);
 
-                "pending", // status
+        if (qtyLama > 1) {
+            // Kurangi qty sebanyak 1
+            int qtyBaru = qtyLama - 1;
+            model.setValueAt(qtyBaru, rowTerpilih, 2);
+            model.setValueAt(Rupiah(harga * qtyBaru), rowTerpilih, 3);
+        } else {
+            // Jika Qty tinggal 1 dan dikurangi lagi, hapus baris dari keranjang
+            model.removeRow(rowTerpilih);
+        }
 
-                1, // id user
-
-                1, // id meja
-
-                "2026-07-13 18:00:00", // jam reservasi
-
-                total // total harga
-
-        );
-
-        JOptionPane.showMessageDialog(this, hasil);
-
-        dispose();
-    }//GEN-LAST:event_btnCheckoutActionPerformed
+        hitungTotal();
+    }//GEN-LAST:event_btnSubActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,14 +445,16 @@ public class FoodOrdering extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCheckout;
+    private javax.swing.JButton btnSub;
     private javax.swing.JComboBox<String> jComboBoxKategori;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblNama;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblWaktu;
+    private javax.swing.JLabel lblWaktu2;
     private javax.swing.JTable tableKeranjang;
+    private javax.swing.JTable tableKeranjang1;
     // End of variables declaration//GEN-END:variables
 }

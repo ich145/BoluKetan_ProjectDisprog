@@ -20,7 +20,7 @@ import javax.jws.WebService;
 @WebService
 public class ReservasiWS {
     @WebMethod
-    public String tambahReservasi(String tanggal, int jumlah, String status, int idUser, int idMeja, String jam, double totalHarga) {
+    public int tambahReservasi(String tanggal, int jumlah, String status, int idUser, int idMeja, String jam, double totalHarga) {
         Reservasi r = new Reservasi(
                 Timestamp.valueOf(tanggal),
                 jumlah,
@@ -30,10 +30,14 @@ public class ReservasiWS {
                 Timestamp.valueOf(jam));
 
         r.setTotal_harga(totalHarga);
-        r.insertData();
 
-        return "Insert Success";
+        // PASTIKAN: Di dalam Model.Reservasi, method insertData() 
+        // menggunakan Statement.RETURN_GENERATED_KEYS dan mengembalikan ID-nya.
+        int idBaru = r.insertDataAndGetId();
+
+        return idBaru; // Mengembalikan ID (int)
     }
+    
     
     @WebMethod
     public List<Reservasi> lihatReservasi() {
@@ -72,7 +76,17 @@ public class ReservasiWS {
         Timestamp ts = Timestamp.valueOf(jamReservasi);
         return Reservasi.cariMejaTersedia(ts, jumlahTamu);
     }
-
+    @WebMethod(operationName = "simpanPesananMakanan")
+    public boolean simpanPesananMakanan(int idReservasi, int idMenu, int jumlah, String statusPesanan) {
+        try {
+            Model.pemesanan_makanan pm = new Model.pemesanan_makanan(idReservasi, idMenu, jumlah, statusPesanan);
+            pm.insertData();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
             
        
 }

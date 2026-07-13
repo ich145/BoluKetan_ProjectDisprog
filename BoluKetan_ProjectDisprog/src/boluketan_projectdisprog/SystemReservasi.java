@@ -27,21 +27,6 @@ public class SystemReservasi extends javax.swing.JFrame {
     private List<Integer> daftarIdMeja = new ArrayList<>();
     private int idMejaSaatIni = 0;
     
-    private void tampilkanMejaTersedia(List<boluketan_projectdisprog.Meja> mejaTersedia) {
-        cmbPilihMeja.removeAllItems();
-        daftarIdMeja.clear();
-
-        if (mejaTersedia.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tidak ada meja kosong untuk kriteria ini.");
-            return;
-        }
-
-        for (boluketan_projectdisprog.Meja m : mejaTersedia) {
-            cmbPilihMeja.addItem("Meja " + m.getIdMeja() + " (kapasitas " + m.getJumlahKonsumen() + ")");
-            daftarIdMeja.add(m.getIdMeja());
-        }
-    }
-    
     private void loadDataReservasi() {
     List<boluketan_projectdisprog.Reservasi> daftarReservasi = lihatReservasi();
 
@@ -75,21 +60,17 @@ public class SystemReservasi extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         txtIDReservasi = new javax.swing.JTextField();
         txtTanggal = new javax.swing.JTextField();
         txtJam = new javax.swing.JTextField();
         txtJumlahTamu = new javax.swing.JTextField();
-        cmbPilihMeja = new javax.swing.JComboBox<>();
         btnCekKetersediaan = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableReservasi = new javax.swing.JTable();
         btnReservasi = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        cmbStatus = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,11 +80,9 @@ public class SystemReservasi extends javax.swing.JFrame {
 
         jLabel3.setText("Jam");
 
-        jLabel4.setText("Status");
-
         jLabel5.setText("Jumlah Tamu");
 
-        jLabel6.setText("Pilih Meja");
+        txtIDReservasi.setEnabled(false);
 
         txtTanggal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,12 +99,6 @@ public class SystemReservasi extends javax.swing.JFrame {
         txtJumlahTamu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtJumlahTamuActionPerformed(evt);
-            }
-        });
-
-        cmbPilihMeja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbPilihMejaActionPerformed(evt);
             }
         });
 
@@ -155,6 +128,11 @@ public class SystemReservasi extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tableReservasi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableReservasiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableReservasi);
 
         btnReservasi.setText("Reservasi");
@@ -178,13 +156,6 @@ public class SystemReservasi extends javax.swing.JFrame {
             }
         });
 
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pending", "Complete", "Cancel", " " }));
-        cmbStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbStatusActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -201,10 +172,6 @@ public class SystemReservasi extends javax.swing.JFrame {
                     .addComponent(btnCekKetersediaan)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -220,11 +187,7 @@ public class SystemReservasi extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtJumlahTamu, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbPilihMeja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -247,18 +210,10 @@ public class SystemReservasi extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtJumlahTamu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(cmbPilihMeja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
                 .addComponent(btnCekKetersediaan)
-                .addGap(18, 18, 18)
+                .addGap(43, 43, 43)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReservasi)
                     .addComponent(btnUpdate)
@@ -282,39 +237,51 @@ public class SystemReservasi extends javax.swing.JFrame {
     }//GEN-LAST:event_txtJumlahTamuActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        
-        
-        int idMeja;
-        if (daftarIdMeja.isEmpty() || cmbPilihMeja.getSelectedIndex() < 0) {
-            idMeja = idMejaSaatIni;
-        } else {
-            idMeja = daftarIdMeja.get(cmbPilihMeja.getSelectedIndex());
+        if (txtIDReservasi.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Pilih data reservasi di tabel terlebih dahulu!");
+            return;
         }
+
+        int idReservasi = Integer.parseInt(txtIDReservasi.getText());
         String tanggal = txtTanggal.getText().trim();
         String jam = txtJam.getText().trim();
         int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
-        String status = (String) cmbStatus.getSelectedItem();
-        int idUser = 1; // TODO: ganti dengan id user yang sedang login
+
+        // Gunakan meja saat ini jika combobox kosong
+        int idMeja = idMejaSaatIni;
+
+        String status = "Confirmed"; // Status otomatis berubah jadi terkonfirmasi saat diupdate
+        int idUser = 1;
 
         String tanggalReservasi = tanggal + " 00:00:00";
         String jamReservasi = tanggal + " " + jam + ":00";
 
+        // Panggil Web Service untuk Update
         String hasil = updateReservasi(tanggalReservasi, jumlahTamu, status, idUser, idMeja, jamReservasi);
         JOptionPane.showMessageDialog(this, hasil);
-        loadDataReservasi();
+
+        loadDataReservasi(); // Refresh tabel
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         
-        int idReservasi = Integer.parseInt(txtIDReservasi.getText().trim());
-        String hasil = batalkanReservasi(idReservasi);
-        JOptionPane.showMessageDialog(this, hasil);
-        loadDataReservasi();
-    }//GEN-LAST:event_btnCancelActionPerformed
+        if (txtIDReservasi.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Pilih data reservasi di tabel terlebih dahulu!");
+            return;
+        }
 
-    private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbStatusActionPerformed
+        int konfirmasi = JOptionPane.showConfirmDialog(this, "Yakin ingin membatalkan reservasi ini?", "Hapus Data", JOptionPane.YES_NO_OPTION);
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            int idReservasi = Integer.parseInt(txtIDReservasi.getText());
+
+            // Panggil Web Service untuk Delete/Cancel
+            String hasil = batalkanReservasi(idReservasi);
+            JOptionPane.showMessageDialog(this, hasil);
+
+            loadDataReservasi(); // Refresh tabel
+        }
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnCekKetersediaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekKetersediaanActionPerformed
         
@@ -324,30 +291,94 @@ public class SystemReservasi extends javax.swing.JFrame {
         String jamReservasi = tanggal + " " + jam + ":00";
 
         List<boluketan_projectdisprog.Meja> mejaTersedia = cariMejaTersedia(jamReservasi, jumlahTamu);
-        tampilkanMejaTersedia(mejaTersedia);
 
     }//GEN-LAST:event_btnCekKetersediaanActionPerformed
 
     private void btnReservasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservasiActionPerformed
         
-        int idMeja = daftarIdMeja.get(cmbPilihMeja.getSelectedIndex());
-        String tanggal = txtTanggal.getText().trim();
-        String jam = txtJam.getText().trim();
-        int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
-        String status = "Pending"; // dipaksa, tidak ambil dari cmbStatus
-        int idUser = 1; // TODO: ganti dengan id user yang sedang login
+        // 1. Validasi: Pastikan inputan tidak kosong
+        if (txtTanggal.getText().trim().isEmpty() || txtJam.getText().trim().isEmpty() || txtJumlahTamu.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tanggal, Jam, dan Jumlah Tamu wajib diisi!");
+            return;
+        }
 
-        String tanggalReservasi = tanggal + " 00:00:00";
-        String jamReservasi = tanggal + " " + jam + ":00";
+        try {
+            String tanggal = txtTanggal.getText().trim();
+            String jam = txtJam.getText().trim();
+            int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
 
-        String hasil = tambahReservasi(tanggalReservasi, jumlahTamu, status, idUser, idMeja, jamReservasi, 0);
-        JOptionPane.showMessageDialog(this, hasil);
-        loadDataReservasi();
+            // 2. OTOMATIS CARI MEJA: Panggil Web Service Server untuk mencari meja yang muat
+            // Fungsi ini mengembalikan List<Meja> yang kapasitasnya >= jumlahTamu
+            List<boluketan_projectdisprog.Meja> mejaCocok = cariMejaTersedia(jam, jumlahTamu);
+
+            // 3. Cek apakah ada meja yang tersedia
+            if (mejaCocok.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Maaf, tidak ada meja yang kapasitasnya cukup untuk " + jumlahTamu + " orang.");
+                return;
+            }
+
+            // 4. Pilih meja pertama yang paling pas (index 0) dari hasil list server
+            int idMejaDipilih = mejaCocok.get(0).getIdMeja();
+
+            // 5. Siapkan data lainnya untuk dikirim ke database
+            String status = "Pending"; // Status awal reservasi baru
+            int idUser = 1; // TODO: Nanti ganti dengan ID User yang sedang login dari session
+
+            // Format String penanggalan standar SQL
+            String tanggalReservasi = tanggal + " 00:00:00";
+            String jamReservasi = tanggal + " " + jam + ":00";
+            double totalHarga = 0; // Set 0 dulu atau sesuaikan logika hargamu
+
+            // 6. Panggil Web Service untuk INSERT data
+            int idHasil = tambahReservasi(tanggalReservasi, jumlahTamu, status, idUser, idMejaDipilih, jamReservasi, totalHarga);
+
+            // 7. Cek apakah berhasil (asumsi idHasil > 0 berarti sukses)
+            if (idHasil > 0) {
+                JOptionPane.showMessageDialog(this, "Reservasi Berhasil! ID: " + idHasil + "\nDialokasikan ke Meja: " + idMejaDipilih);
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal melakukan reservasi.");
+            }
+
+            // 8. Refresh Tabel
+            loadDataReservasi();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Jumlah tamu harus berupa angka!", "Error Input", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnReservasiActionPerformed
 
-    private void cmbPilihMejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPilihMejaActionPerformed
+    private void tableReservasiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableReservasiMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmbPilihMejaActionPerformed
+        int row = tableReservasi.getSelectedRow();
+        if (row != -1) {
+            // 1. Ambil ID Reservasi dan masukkan ke txtIDReservasi
+            String id = String.valueOf(tableReservasi.getValueAt(row, 0));
+            txtIDReservasi.setText(id);
+
+            // 2. Ambil data Tanggal & Jam
+            // Karena format dari database biasanya YYYY-MM-DD HH:MM:SS, kita bersihkan sedikit
+            String fullTanggal = String.valueOf(tableReservasi.getValueAt(row, 1)); // Tanggal
+            if (fullTanggal.length() >= 10) {
+                txtTanggal.setText(fullTanggal.substring(0, 10)); // Ambil YYYY-MM-DD saja
+            } else {
+                txtTanggal.setText(fullTanggal);
+            }
+
+            String fullJam = String.valueOf(tableReservasi.getValueAt(row, 6)); // Jam
+            if (fullJam.length() >= 16) {
+                txtJam.setText(fullJam.substring(11, 16)); // Ambil HH:MM saja
+            } else {
+                txtJam.setText(fullJam);
+            }
+
+            // 3. Ambil Jumlah Tamu
+            String tamu = String.valueOf(tableReservasi.getValueAt(row, 2));
+            txtJumlahTamu.setText(tamu);
+
+            // 4. Catat ID Meja saat ini agar jika tidak ganti meja, ID ini tetap dipakai
+            idMejaSaatIni = Integer.parseInt(String.valueOf(tableReservasi.getValueAt(row, 5)));
+        }
+    }//GEN-LAST:event_tableReservasiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -389,14 +420,10 @@ public class SystemReservasi extends javax.swing.JFrame {
     private javax.swing.JButton btnCekKetersediaan;
     private javax.swing.JButton btnReservasi;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cmbPilihMeja;
-    private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableReservasi;
     private javax.swing.JTextField txtIDReservasi;
@@ -432,9 +459,9 @@ public class SystemReservasi extends javax.swing.JFrame {
         return port.lihatReservasi();
     }
 
-    private static String tambahReservasi(String arg0, int arg1, String arg2, int arg3, int arg4, String arg5, double arg6) {
+    private static int tambahReservasi(String arg0, int arg1, String arg2, int arg3, int arg4, String arg5, double arg6) {
         boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
         boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
         return port.tambahReservasi(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-    }   
+    }
 }

@@ -104,35 +104,39 @@ public class Menu extends MyModel{
 
     @Override
     public void updateData() {
-        
         try {
-            
-                PreparedStatement sql = conn.prepareStatement(
-                    "UPDATE Menu SET nama=?, katgori=?, harga=?, Informasi=? WHERE id=?");
-                sql.setString(1, this.nama);
-                sql.setString(2, this.kategori);
-                sql.setDouble(3, this.harga);
-                sql.setString(4, this.informasi);
-                sql.executeUpdate();
-                sql.close();
-            
+            PreparedStatement sql = conn.prepareStatement(
+                    "UPDATE Menu SET nama=?, kategori=?, harga=?, informasi=? WHERE idMenu=?"
+            );
+
+            sql.setString(1, this.nama);
+            sql.setString(2, this.kategori);
+            sql.setDouble(3, this.harga);
+            sql.setString(4, this.informasi);
+
+            // Perbaikan: Wajib set parameter kelima untuk ID agar database tahu baris mana yang mau diubah
+            sql.setInt(5, this.idMenu);
+
+            sql.executeUpdate();
+            sql.close();
+
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error updateData: " + ex.getMessage());
         }
     }
 
     @Override
     public void deleteData() {
         try {
-            
-                PreparedStatement sql = conn.prepareStatement(
-                    "DELETE FROM Menu WHERE id=?");
-                sql.setInt(1, this.idMenu);
-                sql.executeUpdate();
-                sql.close();
-            
+            PreparedStatement sql = conn.prepareStatement(
+                    "DELETE FROM Menu WHERE idMenu=?"
+            );
+            sql.setInt(1, this.idMenu);
+            sql.executeUpdate();
+            sql.close();
+
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error deleteData: " + ex.getMessage());
         }
 
     }

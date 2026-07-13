@@ -4,6 +4,12 @@
 <xsd:import namespace="http://Service/" schemaLocation="http://localhost:8080/Server1/MejaWSService?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="tambahMeja">
+<part name="parameters" element="tns:tambahMeja"/>
+</message>
+<message name="tambahMejaResponse">
+<part name="parameters" element="tns:tambahMejaResponse"/>
+</message>
 <message name="lihatMeja">
 <part name="parameters" element="tns:lihatMeja"/>
 </message>
@@ -16,13 +22,11 @@
 <message name="updateStatusResponse">
 <part name="parameters" element="tns:updateStatusResponse"/>
 </message>
-<message name="tambahMeja">
-<part name="parameters" element="tns:tambahMeja"/>
-</message>
-<message name="tambahMejaResponse">
-<part name="parameters" element="tns:tambahMejaResponse"/>
-</message>
 <portType name="MejaWS">
+<operation name="tambahMeja">
+<input wsam:Action="http://Service/MejaWS/tambahMejaRequest" message="tns:tambahMeja"/>
+<output wsam:Action="http://Service/MejaWS/tambahMejaResponse" message="tns:tambahMejaResponse"/>
+</operation>
 <operation name="lihatMeja">
 <input wsam:Action="http://Service/MejaWS/lihatMejaRequest" message="tns:lihatMeja"/>
 <output wsam:Action="http://Service/MejaWS/lihatMejaResponse" message="tns:lihatMejaResponse"/>
@@ -31,13 +35,18 @@
 <input wsam:Action="http://Service/MejaWS/updateStatusRequest" message="tns:updateStatus"/>
 <output wsam:Action="http://Service/MejaWS/updateStatusResponse" message="tns:updateStatusResponse"/>
 </operation>
-<operation name="tambahMeja">
-<input wsam:Action="http://Service/MejaWS/tambahMejaRequest" message="tns:tambahMeja"/>
-<output wsam:Action="http://Service/MejaWS/tambahMejaResponse" message="tns:tambahMejaResponse"/>
-</operation>
 </portType>
 <binding name="MejaWSPortBinding" type="tns:MejaWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="tambahMeja">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="lihatMeja">
 <soap:operation soapAction=""/>
 <input>
@@ -48,15 +57,6 @@
 </output>
 </operation>
 <operation name="updateStatus">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="tambahMeja">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -61,7 +61,7 @@ public class Meja extends MyModel {
                     = conn.prepareStatement(
                             "INSERT INTO meja "
                             + "(status,jumlah_konsumen) "
-                            + "VALUES (?,?,?)"
+                            + "VALUES (?,?)"
                     );
 
             sql.setString(1, this.status);
