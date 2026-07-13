@@ -6,6 +6,7 @@ package Model;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -103,7 +104,24 @@ public class User extends MyModel{
 
     @Override
     public ArrayList<Object> viewListData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Object> collections = new ArrayList<Object>();
+        try {
+            this.statement = (Statement) MyModel.conn.createStatement();
+            this.result = this.statement.executeQuery("Select * from user");
+            while (this.result.next()){
+                User temp = new User(
+                this.result.getString("nama"),
+                this.result.getString("role"),
+                this.result.getDate("tanggal_lahir"),
+                this.result.getString("email"),
+                this.result.getString("password")
+                );
+                collections.add(temp);
+            }
+        } catch (Exception e){
+            System.out.println("Error viewListData " + e);
+        }
+        return collections;
     }
     
 }

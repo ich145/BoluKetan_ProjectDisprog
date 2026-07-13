@@ -3,54 +3,40 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Service;
+
 import Model.Meja;
+import Model.Menu;
+import java.util.ArrayList;
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author michael
  */
 @WebService
 public class MejaWS {
+
     @WebMethod
 
-    public String tambahMeja(
-            int nomer_meja,
-            String status,
-            int jumlah_konsumen
-    ) {
-
-        Meja m= new Meja(
-                        nomer_meja,
-                        status,
-                        jumlah_konsumen
-                );
+    public String tambahMeja(int nomer_meja,  String status, int jumlah_konsumen) {
+        Meja m = new Meja(nomer_meja,status,jumlah_konsumen);
         m.insertData();
         return "Insert Success";
     }
 
     @WebMethod
-    public String lihatMeja() {
-
-        Meja m = new Meja();
-        String hasil = "";
-        for (Object o : m.viewListData()) {
-
-            Meja temp = (Meja) o;
-
-            hasil+= temp.getIdMeja()
-                    + " | "
-                    + temp.getNomer_meja()
-                    + " | "
-                    + temp.getStatus()
-                    + " | "
-                    + temp.getJumlah_konsumen()
-                    + "\n";
-
+    public List<Meja> lihatMeja() {       
+        ArrayList<Object> data = new Meja().viewListData();
+        List<Meja> hasil = new ArrayList<>();
+        for (Object o :data) {
+            hasil.add((Meja) o);
         }
         return hasil;
     }
-    
+
     @WebMethod
     public String updateStatus(
             int idmeja,

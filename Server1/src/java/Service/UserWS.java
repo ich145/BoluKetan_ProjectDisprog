@@ -16,15 +16,21 @@ import javax.jws.WebService;
 public class UserWS {
     @WebMethod
 
-    public boolean login(
-            String email,
-            String password
-    ) {
-
+    public boolean elogin(String email, String password) {
         User u = new User();
-        return u.checkLogin(
-                email,
-                password
-        );
+        return u.checkLogin(email,password);
+    }
+    
+    @WebMethod
+    public boolean eregister(String nama, String role, String tanggal_lahir, String email, String password){
+        try {
+            java.sql.Date tglLahir = java.sql.Date.valueOf(tanggal_lahir);
+            User u = new User(nama, role, tglLahir, email, password);
+            u.insertData();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("REGISTER ERROR: " + e.getMessage());
+        }
     }
 }
