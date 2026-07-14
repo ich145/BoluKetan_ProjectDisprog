@@ -21,8 +21,8 @@ public class MejaWS {
 
     @WebMethod
 
-    public String tambahMeja(int nomer_meja,  String status, int jumlah_konsumen) {
-        Meja m = new Meja(status,jumlah_konsumen);
+    public String tambahMeja(String status, int jumlah_konsumen) {
+        Meja m = new Meja(status, jumlah_konsumen);
         m.insertData();
         return "Insert Success";
     }
@@ -49,5 +49,16 @@ public class MejaWS {
         m.setJumlah_konsumen(jumlah_konsumen);
         m.updateData();
         return "Update Success";
+    }
+    
+    @WebMethod
+    public List<Meja> mejaBerdasarkanStatus(String status)
+    {
+        ArrayList<Object> data = new Meja().listDataTerpilih(status);
+        List<Meja> hasil = new ArrayList<>();
+        for (Object o :data) {
+            hasil.add((Meja) o);
+        }
+        return hasil;
     }
 }

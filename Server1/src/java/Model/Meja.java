@@ -5,6 +5,7 @@
 package Model;
 
 import static Model.MyModel.conn;
+import com.azul.crs.client.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -53,6 +54,11 @@ public class Meja extends MyModel {
     ) {
         super();
         this.status = status;
+        this.jumlah_konsumen = jumlah_konsumen;
+    }
+    public Meja(int jumlah_konsumen)
+    {
+        super();
         this.jumlah_konsumen = jumlah_konsumen;
     }
 
@@ -124,7 +130,6 @@ public class Meja extends MyModel {
             System.out.println(e);
 
         }
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -142,6 +147,37 @@ public class Meja extends MyModel {
                 temp.setIdMeja(result.getInt("idmeja"));
                 temp.setStatus(result.getString("status"));
                 temp.setJumlah_konsumen(result.getInt("jumlah_konsumen"));
+
+                collections.add(temp);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return collections;
+    }
+    
+    public ArrayList<Object>listDataTerpilih(String status)
+    {
+        ArrayList<Object> collections
+                = new ArrayList<>();
+
+        try {
+            PreparedStatement sql
+                    = conn.prepareStatement(
+                            "Select * from meja "
+                            + "WHERE status=?"
+                    );
+            sql.setString(1,status);
+
+            ResultSet rs = sql.executeQuery();
+
+            while (rs.next()) {
+                Meja temp = new Meja();
+
+                temp.setIdMeja(rs.getInt("idmeja"));
+                temp.setStatus(rs.getString("status"));
+                temp.setJumlah_konsumen(rs.getInt("jumlah_konsumen"));
 
                 collections.add(temp);
             }

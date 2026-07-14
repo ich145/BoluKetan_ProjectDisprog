@@ -26,7 +26,22 @@ public class TableManagement extends javax.swing.JFrame {
         List<boluketan_projectdisprog.Meja> daftarMeja = lihatMeja();
 
         DefaultTableModel model = (DefaultTableModel) tableMeja.getModel();
-        model.setRowCount(0); // kosongkan dulu isi tabel
+        model.setRowCount(0); 
+
+        for (boluketan_projectdisprog.Meja m : daftarMeja) {
+        model.addRow(new Object[]{
+            m.getIdMeja(),
+            m.getStatus(),
+            m.getJumlahKonsumen(),
+            });
+        }
+    }
+    
+    private void loadDataMejaStatus(String status)
+    {
+        List<boluketan_projectdisprog.Meja> daftarMeja = mejaBerdasarkanStatus(status);
+        DefaultTableModel model = (DefaultTableModel) tableMeja.getModel();
+        model.setRowCount(0); 
 
         for (boluketan_projectdisprog.Meja m : daftarMeja) {
         model.addRow(new Object[]{
@@ -45,17 +60,20 @@ public class TableManagement extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jProgressBar1 = new javax.swing.JProgressBar();
         btnRefresh = new javax.swing.JButton();
         btnUpdateAdmin = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMeja = new javax.swing.JTable();
-        cmbStatus = new javax.swing.JComboBox<>();
         btnTambah = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        txtJumlahKonsumen = new javax.swing.JTextField();
-        txtId = new javax.swing.JTextField();
+        numericJumlahKonsumen = new javax.swing.JSpinner();
+        comboStatusMeja = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
+        comboCariStatus = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,8 +90,6 @@ public class TableManagement extends javax.swing.JFrame {
                 btnUpdateAdminActionPerformed(evt);
             }
         });
-
-        jLabel5.setText("Status Meja");
 
         tableMeja.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,8 +124,6 @@ public class TableManagement extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableMeja);
 
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "reservasi", "kosong", "pakai" }));
-
         btnTambah.setText("Tambah Meja");
         btnTambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,74 +133,94 @@ public class TableManagement extends javax.swing.JFrame {
 
         jLabel2.setText("Jumlah Konsumen");
 
-        jLabel4.setText("Pilih Id");
-        jLabel4.setToolTipText("");
+        comboStatusMeja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "reservasi", "kosong", "pakai" }));
+
+        jLabel3.setText("Status Meja");
+
+        jLabel4.setText("Nomer Meja");
+
+        txtId.setEditable(false);
+
+        comboCariStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "reservasi", "kosong", "pakai" }));
+
+        jLabel5.setText("Pencarian Status Meja");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnTambah)
-                        .addGap(12, 12, 12)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtJumlahKonsumen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdateAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnRefresh))
+                                .addGap(5, 5, 5)
+                                .addComponent(comboStatusMeja, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(436, 436, 436)
-                                .addComponent(btnUpdateAdmin)))
-                        .addGap(0, 122, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(numericJumlahKonsumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnRefresh))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(comboCariStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(btnUpdateAdmin))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
+                        .addGap(9, 9, 9)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboCariStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtJumlahKonsumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addComponent(btnTambah)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(btnRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(numericJumlahKonsumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboStatusMeja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(btnRefresh)))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTambah)
+                            .addComponent(btnUpdateAdmin))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -194,37 +228,23 @@ public class TableManagement extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        loadDataMeja();        
+        String status = comboCariStatus.getSelectedItem().toString();
+        loadDataMejaStatus(status);        
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        if (txtJumlahKonsumen.getText().trim().isEmpty()) {
+    try {
+            String status = comboStatusMeja.getSelectedItem().toString();
 
-            JOptionPane.showMessageDialog(this, "Jumlah Konsumen wajib diisi!");
+            int jumlahKonsum = (int) numericJumlahKonsumen.getValue();
 
-            return;
-
-        }
-
-        try {
-
-            int noMeja = 0;
-
-            String status = "tersedia";
-
-            int jumlahKonsum = Integer.parseInt(
-                    txtJumlahKonsumen.getText().trim()
-            );
-
-            String hasil = tambahMeja(noMeja, status, jumlahKonsum);
+            String hasil = tambahMeja(status, jumlahKonsum);
 
             JOptionPane.showMessageDialog(this, hasil);
 
             loadDataMeja();
 
-            txtId.setText("");
-
-            txtJumlahKonsumen.setText("");
+            numericJumlahKonsumen.setValue(0);
 
         } catch (Exception e) {
 
@@ -234,26 +254,19 @@ public class TableManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnUpdateAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateAdminActionPerformed
-        // Validasi: Pastikan ID sudah terisi (dipilih dari tabel)
-        if (txtId.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Silahkan pilih baris data pada tabel terlebih dahulu!");
-            return;
-        }
-
         try {
-            int id = Integer.parseInt(txtId.getText().trim());
-            String status = cmbStatus.getSelectedItem().toString();
-            int jumlahKonsumenUpdate = Integer.parseInt(txtJumlahKonsumen.getText().trim());
+            int id = Integer.parseInt(txtId.getText());
+            String status = comboStatusMeja.getSelectedItem().toString();
+            int jumlahKonsumenUpdate = (int) numericJumlahKonsumen.getValue();
 
             String hasil = updateStatus(id, status, jumlahKonsumenUpdate);
             JOptionPane.showMessageDialog(this, hasil);
 
-            loadDataMeja(); // Refresh tabel
+            loadDataMeja(); 
 
-            // Reset inputan
             txtId.setText("");
-            txtJumlahKonsumen.setText("");
-            cmbStatus.setSelectedIndex(0);
+            numericJumlahKonsumen.setValue(0);
+            comboStatusMeja.setSelectedIndex(0);
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Jumlah konsumen harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -264,15 +277,13 @@ public class TableManagement extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = tableMeja.getSelectedRow();
         if (row != -1) {
-            // Isi txtId dari kolom ke-0
             txtId.setText(tableMeja.getValueAt(row, 0).toString());
 
-            // Isi cmbStatus dari kolom ke-1
             String status = tableMeja.getValueAt(row, 1).toString();
-            cmbStatus.setSelectedItem(status);
-
-            // Isi txtJumlahKonsumen dari kolom ke-2
-            txtJumlahKonsumen.setText(tableMeja.getValueAt(row, 2).toString());
+            comboStatusMeja.setSelectedItem(status);
+            
+            int jumlahKonsumen =(int) tableMeja.getValueAt(row, 2);
+            numericJumlahKonsumen.setValue(jumlahKonsumen);
         }
     }//GEN-LAST:event_tableMejaMouseClicked
 
@@ -316,14 +327,17 @@ public class TableManagement extends javax.swing.JFrame {
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUpdateAdmin;
-    private javax.swing.JComboBox<String> cmbStatus;
+    private javax.swing.JComboBox<String> comboCariStatus;
+    private javax.swing.JComboBox<String> comboStatusMeja;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner numericJumlahKonsumen;
     private javax.swing.JTable tableMeja;
     private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtJumlahKonsumen;
     // End of variables declaration//GEN-END:variables
 
     private static java.util.List<boluketan_projectdisprog.Meja> lihatMeja() {
@@ -332,19 +346,23 @@ public class TableManagement extends javax.swing.JFrame {
         return port.lihatMeja();
     }
 
-    private static String tambahMeja(int arg0, java.lang.String arg1, int arg2) {
-        boluketan_projectdisprog.MejaWSService service = new boluketan_projectdisprog.MejaWSService();
-        boluketan_projectdisprog.MejaWS port = service.getMejaWSPort();
-        return port.tambahMeja(arg0, arg1, arg2);
-    }
-
     private static String updateStatus(int arg0, java.lang.String arg1, int arg2) {
         boluketan_projectdisprog.MejaWSService service = new boluketan_projectdisprog.MejaWSService();
         boluketan_projectdisprog.MejaWS port = service.getMejaWSPort();
         return port.updateStatus(arg0, arg1, arg2);
     }
 
+    private static String tambahMeja(java.lang.String arg0, int arg1) {
+        boluketan_projectdisprog.MejaWSService service = new boluketan_projectdisprog.MejaWSService();
+        boluketan_projectdisprog.MejaWS port = service.getMejaWSPort();
+        return port.tambahMeja(arg0, arg1);
+    }
 
+    private static java.util.List<boluketan_projectdisprog.Meja> mejaBerdasarkanStatus(java.lang.String arg0) {
+        boluketan_projectdisprog.MejaWSService service = new boluketan_projectdisprog.MejaWSService();
+        boluketan_projectdisprog.MejaWS port = service.getMejaWSPort();
+        return port.mejaBerdasarkanStatus(arg0);
+    }
 
 
 }

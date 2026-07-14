@@ -4,6 +4,10 @@
 
 <xs:element name="lihatMejaResponse" type="tns:lihatMejaResponse"/>
 
+<xs:element name="mejaBerdasarkanStatus" type="tns:mejaBerdasarkanStatus"/>
+
+<xs:element name="mejaBerdasarkanStatusResponse" type="tns:mejaBerdasarkanStatusResponse"/>
+
 <xs:element name="tambahMeja" type="tns:tambahMeja"/>
 
 <xs:element name="tambahMejaResponse" type="tns:tambahMejaResponse"/>
@@ -14,9 +18,8 @@
 
 <xs:complexType name="tambahMeja">
 <xs:sequence>
-<xs:element name="arg0" type="xs:int"/>
-<xs:element name="arg1" type="xs:string" minOccurs="0"/>
-<xs:element name="arg2" type="xs:int"/>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -64,5 +67,17 @@
 
 <xs:complexType name="myModel" abstract="true">
 <xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="mejaBerdasarkanStatus">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="mejaBerdasarkanStatusResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:meja" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
 </xs:complexType>
 </xs:schema>
