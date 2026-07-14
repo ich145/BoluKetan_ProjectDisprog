@@ -133,12 +133,38 @@ public class User extends MyModel{
 
     @Override
     public void updateData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try
+        {
+            if(this.password != null)
+            {
+                PreparedStatement sql = conn.prepareStatement(
+                        "Update user set nama = ?, email = ?, password = ? where iduser = ?");
+                sql.setString(1, this.nama);
+                sql.setString(2,this.nama);
+                sql.setString(3,this.password);
+                sql.setInt(4,this.idUser);
+                sql.executeUpdate();
+                sql.close();
+            }
+            else
+            {
+                PreparedStatement sql = conn.prepareStatement(
+                        "Update user set nama = ?, email = ?where iduser = ?");
+                sql.setString(1, this.nama);
+                sql.setString(2,this.nama);
+                sql.setInt(3,this.idUser);
+                sql.executeUpdate();
+                sql.close();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Error: " + ex);
+        }
     }
 
     @Override
     public void deleteData() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override

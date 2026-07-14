@@ -8,6 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.namespace.QName;
+import javax.xml.transform.Source;
+import javax.xml.ws.Dispatch;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.ws.Service;
+import java.io.StringReader;
 
 /**
  *
@@ -42,9 +48,10 @@ public class DetailHistResv extends javax.swing.JFrame {
     }
     private void loadDetail() {
         try {
-           
+            boluketan_projectdisprog.MenuWSService menuService = new boluketan_projectdisprog.MenuWSService();
             boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
             boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
+            boluketan_projectdisprog.MenuWS menuPort = menuService.getMenuWSPort();
 
             
             java.util.List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi(orang.getIdUser());
@@ -84,11 +91,19 @@ public class DetailHistResv extends javax.swing.JFrame {
            
             java.util.List<boluketan_projectdisprog.PemesananMakanan> daftarPesanan
                     = port.lihatPesanan(idReservasi);
+            java.util.List<boluketan_projectdisprog.Menu> daftarMenu = menuPort.lihatMenu();
 
             for (boluketan_projectdisprog.PemesananMakanan p : daftarPesanan) {
-
+                String namaMenu = "";
+                for(boluketan_projectdisprog.Menu m : daftarMenu)
+                {
+                    if(m.getIdMenu() == p.getIdMenu())
+                    {
+                        namaMenu = m.getNama();
+                    }
+                }
                 model.addRow(new Object[]{
-                    p.getIdMenu(),
+                    namaMenu,
                     p.getJumlah(),
                     p.getStatusPemesanan()
 
@@ -284,4 +299,5 @@ public class DetailHistResv extends javax.swing.JFrame {
     private javax.swing.JLabel lblWaktu;
     private javax.swing.JTable tabelPesanan;
     // End of variables declaration//GEN-END:variables
+
 }

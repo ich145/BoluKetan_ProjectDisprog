@@ -4,6 +4,10 @@
 
 <xs:element name="cariMenuResponse" type="tns:cariMenuResponse"/>
 
+<xs:element name="cariNamaMenu" type="tns:cariNamaMenu"/>
+
+<xs:element name="cariNamaMenuResponse" type="tns:cariNamaMenuResponse"/>
+
 <xs:element name="deleteMenu" type="tns:deleteMenu"/>
 
 <xs:element name="deleteMenuResponse" type="tns:deleteMenuResponse"/>
@@ -63,18 +67,6 @@
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="cariMenu">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="cariMenuResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:menu" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="updateMenu">
 <xs:sequence>
 <xs:element name="arg0" type="xs:int"/>
@@ -91,6 +83,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="cariMenu">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cariMenuResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:menu" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="deleteMenu">
 <xs:sequence>
 <xs:element name="arg0" type="xs:int"/>
@@ -98,6 +102,18 @@
 </xs:complexType>
 
 <xs:complexType name="deleteMenuResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cariNamaMenu">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cariNamaMenuResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>

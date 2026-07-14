@@ -4,6 +4,12 @@
 <xsd:import namespace="http://Service/" schemaLocation="http://localhost:8080/Server1/MenuWSService?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="updateMenu">
+<part name="parameters" element="tns:updateMenu"/>
+</message>
+<message name="updateMenuResponse">
+<part name="parameters" element="tns:updateMenuResponse"/>
+</message>
 <message name="cariMenu">
 <part name="parameters" element="tns:cariMenu"/>
 </message>
@@ -28,13 +34,17 @@
 <message name="deleteMenuResponse">
 <part name="parameters" element="tns:deleteMenuResponse"/>
 </message>
-<message name="updateMenu">
-<part name="parameters" element="tns:updateMenu"/>
+<message name="cariNamaMenu">
+<part name="parameters" element="tns:cariNamaMenu"/>
 </message>
-<message name="updateMenuResponse">
-<part name="parameters" element="tns:updateMenuResponse"/>
+<message name="cariNamaMenuResponse">
+<part name="parameters" element="tns:cariNamaMenuResponse"/>
 </message>
 <portType name="MenuWS">
+<operation name="updateMenu">
+<input wsam:Action="http://Service/MenuWS/updateMenuRequest" message="tns:updateMenu"/>
+<output wsam:Action="http://Service/MenuWS/updateMenuResponse" message="tns:updateMenuResponse"/>
+</operation>
 <operation name="cariMenu">
 <input wsam:Action="http://Service/MenuWS/cariMenuRequest" message="tns:cariMenu"/>
 <output wsam:Action="http://Service/MenuWS/cariMenuResponse" message="tns:cariMenuResponse"/>
@@ -51,13 +61,22 @@
 <input wsam:Action="http://Service/MenuWS/deleteMenuRequest" message="tns:deleteMenu"/>
 <output wsam:Action="http://Service/MenuWS/deleteMenuResponse" message="tns:deleteMenuResponse"/>
 </operation>
-<operation name="updateMenu">
-<input wsam:Action="http://Service/MenuWS/updateMenuRequest" message="tns:updateMenu"/>
-<output wsam:Action="http://Service/MenuWS/updateMenuResponse" message="tns:updateMenuResponse"/>
+<operation name="cariNamaMenu">
+<input wsam:Action="http://Service/MenuWS/cariNamaMenuRequest" message="tns:cariNamaMenu"/>
+<output wsam:Action="http://Service/MenuWS/cariNamaMenuResponse" message="tns:cariNamaMenuResponse"/>
 </operation>
 </portType>
 <binding name="MenuWSPortBinding" type="tns:MenuWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="updateMenu">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="cariMenu">
 <soap:operation soapAction=""/>
 <input>
@@ -94,7 +113,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="updateMenu">
+<operation name="cariNamaMenu">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -10,30 +10,6 @@
 <message name="testResponse">
 <part name="parameters" element="tns:testResponse"/>
 </message>
-<message name="getRole">
-<part name="parameters" element="tns:getRole"/>
-</message>
-<message name="getRoleResponse">
-<part name="parameters" element="tns:getRoleResponse"/>
-</message>
-<message name="updateProfile">
-<part name="parameters" element="tns:updateProfile"/>
-</message>
-<message name="updateProfileResponse">
-<part name="parameters" element="tns:updateProfileResponse"/>
-</message>
-<message name="getNama">
-<part name="parameters" element="tns:getNama"/>
-</message>
-<message name="getNamaResponse">
-<part name="parameters" element="tns:getNamaResponse"/>
-</message>
-<message name="eregister">
-<part name="parameters" element="tns:eregister"/>
-</message>
-<message name="eregisterResponse">
-<part name="parameters" element="tns:eregisterResponse"/>
-</message>
 <message name="egetData">
 <part name="parameters" element="tns:egetData"/>
 </message>
@@ -46,26 +22,34 @@
 <message name="eloginResponse">
 <part name="parameters" element="tns:eloginResponse"/>
 </message>
+<message name="eregister">
+<part name="parameters" element="tns:eregister"/>
+</message>
+<message name="eregisterResponse">
+<part name="parameters" element="tns:eregisterResponse"/>
+</message>
+<message name="getNama">
+<part name="parameters" element="tns:getNama"/>
+</message>
+<message name="getNamaResponse">
+<part name="parameters" element="tns:getNamaResponse"/>
+</message>
+<message name="updateProfile">
+<part name="parameters" element="tns:updateProfile"/>
+</message>
+<message name="updateProfileResponse">
+<part name="parameters" element="tns:updateProfileResponse"/>
+</message>
+<message name="getRole">
+<part name="parameters" element="tns:getRole"/>
+</message>
+<message name="getRoleResponse">
+<part name="parameters" element="tns:getRoleResponse"/>
+</message>
 <portType name="UserWS">
 <operation name="test">
 <input wsam:Action="http://Service/UserWS/testRequest" message="tns:test"/>
 <output wsam:Action="http://Service/UserWS/testResponse" message="tns:testResponse"/>
-</operation>
-<operation name="getRole">
-<input wsam:Action="http://Service/UserWS/getRoleRequest" message="tns:getRole"/>
-<output wsam:Action="http://Service/UserWS/getRoleResponse" message="tns:getRoleResponse"/>
-</operation>
-<operation name="updateProfile">
-<input wsam:Action="http://Service/UserWS/updateProfileRequest" message="tns:updateProfile"/>
-<output wsam:Action="http://Service/UserWS/updateProfileResponse" message="tns:updateProfileResponse"/>
-</operation>
-<operation name="getNama">
-<input wsam:Action="http://Service/UserWS/getNamaRequest" message="tns:getNama"/>
-<output wsam:Action="http://Service/UserWS/getNamaResponse" message="tns:getNamaResponse"/>
-</operation>
-<operation name="eregister">
-<input wsam:Action="http://Service/UserWS/eregisterRequest" message="tns:eregister"/>
-<output wsam:Action="http://Service/UserWS/eregisterResponse" message="tns:eregisterResponse"/>
 </operation>
 <operation name="egetData">
 <input wsam:Action="http://Service/UserWS/egetDataRequest" message="tns:egetData"/>
@@ -74,6 +58,22 @@
 <operation name="elogin">
 <input wsam:Action="http://Service/UserWS/eloginRequest" message="tns:elogin"/>
 <output wsam:Action="http://Service/UserWS/eloginResponse" message="tns:eloginResponse"/>
+</operation>
+<operation name="eregister">
+<input wsam:Action="http://Service/UserWS/eregisterRequest" message="tns:eregister"/>
+<output wsam:Action="http://Service/UserWS/eregisterResponse" message="tns:eregisterResponse"/>
+</operation>
+<operation name="getNama">
+<input wsam:Action="http://Service/UserWS/getNamaRequest" message="tns:getNama"/>
+<output wsam:Action="http://Service/UserWS/getNamaResponse" message="tns:getNamaResponse"/>
+</operation>
+<operation name="updateProfile">
+<input wsam:Action="http://Service/UserWS/updateProfileRequest" message="tns:updateProfile"/>
+<output wsam:Action="http://Service/UserWS/updateProfileResponse" message="tns:updateProfileResponse"/>
+</operation>
+<operation name="getRole">
+<input wsam:Action="http://Service/UserWS/getRoleRequest" message="tns:getRole"/>
+<output wsam:Action="http://Service/UserWS/getRoleResponse" message="tns:getRoleResponse"/>
 </operation>
 </portType>
 <binding name="UserWSPortBinding" type="tns:UserWS">
@@ -87,7 +87,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getRole">
+<operation name="egetData">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -96,16 +96,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="updateProfile">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getNama">
+<operation name="elogin">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -123,7 +114,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="egetData">
+<operation name="getNama">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -132,7 +123,16 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="elogin">
+<operation name="updateProfile">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getRole">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

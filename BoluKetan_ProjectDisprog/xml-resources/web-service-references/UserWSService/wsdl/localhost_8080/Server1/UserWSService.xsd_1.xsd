@@ -24,6 +24,10 @@
 
 <xs:element name="testResponse" type="tns:testResponse"/>
 
+<xs:element name="updateProfile" type="tns:updateProfile"/>
+
+<xs:element name="updateProfileResponse" type="tns:updateProfileResponse"/>
+
 <xs:complexType name="elogin">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0"/>
@@ -114,6 +118,21 @@
 </xs:complexType>
 
 <xs:complexType name="testResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateProfile">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+<xs:element name="arg2" type="xs:string" minOccurs="0"/>
+<xs:element name="arg3" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateProfileResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
 </xs:sequence>
