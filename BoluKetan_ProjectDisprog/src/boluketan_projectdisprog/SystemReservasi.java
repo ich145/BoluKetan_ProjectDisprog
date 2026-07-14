@@ -354,7 +354,7 @@ public class SystemReservasi extends javax.swing.JFrame {
             if (idHasil > 0) {
                 JOptionPane.showMessageDialog(this, "Reservasi Berhasil di Meja " + idMejaDipilih + "! Melanjutkan ke Pemesanan Makanan...");
 
-                FoodOrdering foodForm = new FoodOrdering(idHasil);
+                FoodOrdering foodForm = new FoodOrdering(idHasil,orang);
                 foodForm.setVisible(true);
 
                 

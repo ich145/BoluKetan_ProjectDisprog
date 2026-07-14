@@ -39,7 +39,7 @@ public class Koneksi {
                         + "&allowPublicKeyRetrieval=true"
                         + "&serverTimezone=Asia/Jakarta",
                         "root",
-                        "DANCEL24"
+                        ""
                 );
 
             }
