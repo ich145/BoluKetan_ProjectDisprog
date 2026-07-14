@@ -31,10 +31,17 @@ public class ReservasiWS {
                 Timestamp.valueOf(jam));
 
         r.setTotal_harga(totalHarga);
-
-        // PASTIKAN: Di dalam Model.Reservasi, method insertData() 
-        // menggunakan Statement.RETURN_GENERATED_KEYS dan mengembalikan ID-nya.
+        
         int idBaru = r.insertDataAndGetId();
+        
+        if(idBaru>0)
+        {
+            Meja m = new Meja();
+            m.setIdMeja(idMeja);
+            m.setStatus("reservasi");
+            m.setJumlah_konsumen(jumlah);
+            m.updateData();
+        }
 
         return idBaru; // Mengembalikan ID (int)
     }

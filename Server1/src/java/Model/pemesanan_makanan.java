@@ -74,13 +74,13 @@ public class pemesanan_makanan extends MyModel {
             PreparedStatement sql;
             // PERBAIKAN: Menambahkan tanda kurung () pada klausa VALUES
             if (this.status_pemesanan != null) {
-                sql = conn.prepareStatement("INSERT INTO pemesan_makanan (reservasi_idreservasi, Menu_idMenu, jumlah, status_pesanan) VALUES (?, ?, ?, ?)");
+                sql = conn.prepareStatement("INSERT INTO pemesanan_makanan (reservasi_idreservasi, Menu_idMenu, jumlah, status_pesanan) VALUES (?, ?, ?, ?)");
                 sql.setInt(1, this.idReservasi);
                 sql.setInt(2, this.idMenu);
                 sql.setInt(3, this.jumlah);
                 sql.setString(4, this.status_pemesanan);
             } else {
-                sql = conn.prepareStatement("INSERT INTO pemesan_makanan (reservasi_idreservasi, Menu_idMenu, jumlah) VALUES (?, ?, ?)");
+                sql = conn.prepareStatement("INSERT INTO pemesanan_makanan (reservasi_idreservasi, Menu_idMenu, jumlah) VALUES (?, ?, ?)");
                 sql.setInt(1, this.idReservasi);
                 sql.setInt(2, this.idMenu);
                 sql.setInt(3, this.jumlah); 
@@ -97,7 +97,7 @@ public class pemesanan_makanan extends MyModel {
     public void updateData() {
         try {
             // PERBAIKAN: Menyelaraskan nama tabel menjadi pemesan_makanan & kolom status_pesanan
-            PreparedStatement sql = conn.prepareStatement("UPDATE pemesan_makanan SET jumlah = ?, status_pesanan = ? WHERE reservasi_idreservasi = ? AND Menu_idMenu = ?");
+            PreparedStatement sql = conn.prepareStatement("UPDATE pemesanan_makanan SET jumlah = ?, status_pesanan = ? WHERE reservasi_idreservasi = ? AND Menu_idMenu = ?");
             sql.setInt(1, this.jumlah);
             sql.setString(2, this.status_pemesanan);
             sql.setInt(3, this.idReservasi);
@@ -113,7 +113,7 @@ public class pemesanan_makanan extends MyModel {
     public void deleteData() {
         try {
             // PERBAIKAN: Menyelaraskan nama tabel menjadi pemesan_makanan
-            PreparedStatement sql = conn.prepareStatement("DELETE FROM pemesan_makanan WHERE reservasi_idreservasi = ? AND Menu_idMenu = ?");
+            PreparedStatement sql = conn.prepareStatement("DELETE FROM pemesanan_makanan WHERE reservasi_idreservasi = ? AND Menu_idMenu = ?");
             sql.setInt(1, idReservasi);
             sql.setInt(2, idMenu);
             sql.executeUpdate();
@@ -135,7 +135,7 @@ public class pemesanan_makanan extends MyModel {
         try {
 
             PreparedStatement sql = conn.prepareStatement(
-                    "SELECT * FROM pemesan_makanan WHERE reservasi_idreservasi = ?");
+                    "SELECT * FROM pemesanan_makanan WHERE reservasi_idreservasi = ?");
 
             sql.setInt(1, idReservasi);
 
