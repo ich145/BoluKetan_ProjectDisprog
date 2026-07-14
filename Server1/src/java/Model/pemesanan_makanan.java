@@ -54,14 +54,14 @@ public class pemesanan_makanan extends MyModel {
     }
     
     public pemesanan_makanan(int idReservasi, int idMenu, int jumlah) {
-        super(); // Pastikan super() dipanggil agar koneksi ke database ter-inisialisasi
+        super(); 
         this.setIdMenu(idMenu);
         this.setIdReservasi(idReservasi);
-        this.setJumlah(jumlah);; // Set jumlah belanjaan
+        this.setJumlah(jumlah);; 
     }
     
     public pemesanan_makanan(int idReservasi, int idMenu, int jumlah, String status) {
-        super(); // Pastikan super() dipanggil agar koneksi ke database ter-inisialisasi
+        super(); 
         this.setIdMenu(idMenu);
         this.setIdReservasi(idReservasi);
         this.setJumlah(jumlah);
@@ -72,7 +72,7 @@ public class pemesanan_makanan extends MyModel {
     public void insertData() {
         try {
             PreparedStatement sql;
-            // PERBAIKAN: Menambahkan tanda kurung () pada klausa VALUES
+            
             if (this.status_pemesanan != null) {
                 sql = conn.prepareStatement("INSERT INTO pemesanan_makanan (reservasi_idreservasi, Menu_idMenu, jumlah, status_pesanan) VALUES (?, ?, ?, ?)");
                 sql.setInt(1, this.idReservasi);
@@ -96,7 +96,7 @@ public class pemesanan_makanan extends MyModel {
     @Override
     public void updateData() {
         try {
-            // PERBAIKAN: Menyelaraskan nama tabel menjadi pemesan_makanan & kolom status_pesanan
+            
             PreparedStatement sql = conn.prepareStatement("UPDATE pemesanan_makanan SET jumlah = ?, status_pesanan = ? WHERE reservasi_idreservasi = ? AND Menu_idMenu = ?");
             sql.setInt(1, this.jumlah);
             sql.setString(2, this.status_pemesanan);
@@ -112,7 +112,7 @@ public class pemesanan_makanan extends MyModel {
     @Override
     public void deleteData() {
         try {
-            // PERBAIKAN: Menyelaraskan nama tabel menjadi pemesan_makanan
+            
             PreparedStatement sql = conn.prepareStatement("DELETE FROM pemesanan_makanan WHERE reservasi_idreservasi = ? AND Menu_idMenu = ?");
             sql.setInt(1, idReservasi);
             sql.setInt(2, idMenu);

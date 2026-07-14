@@ -123,7 +123,7 @@ public class User extends MyModel{
             System.out.println("insert berhasil: " + hasil);
             
             
-            //sql.executeUpdate();
+            
             sql.close();
 
         } catch (Exception e) {

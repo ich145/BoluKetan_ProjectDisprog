@@ -44,7 +44,7 @@ public class ReservasiWS {
             m.updateData();
         }
 
-        return idBaru; // Mengembalikan ID (int)
+        return idBaru; 
     }
     
     

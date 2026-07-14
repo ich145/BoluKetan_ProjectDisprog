@@ -82,4 +82,20 @@ public class UserWS {
         System.out.println("SERVICE HIDUP");
         return true;
     }
+    
+    @WebMethod
+    public boolean updateProfile(int idUser, String nama, String email, String password) {
+        try {
+            User u = new User();
+            u.setIdUser(idUser);
+            u.setNama(nama);
+            u.setEmail(email);
+            u.setPassword(password); 
+            u.updateData();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error updateProfile " + e);
+            return false;
+        }
+    }
 }

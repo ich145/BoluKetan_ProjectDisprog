@@ -275,12 +275,12 @@ public class Reservasi extends MyModel{
 
         ResultSet rs = sql.executeQuery();
         if (rs.next() && rs.getInt("jumlah") > 0) {
-            tersedia = false; // sudah ada reservasi lain di meja & jam yang sama
+            tersedia = false; 
         }
         sql.close();
     } catch (Exception e) {
         System.out.println("Error cekKetersediaan " + e);
-        tersedia = false; // kalau error, anggap tidak tersedia (safer default)
+        tersedia = false; 
     }
     return tersedia;
     }
@@ -355,7 +355,7 @@ public class Reservasi extends MyModel{
     public int insertDataAndGetId() {
         int idBaru = 0;
         try {
-            // Sesuaikan nama kolom dengan yang ada di database kamu
+            
             String query = "INSERT INTO reservasi (tanggal_reservasi, jumlah_tamu, status_reservasi, user_iduser, meja_idmeja, jam_reservasi, total_harga) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement sql = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
