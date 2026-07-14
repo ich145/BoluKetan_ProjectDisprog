@@ -133,34 +133,31 @@ public class User extends MyModel{
 
     @Override
     public void updateData() {
-        try
-        {
-            if(this.password != null)
-            {
-                PreparedStatement sql = conn.prepareStatement(
-                        "Update user set nama = ?, email = ?, password = ? where iduser = ?");
-                sql.setString(1, this.nama);
-                sql.setString(2,this.nama);
-                sql.setString(3,this.password);
-                sql.setInt(4,this.idUser);
-                sql.executeUpdate();
-                sql.close();
-            }
-            else
-            {
-                PreparedStatement sql = conn.prepareStatement(
-                        "Update user set nama = ?, email = ?where iduser = ?");
-                sql.setString(1, this.nama);
-                sql.setString(2,this.nama);
-                sql.setInt(3,this.idUser);
-                sql.executeUpdate();
-                sql.close();
-            }
+        try {
+        PreparedStatement sql;
+        if (this.password == null || this.password.trim().isEmpty()) {
+            
+            sql = conn.prepareStatement(
+                "UPDATE user SET nama=?, email=? WHERE iduser=?"
+            );
+            sql.setString(1, this.nama);
+            sql.setString(2, this.email);
+            sql.setInt(3, this.idUser);
+        } else {
+            
+            sql = conn.prepareStatement(
+                "UPDATE user SET nama=?, email=?, password=? WHERE iduser=?"
+            );
+            sql.setString(1, this.nama);
+            sql.setString(2, this.email);
+            sql.setString(3, this.password);
+            sql.setInt(4, this.idUser);
         }
-        catch (Exception ex)
-        {
-            System.out.println("Error: " + ex);
-        }
+        sql.executeUpdate();
+        sql.close();
+    } catch (Exception e) {
+        System.out.println("Error updateData User " + e);
+    }
     }
 
     @Override
@@ -210,5 +207,7 @@ public class User extends MyModel{
         }
         return user;
     }
+    
+    
 
 }
