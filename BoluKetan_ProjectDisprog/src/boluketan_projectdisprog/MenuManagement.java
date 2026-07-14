@@ -42,6 +42,19 @@ public class MenuManagement extends javax.swing.JFrame {
     }
 }
     
+    private void tampilkanHasilPencarian(String keyword) {
+        List<boluketan_projectdisprog.Menu> hasilCari = cariMenu(keyword);
+
+        DefaultTableModel model = (DefaultTableModel) tableMenu.getModel();
+        model.setRowCount(0);
+
+        for (boluketan_projectdisprog.Menu m : hasilCari) {
+            model.addRow(new Object[]{
+                m.getIdMenu(), m.getNama(), m.getKategori(), m.getHarga(), m.getInformasi()
+            });
+        }
+}
+    
     
     
     
@@ -65,13 +78,13 @@ public class MenuManagement extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtHarga = new javax.swing.JTextField();
-        txtKategori = new javax.swing.JTextField();
         txtNama = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtInformasi = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
+        cmbKategori = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,6 +156,8 @@ public class MenuManagement extends javax.swing.JFrame {
 
         txtId.setEnabled(false);
 
+        cmbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "makanan", "minuman" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,7 +198,7 @@ public class MenuManagement extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -208,7 +223,7 @@ public class MenuManagement extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -238,12 +253,18 @@ public class MenuManagement extends javax.swing.JFrame {
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
         // TODO add your handling code here:
+        String keyword = txtCari.getText().trim();
+        if (keyword.isEmpty()) {
+            loadDataMenu(); // kalau kosong, tampilkan semua menu lagi
+        } else {
+            tampilkanHasilPencarian(keyword);
+        }
     }//GEN-LAST:event_btnCariActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         // TODO add your handling code here:
         String nama = txtNama.getText();
-        String kategori = txtKategori.getText();
+        String kategori = cmbKategori.getSelectedItem().toString();
         double harga = Double.parseDouble(txtHarga.getText());
         String informasi = txtInformasi.getText();
 
@@ -260,7 +281,7 @@ public class MenuManagement extends javax.swing.JFrame {
         }
 
         // 2. Validasi: Pastikan field penting lainnya tidak kosong sebelum diupdate
-        if (txtNama.getText().isEmpty() || txtKategori.getText().isEmpty() || txtHarga.getText().isEmpty()) {
+        if (txtNama.getText().isEmpty() || cmbKategori.getSelectedItem().toString().isEmpty() || txtHarga.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nama, Kategori, dan Harga tidak boleh kosong!");
             return;
         }
@@ -269,7 +290,7 @@ public class MenuManagement extends javax.swing.JFrame {
             // 3. Ambil data dari masing-masing Textbox
             int id = Integer.parseInt(txtId.getText());
             String nama = txtNama.getText();
-            String kategori = txtKategori.getText();
+            String kategori = cmbKategori.getSelectedItem().toString();
 
             // Konversi harga dari String ke Double
             double harga = Double.parseDouble(txtHarga.getText());
@@ -287,7 +308,7 @@ public class MenuManagement extends javax.swing.JFrame {
             // 6. Opsional: Kosongkan textbox setelah berhasil update agar bersih
             txtId.setText("");
             txtNama.setText("");
-            txtKategori.setText("");
+            cmbKategori.setSelectedItem("");
             txtHarga.setText("");
             txtInformasi.setText("");
 
@@ -326,7 +347,7 @@ public class MenuManagement extends javax.swing.JFrame {
                 // 6. Bersihkan Textbox inputan
                 txtId.setText("");
                 txtNama.setText("");
-                txtKategori.setText("");
+                cmbKategori.setSelectedItem("");
                 txtHarga.setText("");
                 txtInformasi.setText("");
 
@@ -354,7 +375,7 @@ public class MenuManagement extends javax.swing.JFrame {
             txtNama.setText(nama);
 
             String kategori = String.valueOf(tableMenu.getValueAt(row, 2));
-            txtKategori.setText(kategori);
+            cmbKategori.setSelectedItem(kategori);
 
             String harga = String.valueOf(tableMenu.getValueAt(row, 3));
             txtHarga.setText(harga);
@@ -404,6 +425,7 @@ public class MenuManagement extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cmbKategori;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -416,22 +438,27 @@ public class MenuManagement extends javax.swing.JFrame {
     private javax.swing.JTextField txtHarga;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtInformasi;
-    private javax.swing.JTextField txtKategori;
     private javax.swing.JTextField txtNama;
     // End of variables declaration//GEN-END:variables
-
-    private static String tambahMenu(java.lang.String arg0, java.lang.String arg1, double arg2, java.lang.String arg3) {
-        boluketan_projectdisprog.MenuWSService service = new boluketan_projectdisprog.MenuWSService();
-        boluketan_projectdisprog.MenuWS port = service.getMenuWSPort();
-        return port.tambahMenu(arg0, arg1, arg2, arg3);
-    }
-
-    
 
     private static String deleteMenu(int arg0) {
         boluketan_projectdisprog.MenuWSService service = new boluketan_projectdisprog.MenuWSService();
         boluketan_projectdisprog.MenuWS port = service.getMenuWSPort();
         return port.deleteMenu(arg0);
+    }
+
+    private static java.util.List<boluketan_projectdisprog.Menu> lihatMenu() {
+        boluketan_projectdisprog.MenuWSService service = new boluketan_projectdisprog.MenuWSService();
+        boluketan_projectdisprog.MenuWS port = service.getMenuWSPort();
+        return port.lihatMenu();
+    }
+
+    
+
+    private static String tambahMenu(java.lang.String arg0, java.lang.String arg1, double arg2, java.lang.String arg3) {
+        boluketan_projectdisprog.MenuWSService service = new boluketan_projectdisprog.MenuWSService();
+        boluketan_projectdisprog.MenuWS port = service.getMenuWSPort();
+        return port.tambahMenu(arg0, arg1, arg2, arg3);
     }
 
     private static String updateMenu(int arg0, java.lang.String arg1, java.lang.String arg2, double arg3, java.lang.String arg4) {
@@ -440,11 +467,13 @@ public class MenuManagement extends javax.swing.JFrame {
         return port.updateMenu(arg0, arg1, arg2, arg3, arg4);
     }
 
-    private static java.util.List<boluketan_projectdisprog.Menu> lihatMenu() {
+    private static java.util.List<boluketan_projectdisprog.Menu> cariMenu(java.lang.String arg0) {
         boluketan_projectdisprog.MenuWSService service = new boluketan_projectdisprog.MenuWSService();
         boluketan_projectdisprog.MenuWS port = service.getMenuWSPort();
-        return port.lihatMenu();
+        return port.cariMenu(arg0);
     }
+
+    
 
     
 

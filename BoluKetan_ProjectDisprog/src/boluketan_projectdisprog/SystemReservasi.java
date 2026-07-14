@@ -7,6 +7,9 @@ package boluketan_projectdisprog;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,11 +24,21 @@ public class SystemReservasi extends javax.swing.JFrame {
      */
     public SystemReservasi() {
         initComponents();
+        setupSpinner();
         loadDataReservasi();
     }
     
     private List<Integer> daftarIdMeja = new ArrayList<>();
     private int idMejaSaatIni = 0;
+    
+    private void setupSpinner() {
+        spinnerTanggal.setModel(new javax.swing.SpinnerDateModel());
+        spinnerTanggal.setEditor(new javax.swing.JSpinner.DateEditor(spinnerTanggal, "yyyy-MM-dd"));
+
+        spinnerJam.setModel(new javax.swing.SpinnerDateModel());
+        spinnerJam.setEditor(new javax.swing.JSpinner.DateEditor(spinnerJam, "HH:mm"));
+    }
+
     
     private void loadDataReservasi() {
     List<boluketan_projectdisprog.Reservasi> daftarReservasi = lihatReservasi();
@@ -46,6 +59,18 @@ public class SystemReservasi extends javax.swing.JFrame {
         });
     }
 }
+    
+    private String getTanggalString() {
+        java.util.Date tanggal = (java.util.Date) spinnerTanggal.getValue();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(tanggal);
+    }
+
+    private String getJamString() {
+        java.util.Date jam = (java.util.Date) spinnerJam.getValue();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+        return sdf.format(jam);
+    }
 
 
     /**
@@ -62,8 +87,6 @@ public class SystemReservasi extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtIDReservasi = new javax.swing.JTextField();
-        txtTanggal = new javax.swing.JTextField();
-        txtJam = new javax.swing.JTextField();
         txtJumlahTamu = new javax.swing.JTextField();
         btnCekKetersediaan = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -72,6 +95,8 @@ public class SystemReservasi extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
+        spinnerTanggal = new javax.swing.JSpinner();
+        spinnerJam = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,18 +109,6 @@ public class SystemReservasi extends javax.swing.JFrame {
         jLabel5.setText("Jumlah Tamu");
 
         txtIDReservasi.setEnabled(false);
-
-        txtTanggal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTanggalActionPerformed(evt);
-            }
-        });
-
-        txtJam.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtJamActionPerformed(evt);
-            }
-        });
 
         txtJumlahTamu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,23 +193,22 @@ public class SystemReservasi extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(btnReturn))
                     .addComponent(btnCekKetersediaan)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtIDReservasi, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtJam))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtJumlahTamu, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtIDReservasi, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerJam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtJumlahTamu, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
@@ -210,11 +222,11 @@ public class SystemReservasi extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinnerTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtJam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinnerJam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -235,14 +247,6 @@ public class SystemReservasi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTanggalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTanggalActionPerformed
-
-    private void txtJamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJamActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtJamActionPerformed
-
     private void txtJumlahTamuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJumlahTamuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtJumlahTamuActionPerformed
@@ -254,8 +258,8 @@ public class SystemReservasi extends javax.swing.JFrame {
         }
 
         int idReservasi = Integer.parseInt(txtIDReservasi.getText());
-        String tanggal = txtTanggal.getText().trim();
-        String jam = txtJam.getText().trim();
+        String tanggal = getTanggalString();  
+        String jam = getJamString();
         int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
 
         // Gunakan meja saat ini jika combobox kosong
@@ -296,24 +300,33 @@ public class SystemReservasi extends javax.swing.JFrame {
 
     private void btnCekKetersediaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekKetersediaanActionPerformed
         
-        String tanggal = txtTanggal.getText().trim();
-        String jam = txtJam.getText().trim();
+        String tanggal = getTanggalString();
+        String jam = getJamString();
         int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
         String jamReservasi = tanggal + " " + jam + ":00";
+
+        List<boluketan_projectdisprog.Meja> mejaCocok = cariMejaTersedia(jamReservasi, jumlahTamu);
+
+        if (mejaCocok.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tidak ada meja tersedia untuk " + jumlahTamu + " orang pada waktu tersebut.");
+        } else {
+            JOptionPane.showMessageDialog(this, mejaCocok.size() + " meja tersedia untuk waktu tersebut.");
+        }
+
 
     }//GEN-LAST:event_btnCekKetersediaanActionPerformed
 
     private void btnReservasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservasiActionPerformed
         
         // 1. Validasi dasar: pastikan input teks tidak kosong
-        if (txtTanggal.getText().trim().isEmpty() || txtJam.getText().trim().isEmpty() || txtJumlahTamu.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tanggal, Jam, dan Jumlah Tamu wajib diisi!");
+        if (txtJumlahTamu.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Jumlah Tamu wajib diisi!");
             return;
         }
 
         try {
-            String tanggal = txtTanggal.getText().trim();
-            String jam = txtJam.getText().trim();
+            String tanggal = getTanggalString();  
+            String jam = getJamString(); 
             int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
 
             // Format waktu standar SQL
@@ -362,23 +375,41 @@ public class SystemReservasi extends javax.swing.JFrame {
             // 1. Ambil ID Reservasi dan masukkan ke txtIDReservasi
             String id = String.valueOf(tableReservasi.getValueAt(row, 0));
             txtIDReservasi.setText(id);
-
+                
             // 2. Ambil data Tanggal & Jam
             // Karena format dari database biasanya YYYY-MM-DD HH:MM:SS, kita bersihkan sedikit
-            String fullTanggal = String.valueOf(tableReservasi.getValueAt(row, 1)); // Tanggal
-            if (fullTanggal.length() >= 10) {
-                txtTanggal.setText(fullTanggal.substring(0, 10)); // Ambil YYYY-MM-DD saja
-            } else {
-                txtTanggal.setText(fullTanggal);
+            String fullTanggal = String.valueOf(tableReservasi.getValueAt(row, 1));
+            String fullJam = String.valueOf(tableReservasi.getValueAt(row, 6));
+            
+            try{
+                java.text.SimpleDateFormat sdfTanggal = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                java.text.SimpleDateFormat sdfJam = new java.text.SimpleDateFormat("HH:mm");
+            
+                String tanggalStr;
+                if (fullTanggal.length() >= 10) {
+                    tanggalStr = fullTanggal.substring(0, 10);
+                } else {
+                    tanggalStr = fullTanggal;
+                }
+            
+            
+                String jamStr;
+                if (fullJam.length() >= 16) {
+                    jamStr = fullJam.substring(11, 16);
+                } else {
+                    jamStr = fullJam;
+                }
+                
+                spinnerTanggal.setValue(sdfTanggal.parse(tanggalStr));
+                spinnerJam.setValue(sdfJam.parse(jamStr));
+            
+            }catch (Exception ex) {
+                System.out.println("Error parsing tanggal/jam: " + ex.getMessage());
             }
 
-            String fullJam = String.valueOf(tableReservasi.getValueAt(row, 6)); // Jam
-            if (fullJam.length() >= 16) {
-                txtJam.setText(fullJam.substring(11, 16)); // Ambil HH:MM saja
-            } else {
-                txtJam.setText(fullJam);
-            }
-
+           
+            
+            
             // 3. Ambil Jumlah Tamu
             String tamu = String.valueOf(tableReservasi.getValueAt(row, 2));
             txtJumlahTamu.setText(tamu);
@@ -438,11 +469,11 @@ public class SystemReservasi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner spinnerJam;
+    private javax.swing.JSpinner spinnerTanggal;
     private javax.swing.JTable tableReservasi;
     private javax.swing.JTextField txtIDReservasi;
-    private javax.swing.JTextField txtJam;
     private javax.swing.JTextField txtJumlahTamu;
-    private javax.swing.JTextField txtTanggal;
     // End of variables declaration//GEN-END:variables
 
     private static String batalkanReservasi(int arg0) {

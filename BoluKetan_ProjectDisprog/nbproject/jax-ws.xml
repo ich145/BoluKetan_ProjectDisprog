@@ -38,9 +38,9 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="MenuWSService">
-      <wsdl-url>http://localhost:8080/Server1/MenuWSService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/Server1/MenuWSService.wsdl</local-wsdl-file>
+    <client name="MejaWSService">
+      <wsdl-url>http://localhost:8080/Server1/MejaWSService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/Server1/MejaWSService.wsdl</local-wsdl-file>
       <package-name forceReplace="true">boluketan_projectdisprog</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
@@ -58,7 +58,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/Server1/MenuWSService?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/Server1/MejaWSService?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -110,9 +110,9 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="MejaWSService">
-      <wsdl-url>http://localhost:8080/Server1/MejaWSService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/Server1/MejaWSService.wsdl</local-wsdl-file>
+    <client name="MenuWSService">
+      <wsdl-url>http://localhost:8080/Server1/MenuWSService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/Server1/MenuWSService.wsdl</local-wsdl-file>
       <package-name forceReplace="true">boluketan_projectdisprog</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
@@ -130,7 +130,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/Server1/MejaWSService?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/Server1/MenuWSService?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

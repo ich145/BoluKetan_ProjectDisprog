@@ -10,11 +10,11 @@
 <message name="testResponse">
 <part name="parameters" element="tns:testResponse"/>
 </message>
-<message name="eregister">
-<part name="parameters" element="tns:eregister"/>
+<message name="getRole">
+<part name="parameters" element="tns:getRole"/>
 </message>
-<message name="eregisterResponse">
-<part name="parameters" element="tns:eregisterResponse"/>
+<message name="getRoleResponse">
+<part name="parameters" element="tns:getRoleResponse"/>
 </message>
 <message name="getNama">
 <part name="parameters" element="tns:getNama"/>
@@ -22,11 +22,11 @@
 <message name="getNamaResponse">
 <part name="parameters" element="tns:getNamaResponse"/>
 </message>
-<message name="elogin">
-<part name="parameters" element="tns:elogin"/>
+<message name="eregister">
+<part name="parameters" element="tns:eregister"/>
 </message>
-<message name="eloginResponse">
-<part name="parameters" element="tns:eloginResponse"/>
+<message name="eregisterResponse">
+<part name="parameters" element="tns:eregisterResponse"/>
 </message>
 <message name="egetData">
 <part name="parameters" element="tns:egetData"/>
@@ -34,36 +34,36 @@
 <message name="egetDataResponse">
 <part name="parameters" element="tns:egetDataResponse"/>
 </message>
-<message name="getRole">
-<part name="parameters" element="tns:getRole"/>
+<message name="elogin">
+<part name="parameters" element="tns:elogin"/>
 </message>
-<message name="getRoleResponse">
-<part name="parameters" element="tns:getRoleResponse"/>
+<message name="eloginResponse">
+<part name="parameters" element="tns:eloginResponse"/>
 </message>
 <portType name="UserWS">
 <operation name="test">
 <input wsam:Action="http://Service/UserWS/testRequest" message="tns:test"/>
 <output wsam:Action="http://Service/UserWS/testResponse" message="tns:testResponse"/>
 </operation>
-<operation name="eregister">
-<input wsam:Action="http://Service/UserWS/eregisterRequest" message="tns:eregister"/>
-<output wsam:Action="http://Service/UserWS/eregisterResponse" message="tns:eregisterResponse"/>
+<operation name="getRole">
+<input wsam:Action="http://Service/UserWS/getRoleRequest" message="tns:getRole"/>
+<output wsam:Action="http://Service/UserWS/getRoleResponse" message="tns:getRoleResponse"/>
 </operation>
 <operation name="getNama">
 <input wsam:Action="http://Service/UserWS/getNamaRequest" message="tns:getNama"/>
 <output wsam:Action="http://Service/UserWS/getNamaResponse" message="tns:getNamaResponse"/>
 </operation>
-<operation name="elogin">
-<input wsam:Action="http://Service/UserWS/eloginRequest" message="tns:elogin"/>
-<output wsam:Action="http://Service/UserWS/eloginResponse" message="tns:eloginResponse"/>
+<operation name="eregister">
+<input wsam:Action="http://Service/UserWS/eregisterRequest" message="tns:eregister"/>
+<output wsam:Action="http://Service/UserWS/eregisterResponse" message="tns:eregisterResponse"/>
 </operation>
 <operation name="egetData">
 <input wsam:Action="http://Service/UserWS/egetDataRequest" message="tns:egetData"/>
 <output wsam:Action="http://Service/UserWS/egetDataResponse" message="tns:egetDataResponse"/>
 </operation>
-<operation name="getRole">
-<input wsam:Action="http://Service/UserWS/getRoleRequest" message="tns:getRole"/>
-<output wsam:Action="http://Service/UserWS/getRoleResponse" message="tns:getRoleResponse"/>
+<operation name="elogin">
+<input wsam:Action="http://Service/UserWS/eloginRequest" message="tns:elogin"/>
+<output wsam:Action="http://Service/UserWS/eloginResponse" message="tns:eloginResponse"/>
 </operation>
 </portType>
 <binding name="UserWSPortBinding" type="tns:UserWS">
@@ -77,7 +77,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="eregister">
+<operation name="getRole">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -95,7 +95,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="elogin">
+<operation name="eregister">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -113,7 +113,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getRole">
+<operation name="elogin">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
