@@ -292,11 +292,11 @@ public class Reservasi extends MyModel{
             PreparedStatement sql = conn.prepareStatement(
                     "SELECT * FROM meja m "
                     + "WHERE m.jumlah_konsumen >= ? "
-                    + "AND m.status = 'tersedia' "
+                    + "AND m.status = 'kosong' "
                     + "AND m.idmeja NOT IN ("
-                    + "SELECT r.idmeja "
+                    + "SELECT r.meja_idmeja "
                     + "FROM reservasi r "
-                    + "WHERE r.jam = ? "
+                    + "WHERE r.jam_reservasi = ? "
                     + "AND r.status_reservasi <> 'cancel'"
                     + ")"
             );

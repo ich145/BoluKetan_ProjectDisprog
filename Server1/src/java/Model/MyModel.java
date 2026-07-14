@@ -36,7 +36,7 @@ public abstract class MyModel {
                 + "&allowPublicKeyRetrieval=true"
                 + "&serverTimezone=Asia/Jakarta",
                 "root",
-                ""
+                "DANCEL24"
                 );
             }
 

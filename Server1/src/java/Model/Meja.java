@@ -5,7 +5,6 @@
 package Model;
 
 import static Model.MyModel.conn;
-import com.azul.crs.client.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;

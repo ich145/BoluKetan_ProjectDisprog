@@ -5,6 +5,7 @@
 package Model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -167,6 +168,32 @@ public class Menu extends MyModel{
             System.out.println(e);
         }
         return list;
+    }
+    
+    public ArrayList<Object> cariMenu(String keyword) {
+        ArrayList<Object> hasil = new ArrayList<>();
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                "SELECT * FROM menu WHERE nama LIKE ? OR kategori LIKE ?");
+            sql.setString(1, "%" + keyword + "%");
+            sql.setString(2, "%" + keyword + "%");
+
+            ResultSet rs = sql.executeQuery();
+            while (rs.next()) {
+                Menu m = new Menu();
+                m.setIdMenu(rs.getInt("idMenu"));
+                m.setNama(rs.getString("nama"));
+                m.setKategori(rs.getString("kategori"));
+                m.setHarga(rs.getDouble("harga"));
+                m.setInformasi(rs.getString("informasi"));
+                hasil.add(m);
+            }
+            sql.close();
+
+        } catch (Exception e) {
+            System.out.println("Error cariMenu " + e);
+        }
+        return hasil;
     }
     
 }

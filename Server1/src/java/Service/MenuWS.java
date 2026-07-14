@@ -52,5 +52,13 @@ public class MenuWS {
         return "Delete Success";
     }
         
-
+        
+    public List<Menu> cariMenu(String keyword){
+        ArrayList<Object> data = new Menu().cariMenu(keyword);
+        List<Menu> hasil = new ArrayList<>();
+        for (Object o : data) {
+            hasil.add((Menu) o);
+        }
+        return hasil;
+    }
 }
