@@ -34,7 +34,7 @@ public class Koneksi {
                 Class.forName("com.mysql.cj.jdbc.Driver");
 
                 conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/uasdisprog"
+                        "jdbc:mysql://localhost:3306/projectdisprog"               
                         + "?useSSL=false"
                         + "&allowPublicKeyRetrieval=true"
                         + "&serverTimezone=Asia/Jakarta",

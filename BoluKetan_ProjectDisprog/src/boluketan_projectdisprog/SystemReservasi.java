@@ -71,6 +71,7 @@ public class SystemReservasi extends javax.swing.JFrame {
         btnReservasi = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,6 +157,13 @@ public class SystemReservasi extends javax.swing.JFrame {
             }
         });
 
+        btnReturn.setText("Return");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -168,7 +176,9 @@ public class SystemReservasi extends javax.swing.JFrame {
                         .addGap(57, 57, 57)
                         .addComponent(btnUpdate)
                         .addGap(56, 56, 56)
-                        .addComponent(btnCancel))
+                        .addComponent(btnCancel)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnReturn))
                     .addComponent(btnCekKetersediaan)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
@@ -217,7 +227,8 @@ public class SystemReservasi extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReservasi)
                     .addComponent(btnUpdate)
-                    .addComponent(btnCancel))
+                    .addComponent(btnCancel)
+                    .addComponent(btnReturn))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -377,6 +388,10 @@ public class SystemReservasi extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tableReservasiMouseClicked
 
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        
+    }//GEN-LAST:event_btnReturnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -416,6 +431,7 @@ public class SystemReservasi extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCekKetersediaan;
     private javax.swing.JButton btnReservasi;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

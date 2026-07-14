@@ -84,7 +84,7 @@ public class Menu extends MyModel{
     public void insertData() {
         try {
             PreparedStatement sql =conn.prepareStatement(
-                "INSERT INTO Menu "
+                "INSERT INTO menu "
                 + "(nama,kategori,harga,informasi) "
                 + "VALUES (?,?,?,?)"
             );

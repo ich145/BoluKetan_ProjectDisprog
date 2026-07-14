@@ -31,7 +31,7 @@ public abstract class MyModel {
                 );
 
                 conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/uasdisprog"
+                "jdbc:mysql://localhost:3306/projectdisprog"
                 + "?useSSL=false"
                 + "&allowPublicKeyRetrieval=true"
                 + "&serverTimezone=Asia/Jakarta",
