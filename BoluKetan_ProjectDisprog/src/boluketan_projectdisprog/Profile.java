@@ -158,9 +158,7 @@ public class Profile extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Profil berhasil diperbarui.");
             orang.setNama(nama);
             orang.setEmail(email);
-        } else {
-            JOptionPane.showMessageDialog(this, "Gagal memperbarui profil.");
-        }
+        } 
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed

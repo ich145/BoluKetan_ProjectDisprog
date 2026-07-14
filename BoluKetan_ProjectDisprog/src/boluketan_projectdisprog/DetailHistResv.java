@@ -53,12 +53,9 @@ public class DetailHistResv extends javax.swing.JFrame {
             boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
             boluketan_projectdisprog.MenuWS menuPort = menuService.getMenuWSPort();
 
-            
             java.util.List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi(orang.getIdUser());
-
             boluketan_projectdisprog.Reservasi reservasiTerpilih = null;
 
-            
             for (boluketan_projectdisprog.Reservasi r : daftarReservasi) {
                 if (r.getIdreservasi() == this.idReservasi) {
                     reservasiTerpilih = r;
@@ -66,11 +63,8 @@ public class DetailHistResv extends javax.swing.JFrame {
                 }
             }
 
-            
             if (reservasiTerpilih != null) {
                 lblId.setText(String.valueOf(reservasiTerpilih.getIdreservasi()));
-
-                
                 lblNama.setText(String.valueOf(reservasiTerpilih.getUserIduser()));
 
                 String waktu = (reservasiTerpilih.getJamReservasi() != null) ? reservasiTerpilih.getJamReservasi().toString() : "-";
@@ -84,31 +78,31 @@ public class DetailHistResv extends javax.swing.JFrame {
                 return;
             }
 
-            
             DefaultTableModel model = (DefaultTableModel) tabelPesanan.getModel();
             model.setRowCount(0);
 
-           
-            java.util.List<boluketan_projectdisprog.PemesananMakanan> daftarPesanan
-                    = port.lihatPesanan(idReservasi);
+            java.util.List<boluketan_projectdisprog.PemesananMakanan> daftarPesanan = port.lihatPesanan(idReservasi);
             java.util.List<boluketan_projectdisprog.Menu> daftarMenu = menuPort.lihatMenu();
 
             for (boluketan_projectdisprog.PemesananMakanan p : daftarPesanan) {
                 String namaMenu = "";
-                for(boluketan_projectdisprog.Menu m : daftarMenu)
-                {
-                    if(m.getIdMenu() == p.getIdMenu())
-                    {
+                double hargaMenu = 0;
+
+                for (boluketan_projectdisprog.Menu m : daftarMenu) {
+                    if (m.getIdMenu() == p.getIdMenu()) {
                         namaMenu = m.getNama();
+                        hargaMenu = m.getHarga(); 
+                        break;
                     }
                 }
+
+                double subtotal = hargaMenu * p.getJumlah();
+
                 model.addRow(new Object[]{
                     namaMenu,
                     p.getJumlah(),
-                    p.getStatusPemesanan()
-
+                    "Rp " + String.format("%,.0f", subtotal)
                 });
-
             }
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error memuat detail: " + e.getMessage());

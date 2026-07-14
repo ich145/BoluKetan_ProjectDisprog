@@ -28,7 +28,7 @@ public class FoodOrdering extends javax.swing.JFrame {
     /**
      * Creates new form FoodOrdering
      */
-    
+    private User orang;
     private int idReservasi;
     private void loadKategoriWS() {
         jComboBoxKategori.removeAllItems();
@@ -238,7 +238,7 @@ public class FoodOrdering extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTotal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 465, Short.MAX_VALUE)
                         .addComponent(btnSimpan))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +259,7 @@ public class FoodOrdering extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jComboBoxKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(lblWaktu)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -316,11 +316,14 @@ public class FoodOrdering extends javax.swing.JFrame {
             }
             double totalHarga = port.hitungTotalHarga(idReservasi);
             JOptionPane.showMessageDialog(this, "Berhasil Menyimpan!\nID Reservasi : " + idReservasi);
-            dispose();
+            Home home = new Home(orang);
+            home.setVisible(true);
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal Menyimpan: " + e.getMessage());
         }
+        
     
     }//GEN-LAST:event_btnSimpanActionPerformed
 
