@@ -17,19 +17,19 @@ import java.util.List;
  */
 public class Reservasi extends MyModel{
     private int idreservasi;
-    private Timestamp tanggal_reservasi;
+    private String tanggal_reservasi;
     private int jumlah_tamu;
     private String status_reservasi;
     private int user_iduser;
     private int meja_idmeja;
-    private Timestamp jam_reservasi;
+    private String jam_reservasi;
     private double total_harga;
-    private Timestamp tanggal;
+    private String tanggal;
     private int jumlah;
     private String status;
     private int idUser;
     private int idMeja;
-    private Timestamp jam;
+    private String jam;
     
     public int getIdreservasi() {
         return idreservasi;
@@ -39,11 +39,11 @@ public class Reservasi extends MyModel{
         this.idreservasi = idreservasi;
     }
 
-    public Timestamp getTanggal_reservasi() {
+    public String getTanggal_reservasi() {
         return tanggal_reservasi;
     }
 
-    public void setTanggal_reservasi(Timestamp tanggal_reservasi) {
+    public void setTanggal_reservasi(String tanggal_reservasi) {
         this.tanggal_reservasi = tanggal_reservasi;
     }
 
@@ -79,11 +79,11 @@ public class Reservasi extends MyModel{
         this.meja_idmeja = meja_idmeja;
     }
 
-    public Timestamp getJam_reservasi() {
+    public String getJam_reservasi() {
         return jam_reservasi;
     }
 
-    public void setJam_reservasi(Timestamp jam_reservasi) {
+    public void setJam_reservasi(String jam_reservasi) {
         this.jam_reservasi = jam_reservasi;
     }
     
@@ -99,12 +99,12 @@ public class Reservasi extends MyModel{
         super();
     }
     public Reservasi(
-            Timestamp tanggal_reservasi,
+            String tanggal_reservasi,
             int jumlah_tamu,
             String status_reservasi,
             int user_iduser,
             int meja_idmeja,
-            Timestamp jam_reservasi
+            String jam_reservasi
     ) {
         super();
         this.tanggal_reservasi = tanggal_reservasi;
@@ -124,12 +124,12 @@ public class Reservasi extends MyModel{
                     + "VALUES (?,?,?,?,?,?,?)"
             );
 
-            sql.setTimestamp(1, this.tanggal_reservasi);
+            sql.setString(1, this.tanggal_reservasi);
             sql.setInt(2, this.jumlah_tamu);
             sql.setString(3, this.status_reservasi);
             sql.setInt(4, this.user_iduser);
             sql.setInt(5, this.meja_idmeja);
-            sql.setTimestamp(6, this.jam_reservasi);
+            sql.setString(6, this.jam_reservasi);
             sql.setDouble(7, this.total_harga);
 
             sql.executeUpdate();
@@ -154,12 +154,12 @@ public class Reservasi extends MyModel{
                             + "WHERE idreservasi=?"
                     );
 
-            sql.setTimestamp(1, this.tanggal_reservasi);
+            sql.setString(1, this.tanggal_reservasi);
             sql.setInt(2, this.jumlah_tamu);
             sql.setString(3, this.status_reservasi);
             sql.setInt(4, this.user_iduser);
             sql.setInt(5, this.meja_idmeja);
-            sql.setTimestamp(6, this.jam_reservasi);
+            sql.setString(6, this.jam_reservasi);
             sql.setInt(7, this.idreservasi);
 
             sql.executeUpdate();
@@ -195,12 +195,39 @@ public class Reservasi extends MyModel{
             ResultSet rs = sql.executeQuery();
             while (rs.next()) {
                 Reservasi r = new Reservasi(
-                    rs.getTimestamp("tanggal_reservasi"),
+                    rs.getString("tanggal_reservasi"),
                     rs.getInt("jumlah_tamu"),
                     rs.getString("status_reservasi"),
                     rs.getInt("user_iduser"),
                     rs.getInt("meja_idmeja"),
-                    rs.getTimestamp("jam_reservasi")
+                    rs.getString("jam_reservasi")
+                );
+                r.setIdreservasi(rs.getInt("idreservasi"));
+                r.setTotal_harga(rs.getDouble("total_harga"));
+                hasil.add(r);
+            }
+            sql.close();
+        } catch (Exception e) {
+        System.out.println("Error getAll " + e);
+    }
+        return hasil;
+
+    }
+    
+    public ArrayList<Object> viewDataUser(int id) {
+       ArrayList<Object> hasil = new ArrayList<>();
+        try {
+            PreparedStatement sql = conn.prepareStatement("SELECT * FROM reservasi where user_iduser = ?");
+            sql.setInt(1, id);
+            ResultSet rs = sql.executeQuery();
+            while (rs.next()) {
+                Reservasi r = new Reservasi(
+                    rs.getString("tanggal_reservasi"),
+                    rs.getInt("jumlah_tamu"),
+                    rs.getString("status_reservasi"),
+                    rs.getInt("user_iduser"),
+                    rs.getInt("meja_idmeja"),
+                    rs.getString("jam_reservasi")
                 );
                 r.setIdreservasi(rs.getInt("idreservasi"));
                 r.setTotal_harga(rs.getDouble("total_harga"));
@@ -231,8 +258,8 @@ public class Reservasi extends MyModel{
         
         PreparedStatement updateTotal = conn.prepareStatement("update reservasi set total_harga = ? where idreservasi = ?" );
         
-        sql.setDouble(1, this.total_harga);
-        sql.setInt(2,this.idreservasi);
+        updateTotal.setDouble(1, this.total_harga);
+        updateTotal.setInt(2,this.idreservasi);
         updateTotal.executeUpdate();
         updateTotal.close();
     }
@@ -244,7 +271,7 @@ public class Reservasi extends MyModel{
             "SELECT COUNT(*) as jumlah FROM reservasi " +
             "WHERE meja_idmeja = ? AND jam_reservasi = ? AND status_reservasi != 'cancel'");
         sql.setInt(1, this.meja_idmeja);
-        sql.setTimestamp(2, this.jam_reservasi);
+        sql.setString(2, this.jam_reservasi);
 
         ResultSet rs = sql.executeQuery();
         if (rs.next() && rs.getInt("jumlah") > 0) {
@@ -268,12 +295,12 @@ public class Reservasi extends MyModel{
         ResultSet rs = sql.executeQuery();
         if (rs.next()) {
             r = new Reservasi(
-                rs.getTimestamp("tanggal_reservasi"),
+                rs.getString("tanggal_reservasi"),
                 rs.getInt("jumlah_tamu"),
                 rs.getString("status_reservasi"),
                 rs.getInt("user_iduser"),
                 rs.getInt("meja_idmeja"),
-                rs.getTimestamp("jam_reservasi")
+                rs.getString("jam_reservasi")
             );
             r.setIdreservasi(idreservasi);
         }
@@ -332,12 +359,12 @@ public class Reservasi extends MyModel{
             String query = "INSERT INTO reservasi (tanggal_reservasi, jumlah_tamu, status_reservasi, user_iduser, meja_idmeja, jam_reservasi, total_harga) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement sql = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            sql.setTimestamp(1, this.tanggal_reservasi);
+            sql.setString(1, this.tanggal_reservasi);
             sql.setInt(2, this.jumlah_tamu);
             sql.setString(3, this.status_reservasi);
             sql.setInt(4, this.user_iduser);
             sql.setInt(5, this.meja_idmeja);
-            sql.setTimestamp(6, this.jam_reservasi);
+            sql.setString(6, this.jam_reservasi);
             sql.setDouble(7, this.total_harga);
 
             sql.executeUpdate();

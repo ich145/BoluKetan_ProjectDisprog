@@ -8,6 +8,10 @@
 
 <xs:element name="cariMejaTersediaResponse" type="tns:cariMejaTersediaResponse"/>
 
+<xs:element name="hitungTotalHarga" type="tns:hitungTotalHarga"/>
+
+<xs:element name="hitungTotalHargaResponse" type="tns:hitungTotalHargaResponse"/>
+
 <xs:element name="lihatPesanan" type="tns:lihatPesanan"/>
 
 <xs:element name="lihatPesananResponse" type="tns:lihatPesananResponse"/>
@@ -58,7 +62,9 @@
 </xs:complexType>
 
 <xs:complexType name="lihatReservasi">
-<xs:sequence/>
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="lihatReservasiResponse">
@@ -72,11 +78,11 @@
 <xs:extension base="tns:myModel">
 <xs:sequence>
 <xs:element name="idreservasi" type="xs:int"/>
-<xs:element name="jam_reservasi" type="tns:timestamp" minOccurs="0"/>
+<xs:element name="jam_reservasi" type="xs:string" minOccurs="0"/>
 <xs:element name="jumlah_tamu" type="xs:int"/>
 <xs:element name="meja_idmeja" type="xs:int"/>
 <xs:element name="status_reservasi" type="xs:string" minOccurs="0"/>
-<xs:element name="tanggal_reservasi" type="tns:timestamp" minOccurs="0"/>
+<xs:element name="tanggal_reservasi" type="xs:string" minOccurs="0"/>
 <xs:element name="total_harga" type="xs:double"/>
 <xs:element name="user_iduser" type="xs:int"/>
 </xs:sequence>
@@ -84,9 +90,15 @@
 </xs:complexContent>
 </xs:complexType>
 
-<xs:complexType name="timestamp">
+<xs:complexType name="hitungTotalHarga">
 <xs:sequence>
-<xs:element name="nanos" type="xs:int"/>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hitungTotalHargaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:double"/>
 </xs:sequence>
 </xs:complexType>
 

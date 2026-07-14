@@ -17,7 +17,9 @@ public class TableManagement extends javax.swing.JFrame {
     /**
      * Creates new form ReservasiTable
      */
-    public TableManagement() {
+    User orang = new User();
+    public TableManagement(User user) {
+        orang = user;
         initComponents();
         loadDataMeja();
     }
@@ -62,7 +64,7 @@ public class TableManagement extends javax.swing.JFrame {
 
         jProgressBar1 = new javax.swing.JProgressBar();
         btnRefresh = new javax.swing.JButton();
-        btnUpdateAdmin = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMeja = new javax.swing.JTable();
         btnTambah = new javax.swing.JButton();
@@ -74,6 +76,7 @@ public class TableManagement extends javax.swing.JFrame {
         txtId = new javax.swing.JTextField();
         comboCariStatus = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        btnUpdateAdmin1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,10 +87,10 @@ public class TableManagement extends javax.swing.JFrame {
             }
         });
 
-        btnUpdateAdmin.setText("Update");
-        btnUpdateAdmin.addActionListener(new java.awt.event.ActionListener() {
+        btnReturn.setText("Return");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateAdminActionPerformed(evt);
+                btnReturnActionPerformed(evt);
             }
         });
 
@@ -145,6 +148,13 @@ public class TableManagement extends javax.swing.JFrame {
 
         jLabel5.setText("Pencarian Status Meja");
 
+        btnUpdateAdmin1.setText("Update");
+        btnUpdateAdmin1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateAdmin1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,8 +167,9 @@ public class TableManagement extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnUpdateAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUpdateAdmin1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,6 +194,10 @@ public class TableManagement extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(comboCariStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addGap(26, 26, 26))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,8 +220,7 @@ public class TableManagement extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(numericJumlahKonsumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboStatusMeja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(comboStatusMeja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -218,9 +232,11 @@ public class TableManagement extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTambah)
-                            .addComponent(btnUpdateAdmin))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnUpdateAdmin1))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnReturn)
                 .addContainerGap())
         );
 
@@ -253,7 +269,27 @@ public class TableManagement extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnTambahActionPerformed
 
-    private void btnUpdateAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateAdminActionPerformed
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        Home home = new Home(orang);
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void tableMejaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMejaMouseClicked
+        // TODO add your handling code here:
+        int row = tableMeja.getSelectedRow();
+        if (row != -1) {
+            txtId.setText(tableMeja.getValueAt(row, 0).toString());
+
+            String status = tableMeja.getValueAt(row, 1).toString();
+            comboStatusMeja.setSelectedItem(status);
+            
+            int jumlahKonsumen =(int) tableMeja.getValueAt(row, 2);
+            numericJumlahKonsumen.setValue(jumlahKonsumen);
+        }
+    }//GEN-LAST:event_tableMejaMouseClicked
+
+    private void btnUpdateAdmin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateAdmin1ActionPerformed
         try {
             int id = Integer.parseInt(txtId.getText());
             String status = comboStatusMeja.getSelectedItem().toString();
@@ -271,62 +307,18 @@ public class TableManagement extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Jumlah konsumen harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnUpdateAdminActionPerformed
-
-    private void tableMejaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMejaMouseClicked
-        // TODO add your handling code here:
-        int row = tableMeja.getSelectedRow();
-        if (row != -1) {
-            txtId.setText(tableMeja.getValueAt(row, 0).toString());
-
-            String status = tableMeja.getValueAt(row, 1).toString();
-            comboStatusMeja.setSelectedItem(status);
-            
-            int jumlahKonsumen =(int) tableMeja.getValueAt(row, 2);
-            numericJumlahKonsumen.setValue(jumlahKonsumen);
-        }
-    }//GEN-LAST:event_tableMejaMouseClicked
+    }//GEN-LAST:event_btnUpdateAdmin1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TableManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TableManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TableManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TableManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TableManagement().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnTambah;
-    private javax.swing.JButton btnUpdateAdmin;
+    private javax.swing.JButton btnUpdateAdmin1;
     private javax.swing.JComboBox<String> comboCariStatus;
     private javax.swing.JComboBox<String> comboStatusMeja;
     private javax.swing.JLabel jLabel2;

@@ -177,6 +177,7 @@ public class User extends MyModel{
                 this.result.getString("role"),
                 this.result.getString("email"),
                 this.result.getString("password"));
+                user.setIdUser(this.result.getInt("idUser"));
             }
         } catch (Exception ex) {
             System.out.println("Email atau Password Salah");

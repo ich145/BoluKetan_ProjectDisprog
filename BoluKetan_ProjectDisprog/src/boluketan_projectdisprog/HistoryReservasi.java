@@ -23,13 +23,15 @@ public class HistoryReservasi extends javax.swing.JFrame {
      * Creates new form HistoryReservasi
      */
     private boolean loading = true;
-
-    public HistoryReservasi() {
+    
+    User orang = new User();
+    public HistoryReservasi(User user) {
+        orang = user;
         initComponents();
 
         DefaultTableModel model = new DefaultTableModel(
                 new Object[]{
-                    "ID", "Tanggal", "Jam", "ID User", "ID Meja", "Total", "Status"
+                    "ID Reservasi", "Tanggal", "Jam", "ID User", "Nomer Meja", "Total", "Status"
                 }, 0
         )
         {
@@ -61,18 +63,17 @@ public class HistoryReservasi extends javax.swing.JFrame {
             boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
 
             // 2. Panggil method lihatReservasi() melalui objek port
-            List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi();
+            List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi(orang.getIdUser());
 
             for (boluketan_projectdisprog.Reservasi r : daftarReservasi) {
                 String tanggal = (r.getTanggalReservasi() != null) ? r.getTanggalReservasi().toString() : "-";
-                String jam = (r.getJamReservasi() != null) ? r.getJamReservasi().toString() : "-";
-
+                String[] jam = jam = r.getJamReservasi().split(" ");;
                 model.addRow(new Object[]{
                     r.getIdreservasi(),
                     tanggal,
-                    jam,
-                    "User ID: " + r.getUserIduser(),
-                    "Meja ID: " + r.getMejaIdmeja(),
+                    jam[1],
+                    r.getUserIduser(),
+                    r.getMejaIdmeja(),
                     "Rp " + String.format("%,.0f", r.getTotalHarga()),
                     r.getStatusReservasi()
                 });
@@ -120,6 +121,7 @@ public class HistoryReservasi extends javax.swing.JFrame {
         tableHistory = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         btnDetail = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,6 +156,13 @@ public class HistoryReservasi extends javax.swing.JFrame {
             }
         });
 
+        btnReturn.setText("Return");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,14 +176,19 @@ public class HistoryReservasi extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(183, 183, 183)
-                        .addComponent(btnDetail)))
+                        .addComponent(btnDetail)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnReturn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(163, 163, 163)
+                                .addComponent(jLabel3)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -189,7 +203,9 @@ public class HistoryReservasi extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDetail)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDetail)
+                    .addComponent(btnReturn))
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
@@ -223,48 +239,24 @@ public class HistoryReservasi extends javax.swing.JFrame {
         int idReservasi = Integer.parseInt(
                 tableHistory.getValueAt(row, 0).toString());
 
-        DetailHistResv detail = new DetailHistResv(idReservasi);
+        DetailHistResv detail = new DetailHistResv(idReservasi,orang);
 
         detail.setVisible(true);
     }//GEN-LAST:event_btnDetailActionPerformed
 
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        Home home = new Home(orang);
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReturnActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HistoryReservasi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HistoryReservasi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HistoryReservasi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HistoryReservasi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HistoryReservasi().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDetail;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

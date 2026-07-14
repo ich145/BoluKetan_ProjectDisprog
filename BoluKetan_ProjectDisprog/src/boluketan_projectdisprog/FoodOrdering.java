@@ -314,7 +314,7 @@ public class FoodOrdering extends javax.swing.JFrame {
                         "pending"
                 );
             }
-
+            double totalHarga = port.hitungTotalHarga(idReservasi);
             JOptionPane.showMessageDialog(this, "Berhasil Menyimpan!\nID Reservasi : " + idReservasi);
             dispose();
 
@@ -415,4 +415,10 @@ public class FoodOrdering extends javax.swing.JFrame {
     private javax.swing.JTable tableKeranjang;
     private javax.swing.JTable tableKeranjang1;
     // End of variables declaration//GEN-END:variables
+
+    private static double hitungTotalHarga(int arg0) {
+        boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
+        boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
+        return port.hitungTotalHarga(arg0);
+    }
 }

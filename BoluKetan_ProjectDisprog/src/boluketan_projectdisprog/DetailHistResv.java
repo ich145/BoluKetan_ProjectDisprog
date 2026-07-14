@@ -18,13 +18,11 @@ public class DetailHistResv extends javax.swing.JFrame {
     /**
      * Creates new form DetailHistResv
      */
-    public DetailHistResv() {
-        initComponents();
-    }
+    User orang = new User();
     private int idReservasi;
 
-    public DetailHistResv(int idReservasi) {
-
+    public DetailHistResv(int idReservasi, User user) {
+        orang = user;
         initComponents();
         this.idReservasi = idReservasi;
 
@@ -49,7 +47,7 @@ public class DetailHistResv extends javax.swing.JFrame {
             boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
 
             // 2. Ambil semua data reservasi dari Web Service
-            java.util.List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi();
+            java.util.List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi(orang.getIdUser());
 
             boluketan_projectdisprog.Reservasi reservasiTerpilih = null;
 
@@ -66,12 +64,12 @@ public class DetailHistResv extends javax.swing.JFrame {
                 lblId.setText(String.valueOf(reservasiTerpilih.getIdreservasi()));
 
                 // Karena tidak pakai JOIN di server, tampilkan ID-nya terlebih dahulu
-                lblNama.setText("User ID: " + reservasiTerpilih.getUserIduser());
+                lblNama.setText(String.valueOf(reservasiTerpilih.getUserIduser()));
 
                 String waktu = (reservasiTerpilih.getJamReservasi() != null) ? reservasiTerpilih.getJamReservasi().toString() : "-";
                 lblWaktu.setText(waktu);
 
-                lblMeja.setText("Meja ID: " + reservasiTerpilih.getMejaIdmeja());
+                lblMeja.setText(String.valueOf(reservasiTerpilih.getMejaIdmeja()));
                 lblStatus.setText(reservasiTerpilih.getStatusReservasi());
                 lblTotal.setText("Rp " + String.format("%,.0f", reservasiTerpilih.getTotalHarga()));
             } else {
@@ -266,37 +264,6 @@ public class DetailHistResv extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DetailHistResv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DetailHistResv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DetailHistResv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DetailHistResv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DetailHistResv().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;

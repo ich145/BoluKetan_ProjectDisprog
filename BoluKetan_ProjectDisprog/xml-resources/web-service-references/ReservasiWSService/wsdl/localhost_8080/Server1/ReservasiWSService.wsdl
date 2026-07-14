@@ -4,29 +4,11 @@
 <xsd:import namespace="http://Service/" schemaLocation="http://localhost:8080/Server1/ReservasiWSService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="simpanPesananMakanan">
-<part name="parameters" element="tns:simpanPesananMakanan"/>
+<message name="lihatPesanan">
+<part name="parameters" element="tns:lihatPesanan"/>
 </message>
-<message name="simpanPesananMakananResponse">
-<part name="parameters" element="tns:simpanPesananMakananResponse"/>
-</message>
-<message name="batalkanReservasi">
-<part name="parameters" element="tns:batalkanReservasi"/>
-</message>
-<message name="batalkanReservasiResponse">
-<part name="parameters" element="tns:batalkanReservasiResponse"/>
-</message>
-<message name="tambahReservasi">
-<part name="parameters" element="tns:tambahReservasi"/>
-</message>
-<message name="tambahReservasiResponse">
-<part name="parameters" element="tns:tambahReservasiResponse"/>
-</message>
-<message name="cariMejaTersedia">
-<part name="parameters" element="tns:cariMejaTersedia"/>
-</message>
-<message name="cariMejaTersediaResponse">
-<part name="parameters" element="tns:cariMejaTersediaResponse"/>
+<message name="lihatPesananResponse">
+<part name="parameters" element="tns:lihatPesananResponse"/>
 </message>
 <message name="updateReservasi">
 <part name="parameters" element="tns:updateReservasi"/>
@@ -34,11 +16,17 @@
 <message name="updateReservasiResponse">
 <part name="parameters" element="tns:updateReservasiResponse"/>
 </message>
-<message name="lihatPesanan">
-<part name="parameters" element="tns:lihatPesanan"/>
+<message name="cariMejaTersedia">
+<part name="parameters" element="tns:cariMejaTersedia"/>
 </message>
-<message name="lihatPesananResponse">
-<part name="parameters" element="tns:lihatPesananResponse"/>
+<message name="cariMejaTersediaResponse">
+<part name="parameters" element="tns:cariMejaTersediaResponse"/>
+</message>
+<message name="tambahReservasi">
+<part name="parameters" element="tns:tambahReservasi"/>
+</message>
+<message name="tambahReservasiResponse">
+<part name="parameters" element="tns:tambahReservasiResponse"/>
 </message>
 <message name="lihatReservasi">
 <part name="parameters" element="tns:lihatReservasi"/>
@@ -46,66 +34,61 @@
 <message name="lihatReservasiResponse">
 <part name="parameters" element="tns:lihatReservasiResponse"/>
 </message>
+<message name="hitungTotalHarga">
+<part name="parameters" element="tns:hitungTotalHarga"/>
+</message>
+<message name="hitungTotalHargaResponse">
+<part name="parameters" element="tns:hitungTotalHargaResponse"/>
+</message>
+<message name="batalkanReservasi">
+<part name="parameters" element="tns:batalkanReservasi"/>
+</message>
+<message name="batalkanReservasiResponse">
+<part name="parameters" element="tns:batalkanReservasiResponse"/>
+</message>
+<message name="simpanPesananMakanan">
+<part name="parameters" element="tns:simpanPesananMakanan"/>
+</message>
+<message name="simpanPesananMakananResponse">
+<part name="parameters" element="tns:simpanPesananMakananResponse"/>
+</message>
 <portType name="ReservasiWS">
-<operation name="simpanPesananMakanan">
-<input wsam:Action="http://Service/ReservasiWS/simpanPesananMakananRequest" message="tns:simpanPesananMakanan"/>
-<output wsam:Action="http://Service/ReservasiWS/simpanPesananMakananResponse" message="tns:simpanPesananMakananResponse"/>
-</operation>
-<operation name="batalkanReservasi">
-<input wsam:Action="http://Service/ReservasiWS/batalkanReservasiRequest" message="tns:batalkanReservasi"/>
-<output wsam:Action="http://Service/ReservasiWS/batalkanReservasiResponse" message="tns:batalkanReservasiResponse"/>
-</operation>
-<operation name="tambahReservasi">
-<input wsam:Action="http://Service/ReservasiWS/tambahReservasiRequest" message="tns:tambahReservasi"/>
-<output wsam:Action="http://Service/ReservasiWS/tambahReservasiResponse" message="tns:tambahReservasiResponse"/>
-</operation>
-<operation name="cariMejaTersedia">
-<input wsam:Action="http://Service/ReservasiWS/cariMejaTersediaRequest" message="tns:cariMejaTersedia"/>
-<output wsam:Action="http://Service/ReservasiWS/cariMejaTersediaResponse" message="tns:cariMejaTersediaResponse"/>
+<operation name="lihatPesanan">
+<input wsam:Action="http://Service/ReservasiWS/lihatPesananRequest" message="tns:lihatPesanan"/>
+<output wsam:Action="http://Service/ReservasiWS/lihatPesananResponse" message="tns:lihatPesananResponse"/>
 </operation>
 <operation name="updateReservasi">
 <input wsam:Action="http://Service/ReservasiWS/updateReservasiRequest" message="tns:updateReservasi"/>
 <output wsam:Action="http://Service/ReservasiWS/updateReservasiResponse" message="tns:updateReservasiResponse"/>
 </operation>
-<operation name="lihatPesanan">
-<input wsam:Action="http://Service/ReservasiWS/lihatPesananRequest" message="tns:lihatPesanan"/>
-<output wsam:Action="http://Service/ReservasiWS/lihatPesananResponse" message="tns:lihatPesananResponse"/>
+<operation name="cariMejaTersedia">
+<input wsam:Action="http://Service/ReservasiWS/cariMejaTersediaRequest" message="tns:cariMejaTersedia"/>
+<output wsam:Action="http://Service/ReservasiWS/cariMejaTersediaResponse" message="tns:cariMejaTersediaResponse"/>
+</operation>
+<operation name="tambahReservasi">
+<input wsam:Action="http://Service/ReservasiWS/tambahReservasiRequest" message="tns:tambahReservasi"/>
+<output wsam:Action="http://Service/ReservasiWS/tambahReservasiResponse" message="tns:tambahReservasiResponse"/>
 </operation>
 <operation name="lihatReservasi">
 <input wsam:Action="http://Service/ReservasiWS/lihatReservasiRequest" message="tns:lihatReservasi"/>
 <output wsam:Action="http://Service/ReservasiWS/lihatReservasiResponse" message="tns:lihatReservasiResponse"/>
 </operation>
+<operation name="hitungTotalHarga">
+<input wsam:Action="http://Service/ReservasiWS/hitungTotalHargaRequest" message="tns:hitungTotalHarga"/>
+<output wsam:Action="http://Service/ReservasiWS/hitungTotalHargaResponse" message="tns:hitungTotalHargaResponse"/>
+</operation>
+<operation name="batalkanReservasi">
+<input wsam:Action="http://Service/ReservasiWS/batalkanReservasiRequest" message="tns:batalkanReservasi"/>
+<output wsam:Action="http://Service/ReservasiWS/batalkanReservasiResponse" message="tns:batalkanReservasiResponse"/>
+</operation>
+<operation name="simpanPesananMakanan">
+<input wsam:Action="http://Service/ReservasiWS/simpanPesananMakananRequest" message="tns:simpanPesananMakanan"/>
+<output wsam:Action="http://Service/ReservasiWS/simpanPesananMakananResponse" message="tns:simpanPesananMakananResponse"/>
+</operation>
 </portType>
 <binding name="ReservasiWSPortBinding" type="tns:ReservasiWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="simpanPesananMakanan">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="batalkanReservasi">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="tambahReservasi">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="cariMejaTersedia">
+<operation name="lihatPesanan">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -123,7 +106,16 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="lihatPesanan">
+<operation name="cariMejaTersedia">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="tambahReservasi">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -133,6 +125,33 @@
 </output>
 </operation>
 <operation name="lihatReservasi">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="hitungTotalHarga">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="batalkanReservasi">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="simpanPesananMakanan">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

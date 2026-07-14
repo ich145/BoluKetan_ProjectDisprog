@@ -22,12 +22,12 @@ public class SystemReservasi extends javax.swing.JFrame {
     /**
      * Creates new form SystemReservasi
      */
-    int idUser=0;
-    public SystemReservasi(int id) {
+    User orang = new User();
+    public SystemReservasi(User user1) {
+        this.orang = user1;
         initComponents();
         setupSpinner();
         loadDataReservasi();
-        this.idUser = id;
     }
     
     private List<Integer> daftarIdMeja = new ArrayList<>();
@@ -43,12 +43,13 @@ public class SystemReservasi extends javax.swing.JFrame {
 
     
     private void loadDataReservasi() {
-    List<boluketan_projectdisprog.Reservasi> daftarReservasi = lihatReservasi();
+    List<boluketan_projectdisprog.Reservasi> daftarReservasi = lihatReservasi(orang.getIdUser());
 
     DefaultTableModel model = (DefaultTableModel) tableReservasi.getModel();
     model.setRowCount(0); // kosongkan dulu isi tabel
 
     for (boluketan_projectdisprog.Reservasi r : daftarReservasi) {
+        String[]jam = r.getJamReservasi().split(" ");
         model.addRow(new Object[]{
             r.getIdreservasi(),
             r.getTanggalReservasi(),
@@ -56,7 +57,7 @@ public class SystemReservasi extends javax.swing.JFrame {
             r.getStatusReservasi(),
             r.getUserIduser(),
             r.getMejaIdmeja(),
-            r.getJamReservasi(),
+            jam[1],
             r.getTotalHarga()
         });
     }
@@ -268,13 +269,12 @@ public class SystemReservasi extends javax.swing.JFrame {
         int idMeja = idMejaSaatIni;
 
         String status = "Confirmed"; // Status otomatis berubah jadi terkonfirmasi saat diupdate
-        int idUser = 1;
 
         String tanggalReservasi = tanggal + " 00:00:00";
         String jamReservasi = tanggal + " " + jam + ":00";
 
         // Panggil Web Service untuk Update
-        String hasil = updateReservasi(tanggalReservasi, jumlahTamu, status, idUser, idMeja, jamReservasi);
+        String hasil = updateReservasi(tanggalReservasi, jumlahTamu, status, orang.getIdUser(), idMeja, jamReservasi);
         JOptionPane.showMessageDialog(this, hasil);
 
         loadDataReservasi(); // Refresh tabel
@@ -349,7 +349,7 @@ public class SystemReservasi extends javax.swing.JFrame {
             int idMejaDipilih = mejaCocok.get(0).getIdMeja();
 
             // 3. Panggil Web Service untuk INSERT data reservasi menggunakan meja yang didapat
-            int idHasil = tambahReservasi(tanggalReservasi, jumlahTamu, "Pending", this.idUser, idMejaDipilih, jamReservasi, totalHarga);
+            int idHasil = tambahReservasi(tanggalReservasi, jumlahTamu, "Pending", orang.getIdUser(), idMejaDipilih, jamReservasi, totalHarga);
 
             if (idHasil > 0) {
                 JOptionPane.showMessageDialog(this, "Reservasi Berhasil di Meja " + idMejaDipilih + "! Melanjutkan ke Pemesanan Makanan...");
@@ -382,7 +382,15 @@ public class SystemReservasi extends javax.swing.JFrame {
             // Karena format dari database biasanya YYYY-MM-DD HH:MM:SS, kita bersihkan sedikit
             String fullTanggal = String.valueOf(tableReservasi.getValueAt(row, 1));
             String fullJam = String.valueOf(tableReservasi.getValueAt(row, 6));
-            
+            String jam;
+            if(fullJam.length()>= 5)
+            {
+                jam = fullJam.substring(0,5);
+            }
+            else
+            {
+                jam = fullJam;
+            }
             try{
                 java.text.SimpleDateFormat sdfTanggal = new java.text.SimpleDateFormat("yyyy-MM-dd");
                 java.text.SimpleDateFormat sdfJam = new java.text.SimpleDateFormat("HH:mm");
@@ -393,25 +401,13 @@ public class SystemReservasi extends javax.swing.JFrame {
                 } else {
                     tanggalStr = fullTanggal;
                 }
-            
-            
-                String jamStr;
-                if (fullJam.length() >= 16) {
-                    jamStr = fullJam.substring(11, 16);
-                } else {
-                    jamStr = fullJam;
-                }
                 
                 spinnerTanggal.setValue(sdfTanggal.parse(tanggalStr));
-                spinnerJam.setValue(sdfJam.parse(jamStr));
+                spinnerJam.setValue(sdfJam.parse(jam));
             
             }catch (Exception ex) {
                 System.out.println("Error parsing tanggal/jam: " + ex.getMessage());
             }
-
-           
-            
-            
             // 3. Ambil Jumlah Tamu
             String tamu = String.valueOf(tableReservasi.getValueAt(row, 2));
             txtJumlahTamu.setText(tamu);
@@ -422,7 +418,9 @@ public class SystemReservasi extends javax.swing.JFrame {
     }//GEN-LAST:event_tableReservasiMouseClicked
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
-        
+        Home home = new Home(orang);
+        home.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
 
     /**
@@ -469,15 +467,16 @@ public class SystemReservasi extends javax.swing.JFrame {
         return port.updateReservasi(arg0, arg1, arg2, arg3, arg4, arg5);
     }
 
-    private static java.util.List<boluketan_projectdisprog.Reservasi> lihatReservasi() {
-        boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
-        boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
-        return port.lihatReservasi();
-    }
 
     private static int tambahReservasi(String arg0, int arg1, String arg2, int arg3, int arg4, String arg5, double arg6) {
         boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
         boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
         return port.tambahReservasi(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+    }
+
+    private static java.util.List<boluketan_projectdisprog.Reservasi> lihatReservasi(int arg0) {
+        boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
+        boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
+        return port.lihatReservasi(arg0);
     }
 }

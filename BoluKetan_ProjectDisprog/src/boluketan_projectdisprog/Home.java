@@ -143,24 +143,24 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReservasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservasiActionPerformed
-        SystemReservasi reservasi = new SystemReservasi(orang.getIdUser());
+        SystemReservasi reservasi = new SystemReservasi(orang);
         reservasi.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReservasiActionPerformed
 
     private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
-        HistoryReservasi history = new HistoryReservasi();
+        HistoryReservasi history = new HistoryReservasi(orang);
         history.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnHistoryActionPerformed
 
     private void btnTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableActionPerformed
-        TableManagement table = new TableManagement();
+        TableManagement table = new TableManagement(orang);
         table.setVisible(true);
     }//GEN-LAST:event_btnTableActionPerformed
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
-       MenuManagement menu = new MenuManagement();
+       MenuManagement menu = new MenuManagement(orang);
        menu.setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed
 

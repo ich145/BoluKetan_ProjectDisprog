@@ -6,6 +6,7 @@ package Service;
 import Model.Meja;
 import Model.Reservasi;
 import Model.pemesanan_makanan;
+import java.sql.SQLException;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -23,12 +24,12 @@ public class ReservasiWS {
     @WebMethod
     public int tambahReservasi(String tanggal, int jumlah, String status, int idUser, int idMeja, String jam, double totalHarga) {
         Reservasi r = new Reservasi(
-                Timestamp.valueOf(tanggal),
+                tanggal,
                 jumlah,
                 status,
                 idUser,
                 idMeja,
-                Timestamp.valueOf(jam));
+                jam);
 
         r.setTotal_harga(totalHarga);
         
@@ -48,9 +49,9 @@ public class ReservasiWS {
     
     
     @WebMethod
-    public List<Reservasi> lihatReservasi() {
+    public List<Reservasi> lihatReservasi(int id) {
         
-        ArrayList<Object> data = new Reservasi().viewListData();
+        ArrayList<Object> data = new Reservasi().viewDataUser(id);
         List<Reservasi> hasil = new ArrayList<>();
         for (Object o : data) {
             hasil.add((Reservasi) o);
@@ -61,7 +62,7 @@ public class ReservasiWS {
     @WebMethod
     public String updateReservasi(String tanggal, int jumlah, String status, int idUser, int idMeja, String jam){
         
-        Reservasi r = new Reservasi(Timestamp.valueOf(tanggal), jumlah, status, idUser, idMeja, Timestamp.valueOf(jam));
+        Reservasi r = new Reservasi(tanggal, jumlah, status, idUser, idMeja, jam);
         r.updateData();
         return "Update Success";
     }
@@ -100,4 +101,22 @@ public class ReservasiWS {
         return pemesanan_makanan.getByReservasi(idReservasi);
     }   
        
+    @WebMethod
+    public double hitungTotalHarga(int idReservasi) 
+    {
+        try
+        {
+            Reservasi reservasi = Reservasi.getById(idReservasi);
+            if(reservasi != null)
+            {
+                reservasi.hitungTotalHarga();
+                return reservasi.getTotal_harga();
+            }
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Eror: " + ex);
+        }
+        return 0;
+    }
 }
