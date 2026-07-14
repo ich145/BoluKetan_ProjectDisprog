@@ -2,10 +2,10 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8080/Server1/UserWSService?wsdl" uri="xml-resources/web-service-references/UserWSService/wsdl/localhost_8080/Server1/UserWSService.wsdl"/>
     <system systemId="http://localhost:8080/Server1/UserWSService?xsd=1" uri="xml-resources/web-service-references/UserWSService/wsdl/localhost_8080/Server1/UserWSService.xsd_1.xsd"/>
-    <system systemId="http://localhost:8080/Server1/ReservasiWSService?wsdl" uri="xml-resources/web-service-references/ReservasiWSService/wsdl/localhost_8080/Server1/ReservasiWSService.wsdl"/>
-    <system systemId="http://localhost:8080/Server1/ReservasiWSService?xsd=1" uri="xml-resources/web-service-references/ReservasiWSService/wsdl/localhost_8080/Server1/ReservasiWSService.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/Server1/MejaWSService?wsdl" uri="xml-resources/web-service-references/MejaWSService/wsdl/localhost_8080/Server1/MejaWSService.wsdl"/>
     <system systemId="http://localhost:8080/Server1/MejaWSService?xsd=1" uri="xml-resources/web-service-references/MejaWSService/wsdl/localhost_8080/Server1/MejaWSService.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/Server1/MenuWSService?wsdl" uri="xml-resources/web-service-references/MenuWSService/wsdl/localhost_8080/Server1/MenuWSService.wsdl"/>
     <system systemId="http://localhost:8080/Server1/MenuWSService?xsd=1" uri="xml-resources/web-service-references/MenuWSService/wsdl/localhost_8080/Server1/MenuWSService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/Server1/ReservasiWSService?wsdl" uri="xml-resources/web-service-references/ReservasiWSService/wsdl/localhost_8080/Server1/ReservasiWSService.wsdl"/>
+    <system systemId="http://localhost:8080/Server1/ReservasiWSService?xsd=1" uri="xml-resources/web-service-references/ReservasiWSService/wsdl/localhost_8080/Server1/ReservasiWSService.xsd_1.xsd"/>
 </catalog>

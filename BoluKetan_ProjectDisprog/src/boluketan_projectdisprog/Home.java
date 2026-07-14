@@ -143,7 +143,7 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReservasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservasiActionPerformed
-        SystemReservasi reservasi = new SystemReservasi();
+        SystemReservasi reservasi = new SystemReservasi(orang.getIdUser());
         reservasi.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReservasiActionPerformed
