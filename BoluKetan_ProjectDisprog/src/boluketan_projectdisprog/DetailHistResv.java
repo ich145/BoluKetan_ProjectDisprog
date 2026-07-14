@@ -42,16 +42,16 @@ public class DetailHistResv extends javax.swing.JFrame {
     }
     private void loadDetail() {
         try {
-            // 1. Panggil port Web Service ReservasiWS
+           
             boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
             boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
 
-            // 2. Ambil semua data reservasi dari Web Service
+            
             java.util.List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi(orang.getIdUser());
 
             boluketan_projectdisprog.Reservasi reservasiTerpilih = null;
 
-            // 3. Cari data reservasi yang ID-nya cocok dengan idReservasi dari frame history
+            
             for (boluketan_projectdisprog.Reservasi r : daftarReservasi) {
                 if (r.getIdreservasi() == this.idReservasi) {
                     reservasiTerpilih = r;
@@ -59,11 +59,11 @@ public class DetailHistResv extends javax.swing.JFrame {
                 }
             }
 
-            // 4. Tampilkan data header reservasi ke Label
+            
             if (reservasiTerpilih != null) {
                 lblId.setText(String.valueOf(reservasiTerpilih.getIdreservasi()));
 
-                // Karena tidak pakai JOIN di server, tampilkan ID-nya terlebih dahulu
+                
                 lblNama.setText(String.valueOf(reservasiTerpilih.getUserIduser()));
 
                 String waktu = (reservasiTerpilih.getJamReservasi() != null) ? reservasiTerpilih.getJamReservasi().toString() : "-";
@@ -77,11 +77,11 @@ public class DetailHistResv extends javax.swing.JFrame {
                 return;
             }
 
-            // 5. Load detail pesanan makanan ke tabel
+            
             DefaultTableModel model = (DefaultTableModel) tabelPesanan.getModel();
             model.setRowCount(0);
 
-            // Ambil daftar pesanan dari Web Service
+           
             java.util.List<boluketan_projectdisprog.PemesananMakanan> daftarPesanan
                     = port.lihatPesanan(idReservasi);
 

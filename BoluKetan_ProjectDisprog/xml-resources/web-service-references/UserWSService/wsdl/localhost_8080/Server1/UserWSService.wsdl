@@ -16,6 +16,12 @@
 <message name="getRoleResponse">
 <part name="parameters" element="tns:getRoleResponse"/>
 </message>
+<message name="updateProfile">
+<part name="parameters" element="tns:updateProfile"/>
+</message>
+<message name="updateProfileResponse">
+<part name="parameters" element="tns:updateProfileResponse"/>
+</message>
 <message name="getNama">
 <part name="parameters" element="tns:getNama"/>
 </message>
@@ -49,6 +55,10 @@
 <input wsam:Action="http://Service/UserWS/getRoleRequest" message="tns:getRole"/>
 <output wsam:Action="http://Service/UserWS/getRoleResponse" message="tns:getRoleResponse"/>
 </operation>
+<operation name="updateProfile">
+<input wsam:Action="http://Service/UserWS/updateProfileRequest" message="tns:updateProfile"/>
+<output wsam:Action="http://Service/UserWS/updateProfileResponse" message="tns:updateProfileResponse"/>
+</operation>
 <operation name="getNama">
 <input wsam:Action="http://Service/UserWS/getNamaRequest" message="tns:getNama"/>
 <output wsam:Action="http://Service/UserWS/getNamaResponse" message="tns:getNamaResponse"/>
@@ -78,6 +88,15 @@
 </output>
 </operation>
 <operation name="getRole">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="updateProfile">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

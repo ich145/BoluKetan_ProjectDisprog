@@ -30,7 +30,7 @@ public class MenuManagement extends javax.swing.JFrame {
     List<boluketan_projectdisprog.Menu> daftarMenu = lihatMenu();
 
     DefaultTableModel model = (DefaultTableModel) tableMenu.getModel();
-    model.setRowCount(0); // kosongkan dulu isi tabel
+    model.setRowCount(0); 
 
     for (boluketan_projectdisprog.Menu m : daftarMenu) {
         model.addRow(new Object[]{
@@ -267,7 +267,7 @@ public class MenuManagement extends javax.swing.JFrame {
         // TODO add your handling code here:
         String keyword = txtCari.getText().trim();
         if (keyword.isEmpty()) {
-            loadDataMenu(); // kalau kosong, tampilkan semua menu lagi
+            loadDataMenu(); 
         } else {
             tampilkanHasilPencarian(keyword);
         }
@@ -285,39 +285,38 @@ public class MenuManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-        // 1. Validasi: Pastikan user sudah memilih data dari tabel (ID tidak boleh kosong)
+        
         if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Silahkan pilih data pada tabel terlebih dahulu sebelum mengupdate!");
             return;
         }
 
-        // 2. Validasi: Pastikan field penting lainnya tidak kosong sebelum diupdate
+        
         if (txtNama.getText().isEmpty() || cmbKategori.getSelectedItem().toString().isEmpty() || txtHarga.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nama, Kategori, dan Harga tidak boleh kosong!");
             return;
         }
 
         try {
-            // 3. Ambil data dari masing-masing Textbox
+            
             int id = Integer.parseInt(txtId.getText());
             String nama = txtNama.getText();
             String kategori = cmbKategori.getSelectedItem().toString();
 
-            // Konversi harga dari String ke Double
+            
             double harga = Double.parseDouble(txtHarga.getText());
             String informasi = txtInformasi.getText();
 
-            // 4. Jalankan fungsi Web Service untuk update ke Database
+            
             String hasil = updateMenu(id, nama, kategori, harga, informasi);
 
-            // Tampilkan pesan sukses dari server (jika web service mengembalikan pesan)
+            
             JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
 
-            // 5. Refresh / muat ulang data tabel agar harga dan data baru langsung muncul
+            
             loadDataMenu();
 
-            // 6. Opsional: Kosongkan textbox setelah berhasil update agar bersih
+            
             txtId.setText("");
             txtNama.setText("");
             cmbKategori.setSelectedItem("");
@@ -325,38 +324,37 @@ public class MenuManagement extends javax.swing.JFrame {
             txtInformasi.setText("");
 
         } catch (NumberFormatException e) {
-            // Mengantisipasi jika user memasukkan huruf/karakter aneh pada field Harga
+            
             JOptionPane.showMessageDialog(this, "Format harga tidak valid! Harap masukkan angka saja.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-        // 1. Validasi: Pastikan user sudah memilih baris data yang mau dihapus
+        
         if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Silahkan pilih data pada tabel terlebih dahulu sebelum menghapus!");
             return;
         }
 
-        // 2. Konfirmasi: Tampilkan pop-up yakin/tidak untuk menghapus data
+        
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Apakah anda yakin ingin menghapus Menu ini?", "Konfirmasi Hapus",
                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
-                // 3. Ambil ID dari textfield
+                
                 int id = Integer.parseInt(txtId.getText());
 
-                // 4. Panggil Web Service untuk hapus data di Database
+                
                 String hasil = deleteMenu(id);
 
                 JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
 
-                // 5. Refresh tabel agar baris yang dihapus langsung hilang dari layar
+                
                 loadDataMenu();
 
-                // 6. Bersihkan Textbox inputan
+                
                 txtId.setText("");
                 txtNama.setText("");
                 cmbKategori.setSelectedItem("");
@@ -371,14 +369,12 @@ public class MenuManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tableMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMenuMouseClicked
-        // TODO add your handling code here:
-        // 1. Dapatkan index baris yang sedang diklik oleh user
+        
         int row = tableMenu.getSelectedRow();
 
-        // Cek jika baris valid (tidak bernilai minus)
+        
         if (row != -1) {
-            // 2. Ambil data dari kolom tabel dan masukkan ke textfield masing-masing
-            // Gunakan String.valueOf() untuk mengantisipasi data null agar tidak crash
+            
 
             String id = String.valueOf(tableMenu.getValueAt(row, 0));
             txtId.setText(id);

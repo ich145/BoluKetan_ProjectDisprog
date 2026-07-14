@@ -42,7 +42,7 @@ public class HistoryReservasi extends javax.swing.JFrame {
         };
         tableHistory.setModel(model);
 
-        // --- PERBAIKAN: Disamakan dengan status yang diinput dari SystemReservasi & ReservasiWS ---
+        
         cmbStatus.removeAllItems();
         cmbStatus.addItem("Semua");
         cmbStatus.addItem("Pending");
@@ -58,11 +58,11 @@ public class HistoryReservasi extends javax.swing.JFrame {
         model.setRowCount(0);
 
         try {
-            // 1. Instansiasi Service dan Port dari Web Service Reference
+            
             boluketan_projectdisprog.ReservasiWSService service = new boluketan_projectdisprog.ReservasiWSService();
             boluketan_projectdisprog.ReservasiWS port = service.getReservasiWSPort();
 
-            // 2. Panggil method lihatReservasi() melalui objek port
+            
             List<boluketan_projectdisprog.Reservasi> daftarReservasi = port.lihatReservasi(orang.getIdUser());
 
             for (boluketan_projectdisprog.Reservasi r : daftarReservasi) {

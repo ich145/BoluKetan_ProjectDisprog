@@ -40,12 +40,12 @@ public class FoodOrdering extends javax.swing.JFrame {
     public FoodOrdering(int idReservasi) {
         initComponents();
 
-        // Simpan id reservasi yang dikirim dari form sebelumnya
+        
         this.idReservasi = idReservasi;
 
         loadKategoriWS();
 
-        // Inisialisasi Struktur Kolom Tabel Menu (Tabel Atas)
+        
         DefaultTableModel modelMenu = new DefaultTableModel(
                 new Object[]{"ID", "Menu", "Harga", "Informasi"}, 0) {
             @Override
@@ -59,7 +59,7 @@ public class FoodOrdering extends javax.swing.JFrame {
         tableKeranjang.getColumnModel().getColumn(0).setMaxWidth(0);
         tableKeranjang.getColumnModel().getColumn(0).setPreferredWidth(0);
 
-        // Inisialisasi Struktur Kolom Tabel Keranjang (Tabel Bawah)
+        
         DefaultTableModel modelKeranjang = new DefaultTableModel(
                 new Object[]{"Menu", "Harga", "Qty", "Subtotal"}, 0) {
             @Override
@@ -76,7 +76,7 @@ public class FoodOrdering extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tableKeranjang1.getModel();
         int barisDitemukan = -1;
 
-        // Cek apakah menu tersebut sudah pernah dimasukkan ke keranjang sebelumnya
+        
         for (int i = 0; i < model.getRowCount(); i++) {
             if (model.getValueAt(i, 0).toString().equals(menu)) {
                 barisDitemukan = i;
@@ -85,7 +85,7 @@ public class FoodOrdering extends javax.swing.JFrame {
         }
 
         if (barisDitemukan != -1) {
-            // Jika menu sudah ada di keranjang, akumulasikan Qty (+1)
+            
             int qtyLama = Integer.parseInt(model.getValueAt(barisDitemukan, 2).toString());
             int qtyBaru = qtyLama + 1;
             int subtotalBaru = harga * qtyBaru;
@@ -93,7 +93,7 @@ public class FoodOrdering extends javax.swing.JFrame {
             model.setValueAt(qtyBaru, barisDitemukan, 2);
             model.setValueAt(Rupiah(subtotalBaru), barisDitemukan, 3);
         } else {
-            // Jika menu belum ada di keranjang, buat baris baru (Qty awal = 1)
+            
             model.addRow(new Object[]{
                 menu,
                 Rupiah(harga),
@@ -301,9 +301,9 @@ public class FoodOrdering extends javax.swing.JFrame {
             ReservasiWS port = service.getReservasiWSPort();
 
             for (int i = 0; i < model.getRowCount(); i++) {
-                String menuInfo = model.getValueAt(i, 0).toString(); // Mengambil "ID | Nama Menu"
+                String menuInfo = model.getValueAt(i, 0).toString(); 
 
-                //split string untuk mengambil id
+                
                 int idMenu = Integer.parseInt(menuInfo.split(" \\| ")[0]);
                 int qty = Integer.parseInt(model.getValueAt(i, 2).toString());
 
@@ -333,7 +333,7 @@ public class FoodOrdering extends javax.swing.JFrame {
             return;
         }
 
-        // Ambil ID Menu dari kolom 0 tabel atas
+        
         int idMenu = Integer.parseInt(tableKeranjang.getValueAt(rowTerpilih, 0).toString());
         String namaMenu = tableKeranjang.getValueAt(rowTerpilih, 1).toString();
         int hargaMenu = Integer.parseInt(tableKeranjang.getValueAt(rowTerpilih, 2).toString());

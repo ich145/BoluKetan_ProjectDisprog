@@ -46,7 +46,7 @@ public class SystemReservasi extends javax.swing.JFrame {
     List<boluketan_projectdisprog.Reservasi> daftarReservasi = lihatReservasi(orang.getIdUser());
 
     DefaultTableModel model = (DefaultTableModel) tableReservasi.getModel();
-    model.setRowCount(0); // kosongkan dulu isi tabel
+    model.setRowCount(0); 
 
     for (boluketan_projectdisprog.Reservasi r : daftarReservasi) {
         String[]jam = r.getJamReservasi().split(" ");
@@ -265,19 +265,19 @@ public class SystemReservasi extends javax.swing.JFrame {
         String jam = getJamString();
         int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
 
-        // Gunakan meja saat ini jika combobox kosong
+        
         int idMeja = idMejaSaatIni;
 
-        String status = "Confirmed"; // Status otomatis berubah jadi terkonfirmasi saat diupdate
+        String status = "Confirmed"; 
 
         String tanggalReservasi = tanggal + " 00:00:00";
         String jamReservasi = tanggal + " " + jam + ":00";
 
-        // Panggil Web Service untuk Update
+        
         String hasil = updateReservasi(tanggalReservasi, jumlahTamu, status, orang.getIdUser(), idMeja, jamReservasi);
         JOptionPane.showMessageDialog(this, hasil);
 
-        loadDataReservasi(); // Refresh tabel
+        loadDataReservasi(); 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -292,11 +292,11 @@ public class SystemReservasi extends javax.swing.JFrame {
         if (konfirmasi == JOptionPane.YES_OPTION) {
             int idReservasi = Integer.parseInt(txtIDReservasi.getText());
 
-            // Panggil Web Service untuk Delete/Cancel
+            
             String hasil = batalkanReservasi(idReservasi);
             JOptionPane.showMessageDialog(this, hasil);
 
-            loadDataReservasi(); // Refresh tabel
+            loadDataReservasi(); 
         }
     }//GEN-LAST:event_btnCancelActionPerformed
 
@@ -320,7 +320,7 @@ public class SystemReservasi extends javax.swing.JFrame {
 
     private void btnReservasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservasiActionPerformed
         
-        // 1. Validasi dasar: pastikan input teks tidak kosong
+        
         if (txtJumlahTamu.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Jumlah Tamu wajib diisi!");
             return;
@@ -331,24 +331,24 @@ public class SystemReservasi extends javax.swing.JFrame {
             String jam = getJamString(); 
             int jumlahTamu = Integer.parseInt(txtJumlahTamu.getText().trim());
 
-            // Format waktu standar SQL
+            
             String jamReservasi = tanggal + " " + jam + ":00";
             String tanggalReservasi = tanggal + " 00:00:00";
             double totalHarga = 0;
 
-            // cari meja
+            
             List<boluketan_projectdisprog.Meja> mejaCocok = cariMejaTersedia(jamReservasi, jumlahTamu);
 
-            // Jika tidak ada meja yang muat/tersedia
+            
             if (mejaCocok.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Maaf, tidak ada meja yang tersedia untuk " + jumlahTamu + " orang pada waktu tersebut.");
                 return;
             }
 
-            // Ambil ID meja pertama yang paling pas dari hasil pencarian
+            
             int idMejaDipilih = mejaCocok.get(0).getIdMeja();
 
-            // 3. Panggil Web Service untuk INSERT data reservasi menggunakan meja yang didapat
+            
             int idHasil = tambahReservasi(tanggalReservasi, jumlahTamu, "Pending", orang.getIdUser(), idMejaDipilih, jamReservasi, totalHarga);
 
             if (idHasil > 0) {
@@ -357,13 +357,13 @@ public class SystemReservasi extends javax.swing.JFrame {
                 FoodOrdering foodForm = new FoodOrdering(idHasil);
                 foodForm.setVisible(true);
 
-                // Sembunyikan form reservasi utama
+                
                 this.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(this, "Gagal melakukan reservasi.");
             }
 
-            loadDataReservasi(); // Refresh data tabel belakang
+            loadDataReservasi(); 
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Jumlah tamu harus berupa angka!", "Error Input", JOptionPane.ERROR_MESSAGE);
@@ -374,12 +374,11 @@ public class SystemReservasi extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = tableReservasi.getSelectedRow();
         if (row != -1) {
-            // 1. Ambil ID Reservasi dan masukkan ke txtIDReservasi
+            
             String id = String.valueOf(tableReservasi.getValueAt(row, 0));
             txtIDReservasi.setText(id);
                 
-            // 2. Ambil data Tanggal & Jam
-            // Karena format dari database biasanya YYYY-MM-DD HH:MM:SS, kita bersihkan sedikit
+            
             String fullTanggal = String.valueOf(tableReservasi.getValueAt(row, 1));
             String fullJam = String.valueOf(tableReservasi.getValueAt(row, 6));
             String jam;
@@ -408,11 +407,11 @@ public class SystemReservasi extends javax.swing.JFrame {
             }catch (Exception ex) {
                 System.out.println("Error parsing tanggal/jam: " + ex.getMessage());
             }
-            // 3. Ambil Jumlah Tamu
+           
             String tamu = String.valueOf(tableReservasi.getValueAt(row, 2));
             txtJumlahTamu.setText(tamu);
 
-            // 4. Catat ID Meja saat ini agar jika tidak ganti meja, ID ini tetap dipakai
+            
             idMejaSaatIni = Integer.parseInt(String.valueOf(tableReservasi.getValueAt(row, 5)));
         }
     }//GEN-LAST:event_tableReservasiMouseClicked

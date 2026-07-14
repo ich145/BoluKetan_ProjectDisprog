@@ -16,6 +16,23 @@
             <classpath path="${libs.jaxws21.classpath}"/>
         </taskdef>
     </target>
+    <target name="wsimport-client-ReservasiWSService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/ReservasiWSService"/>
+        <property name="wsdl-ReservasiWSService" location="xml-resources/web-service-references/ReservasiWSService/wsdl/localhost_8080/Server1/ReservasiWSService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/ReservasiWSService" destdir="${build.generated.dir}/jax-wsCache/ReservasiWSService" wsdl="${wsdl-ReservasiWSService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/Server1/ReservasiWSService?wsdl" xnocompile="true" xendorsed="true" package="boluketan_projectdisprog">
+            <depends file="${wsdl-ReservasiWSService}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/ReservasiWSService"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/ReservasiWSService">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-ReservasiWSService" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/ReservasiWSService"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/boluketan_projectdisprog"/>
+    </target>
     <target name="wsimport-client-MejaWSService" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/MejaWSService"/>
         <property name="wsdl-MejaWSService" location="xml-resources/web-service-references/MejaWSService/wsdl/localhost_8080/Server1/MejaWSService.wsdl"/>
@@ -31,23 +48,6 @@
     </target>
     <target name="wsimport-client-clean-MejaWSService" depends="-init-project">
         <delete dir="${build.generated.dir}/jax-wsCache/MejaWSService"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/boluketan_projectdisprog"/>
-    </target>
-    <target name="wsimport-client-UserWSService" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/UserWSService"/>
-        <property name="wsdl-UserWSService" location="xml-resources/web-service-references/UserWSService/wsdl/localhost_8080/Server1/UserWSService.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/UserWSService" destdir="${build.generated.dir}/jax-wsCache/UserWSService" wsdl="${wsdl-UserWSService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/Server1/UserWSService?wsdl" xnocompile="true" xendorsed="true" package="boluketan_projectdisprog">
-            <depends file="${wsdl-UserWSService}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/UserWSService"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/UserWSService">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-UserWSService" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/UserWSService"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/boluketan_projectdisprog"/>
     </target>
     <target name="wsimport-client-MenuWSService" depends="wsimport-init">
@@ -67,22 +67,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/MenuWSService"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/boluketan_projectdisprog"/>
     </target>
-    <target name="wsimport-client-ReservasiWSService" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/ReservasiWSService"/>
-        <property name="wsdl-ReservasiWSService" location="xml-resources/web-service-references/ReservasiWSService/wsdl/localhost_8080/Server1/ReservasiWSService.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/ReservasiWSService" destdir="${build.generated.dir}/jax-wsCache/ReservasiWSService" wsdl="${wsdl-ReservasiWSService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/Server1/ReservasiWSService?wsdl" xnocompile="true" xendorsed="true" package="boluketan_projectdisprog">
-            <depends file="${wsdl-ReservasiWSService}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/ReservasiWSService"/>
+    <target name="wsimport-client-UserWSService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/UserWSService"/>
+        <property name="wsdl-UserWSService" location="xml-resources/web-service-references/UserWSService/wsdl/localhost_8080/Server1/UserWSService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/UserWSService" destdir="${build.generated.dir}/jax-wsCache/UserWSService" wsdl="${wsdl-UserWSService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/Server1/UserWSService?wsdl" xnocompile="true" xendorsed="true" package="boluketan_projectdisprog">
+            <depends file="${wsdl-UserWSService}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/UserWSService"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/ReservasiWSService">
+            <fileset dir="${build.generated.dir}/jax-wsCache/UserWSService">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-ReservasiWSService" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/ReservasiWSService"/>
+    <target name="wsimport-client-clean-UserWSService" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/UserWSService"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/boluketan_projectdisprog"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-MejaWSService, wsimport-client-UserWSService, wsimport-client-MenuWSService, wsimport-client-ReservasiWSService"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-ReservasiWSService, wsimport-client-MejaWSService, wsimport-client-MenuWSService, wsimport-client-UserWSService"/>
 </project>

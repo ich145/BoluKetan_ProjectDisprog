@@ -2,6 +2,42 @@
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services/>
   <clients>
+    <client name="ReservasiWSService">
+      <wsdl-url>http://localhost:8080/Server1/ReservasiWSService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/Server1/ReservasiWSService.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">boluketan_projectdisprog</package-name>
+      <catalog-file>catalog.xml</catalog-file>
+      <wsimport-options>
+        <wsimport-option>
+          <wsimport-option-name>extension</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>verbose</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>fork</wsimport-option-name>
+          <wsimport-option-value>false</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>http://localhost:8080/Server1/ReservasiWSService?wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xnocompile</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xendorsed</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>package</wsimport-option-name>
+          <wsimport-option-value>boluketan_projectdisprog</wsimport-option-value>
+        </wsimport-option>
+      </wsimport-options>
+    </client>
     <client name="MejaWSService">
       <wsdl-url>http://localhost:8080/Server1/MejaWSService?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8080/Server1/MejaWSService.wsdl</local-wsdl-file>
@@ -23,42 +59,6 @@
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
           <wsimport-option-value>http://localhost:8080/Server1/MejaWSService?wsdl</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xnocompile</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xendorsed</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>boluketan_projectdisprog</wsimport-option-value>
-        </wsimport-option>
-      </wsimport-options>
-    </client>
-    <client name="UserWSService">
-      <wsdl-url>http://localhost:8080/Server1/UserWSService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/Server1/UserWSService.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">boluketan_projectdisprog</package-name>
-      <catalog-file>catalog.xml</catalog-file>
-      <wsimport-options>
-        <wsimport-option>
-          <wsimport-option-name>extension</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>verbose</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>fork</wsimport-option-name>
-          <wsimport-option-value>false</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/Server1/UserWSService?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -110,9 +110,9 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="ReservasiWSService">
-      <wsdl-url>http://localhost:8080/Server1/ReservasiWSService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/Server1/ReservasiWSService.wsdl</local-wsdl-file>
+    <client name="UserWSService">
+      <wsdl-url>http://localhost:8080/Server1/UserWSService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/Server1/UserWSService.wsdl</local-wsdl-file>
       <package-name forceReplace="true">boluketan_projectdisprog</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
@@ -130,7 +130,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/Server1/ReservasiWSService?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/Server1/UserWSService?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
