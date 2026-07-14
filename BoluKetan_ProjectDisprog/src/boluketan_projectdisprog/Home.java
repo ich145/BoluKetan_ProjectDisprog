@@ -157,13 +157,11 @@ public class Home extends javax.swing.JFrame {
     private void btnTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableActionPerformed
         TableManagement table = new TableManagement();
         table.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnTableActionPerformed
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
        MenuManagement menu = new MenuManagement();
        menu.setVisible(true);
-       this.dispose();
     }//GEN-LAST:event_btnMenuActionPerformed
 
     /**
